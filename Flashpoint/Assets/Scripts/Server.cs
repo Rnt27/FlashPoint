@@ -133,9 +133,9 @@ public class Server : MonoBehaviour
                 writer.WriteLine(data);
                 writer.Flush();
             }
-            catch
+            catch(Exception e)
             {
-                Debug.Log("Write error: " + e.Message);       
+                Debug.Log("Write error: " + e.Message);
             }
             
         }

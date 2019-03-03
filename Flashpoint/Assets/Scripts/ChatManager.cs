@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameManager : MonoBehaviour {
+public class ChatManager : MonoBehaviour
+{
 
     public string username;
 
@@ -18,11 +19,13 @@ public class GameManager : MonoBehaviour {
     [SerializeField]
     List<Message> messageList = new List<Message>();
 
-    void Start() {
+    void Start()
+    {
 
     }
 
-    void Update() {
+    void Update()
+    {
         if (charBox.text != "")
         {
             if (Input.GetKeyDown(KeyCode.Return))
@@ -64,7 +67,7 @@ public class GameManager : MonoBehaviour {
         newMessage.textObject.color = MessageTypeColor(messageType);
         messageList.Add(newMessage);
     }
-    
+
     Color MessageTypeColor(Message.MessageType messageType)
     {
         Color color = systemInfo;
@@ -74,26 +77,26 @@ public class GameManager : MonoBehaviour {
                 color = playerMessage;
                 break;
 
-            /*case Message.MessageType.receivedMessage:
-                color = receivedMessage;
-                break;
-            */
+                /*case Message.MessageType.receivedMessage:
+                    color = receivedMessage;
+                    break;
+                */
         }
 
         return color;
     }
 }
-    [System.Serializable]
+[System.Serializable]
 
-    public class Message
+public class Message
+{
+    public string text;
+    public Text textObject;
+    public MessageType messageType;
+    public enum MessageType
     {
-        public string text;
-        public Text textObject;
-        public MessageType messageType;
-        public enum MessageType
-        {
-            playerMessage,
-            systemInfo
-            //receivedMessage
-        }
+        playerMessage,
+        systemInfo
+        //receivedMessage
     }
+}

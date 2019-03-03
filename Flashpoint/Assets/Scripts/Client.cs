@@ -22,7 +22,7 @@ public class Client : MonoBehaviour
         try
         {
             socket = new TcpClient(host, port);
-            stream = socket.GetStream;
+            stream = socket.GetStream();
             writer = new StreamWriter(stream);
             reader = new StreamReader(stream);
 
@@ -79,7 +79,7 @@ public class Client : MonoBehaviour
             return;
 
         writer.Close();
-        reader.Closet();
+        reader.Close();
         socket.Close();
         socketReady = false;
     }
