@@ -34,6 +34,7 @@ public class Server : MonoBehaviour
             server.Start();
 
             StartListening();
+            serverStarted = true;
         }
         catch (Exception e)
         {
@@ -43,7 +44,14 @@ public class Server : MonoBehaviour
     private void Update()
     {
         if (!serverStarted)
+        {
+            Debug.Log("Server is not started. Is disconnected");
+
             return;
+
+        }
+            
+
 
         foreach (ServerClient c in clients)
         {
@@ -83,10 +91,17 @@ public class Server : MonoBehaviour
         //Handshake
         server.BeginAcceptTcpClient(AcceptTcpClient, server); 
     }
+
     //AcceptTcpClient: acertains what to do after accepting the client
     private void AcceptTcpClient(IAsyncResult ar)
     {
         TcpListener listener = (TcpListener)ar.AsyncState;
+
+        string allUsers = "";
+        foreach (ServerClient c in clients)
+        {
+            allUsers += c.clientName + "|";
+        }
 
         //create definition for that person and add to list of clients
         ServerClient sc = new ServerClient(listener.EndAcceptTcpClient(ar));
@@ -94,8 +109,9 @@ public class Server : MonoBehaviour
 
         StartListening();//Repeat doing this as Server "forget" to continually listen to client
 
-        //DEBUGGING PURPOSES. REMOVE LATER.
-        Debug.Log("Somebody has connected!");
+
+        Broadcast("SWHO|"+allUsers, clients[clients.Count - 1]);
+
     }
 
     private bool IsConnected(TcpClient c)
@@ -121,7 +137,7 @@ public class Server : MonoBehaviour
         }
     }
 
-    //Server Send
+    //Server Send to many clients
     private void Broadcast(string data, List<ServerClient> cl)
     {
         foreach (ServerClient sc in cl)
@@ -140,10 +156,36 @@ public class Server : MonoBehaviour
             
         }
     }
+    //Server Send to one client
+    private void Broadcast(string data, ServerClient c)
+    {
+        List<ServerClient> sc = new List<ServerClient> { c };
+        Broadcast(data, sc);
+    }
     //Server Read
     private void OnIncomingData(ServerClient c, string data)
     {
-        Debug.Log(c.clientName + " : " + data);
+        Debug.Log("Server: " + data);
+
+        string[] aData = data.Split('|');
+
+        switch (aData[0])
+        {
+            case "CWHO":
+                c.clientName = aData[1];
+                c.isHost = (aData[2] == "0") ? false : true;
+                Broadcast("SCNN|" + c.clientName, clients);
+                break;
+
+            case "CRDY":
+                Debug.Log("Server: " + data);
+
+                string newData = data.Replace('C', 'S');
+                Broadcast(newData, clients);
+                break;
+
+
+        }
     }
 }
 
@@ -151,6 +193,7 @@ public class ServerClient
 {
     public string clientName;
     public TcpClient tcp;
+    public bool isHost;
 
     public ServerClient(TcpClient tcp)
     {
