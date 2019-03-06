@@ -2,9 +2,13 @@
 
 ## Tasks:
 [] Make board prefab (this includes parking spots)(Vehicles not necessary for now)
+
 [] Make firefighter prefab
+
 [] Implement chat
+
 [] Complete menu's UI 
+
 [] Create network manager
 
 
