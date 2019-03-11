@@ -49,25 +49,29 @@ public class Selectable : MonoBehaviour
 
     void OnMouseOver()
     {
-        selected = true;
-        if (this.transform.parent != null)
-        {
-            selectedName = this.transform.parent.name;
-        }
-        else
-        {
-            selectedName = this.name;
-        }
+        if(Cursor.visible==true){
 
-        // Change the color of the GameObject to black when the mouse is over GameObject
-        m_Renderer.material.color = m_MouseOverColor;
-        
+            selected = true;
+            if (this.transform.parent != null)
+            {
+                selectedName = this.transform.parent.name;
+            }
+            else
+            {
+                selectedName = this.name;
+            }
 
-        if (Input.GetMouseButtonDown(1))
-        {
-            //find the context menu
-            GameObject contextMenu = GameObject.FindWithTag("contextMenu");
-            contextMenu.transform.position = Camera.main.WorldToScreenPoint(this.transform.position);
+            // Change the color of the GameObject to black when the mouse is over GameObject
+            m_Renderer.material.color = m_MouseOverColor;
+
+
+            if (Input.GetMouseButtonDown(1))
+            {
+                //find the context menu
+                GameObject contextMenu = GameObject.FindWithTag("contextMenu");
+                contextMenu.transform.position = Camera.main.WorldToScreenPoint(this.transform.position);
+
+            }
 
         }
     }
