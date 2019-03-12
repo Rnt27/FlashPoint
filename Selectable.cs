@@ -10,7 +10,7 @@ public class Selectable : MonoBehaviour
     //for blinking
     public float wait;
 
-    //When the mouse hovers over the GameObject, it turns to this color (red)
+    //When the mouse hovers over the GameObject, it turns to this color (yellow)
     Color m_MouseOverColor = Color.yellow;
 
     //This stores the GameObject’s original color
