@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { set; get; }
+    private Client client;
 
     public GameObject mainMenu; //Menu on UI
     public GameObject serverMenu; //Host on UI
@@ -18,9 +19,14 @@ public class GameManager : MonoBehaviour
 
     public InputField nameInput;
 
+    public Transform playersConnectedContainer;
+    public GameObject playerNamePrefab;
+
     void Start()
     {
         Instance = this;
+        client = FindObjectOfType<Client>();
+
         serverMenu.SetActive(false);
         connectMenu.SetActive(false);
         DontDestroyOnLoad(gameObject);
@@ -50,11 +56,11 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("MenuHostButton exception " + e.Message);
         }
-        
+
         mainMenu.SetActive(false);
         serverMenu.SetActive(true);
 
-        
+
     }
 
     public void ConnectToServerButton()
@@ -93,8 +99,17 @@ public class GameManager : MonoBehaviour
         Client c = FindObjectOfType<Client>();
         if (c != null)
             Destroy(c.gameObject);
-    }
 
+        //reset list of connected players
+        ResetUserConnectedPanel();
+    }
+    public void ResetUserConnectedPanel()
+    {
+        foreach (Transform child in playersConnectedContainer)
+        {
+            Destroy(child.gameObject);
+        }
+    }
     public void StartLobby()
     {
         SceneManager.LoadScene("LobbyFamily");
@@ -106,5 +121,11 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("FirefighterPosition");
     }
     
+    public void DisplayUserConnected(string name)
+    {
+        GameObject go = Instantiate(playerNamePrefab) as GameObject;
+        go.transform.SetParent(playersConnectedContainer);
+        go.GetComponentInChildren<Text>().text = name;
 
+    }
 }

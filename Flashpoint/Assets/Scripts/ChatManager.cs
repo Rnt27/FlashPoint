@@ -46,7 +46,14 @@ public class ChatManager : MonoBehaviour
                 charBox.ActivateInputField();
             }
         }
-        
+        if (!charBox.isFocused)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                SendMessageToChat("System: You pressed the bar!", Message.MessageType.systemInfo);
+                Debug.Log("Space");
+            }
+        }
     }
 
     public void SendMessageToChat(string text, Message.MessageType messageType)

@@ -46,13 +46,10 @@ public class Server : MonoBehaviour
         if (!serverStarted)
         {
             Debug.Log("Server is not started. Is disconnected");
-
+            //TODO show error pop up telling user to quit game
             return;
-
         }
             
-
-
         foreach (ServerClient c in clients)
         {
             //Client is disconnected
@@ -64,7 +61,6 @@ public class Server : MonoBehaviour
             }
             else //client IS connected
             {
-                //Debug.Log("client is connected");
                 NetworkStream s = c.tcp.GetStream();
                 if (s.DataAvailable)
                 {

@@ -64,7 +64,7 @@ public class Client : MonoBehaviour
     {
         if (!socketReady)
         {
-            Debug.Log("Socker not ready");
+            Debug.Log("Socket not ready");
             return;
         }
 
@@ -107,8 +107,11 @@ public class Client : MonoBehaviour
         GameClient c = new GameClient();
         c.name = name;
         players.Add(c);
-        if (players.Count == 2)
+        GameManager.Instance.DisplayUserConnected(name);
+        if (players.Count == 3)
+        {
             GameManager.Instance.StartLobby();
+        }
 
     }
 
