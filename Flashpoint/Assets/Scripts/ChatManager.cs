@@ -5,14 +5,16 @@ using UnityEngine.UI;
 
 public class ChatManager : MonoBehaviour
 {
+    public static ChatManager Instance { set; get; }
+    private Client client;
 
-    public string username;
+    //public string username;
 
     public int maxMessages = 30;
 
     public GameObject charPanel, textObject;
 
-    public InputField charBox;
+    public InputField charBox; 
 
     public Color playerMessage, systemInfo;//receivedMessage
 
@@ -21,7 +23,9 @@ public class ChatManager : MonoBehaviour
 
     void Start()
     {
-
+        Instance = this;
+        client = FindObjectOfType<Client>();
+        //username = client.clientName;
     }
 
     void Update()
@@ -30,7 +34,8 @@ public class ChatManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Return))
             {
-                SendMessageToChat(username + ": " + charBox.text, Message.MessageType.playerMessage);
+                client.Send("CMSG|" + charBox.text) ;
+                //SendMessageToChat(username + ": " + charBox.text, Message.MessageType.playerMessage);
                 charBox.text = "";
             }
         }
@@ -41,14 +46,7 @@ public class ChatManager : MonoBehaviour
                 charBox.ActivateInputField();
             }
         }
-        if (!charBox.isFocused)
-        {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                SendMessageToChat("System: You pressed the bar!", Message.MessageType.systemInfo);
-                Debug.Log("Space");
-            }
-        }
+        
     }
 
     public void SendMessageToChat(string text, Message.MessageType messageType)

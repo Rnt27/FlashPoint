@@ -403,7 +403,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 0.00012207031, y: 110}
+  m_AnchoredPosition: {x: 0, y: 110}
   m_SizeDelta: {x: 800, y: 520}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &318083018
@@ -528,7 +528,7 @@ PrefabInstance:
     - target: {fileID: 224731228953232734, guid: 45c08f9c137f33243925f4bc38a173ac,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0.00012207031
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224731228953232734, guid: 45c08f9c137f33243925f4bc38a173ac,
         type: 3}
@@ -1119,7 +1119,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -0.00012207031, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 200, y: 300}
   m_Pivot: {x: 1, y: 0}
 --- !u!114 &1125527060
@@ -1966,7 +1966,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.00012207031, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 800, y: 600}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &1879550217
@@ -2744,7 +2744,7 @@ PrefabInstance:
     - target: {fileID: 224955992747461240, guid: 564ebe706df8c0340ba33c26a41ddaf6,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: 0.000030517578
       objectReference: {fileID: 0}
     - target: {fileID: 224311160794729356, guid: 564ebe706df8c0340ba33c26a41ddaf6,
         type: 3}
@@ -2775,6 +2775,10 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Value
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1272065467397376, guid: 564ebe706df8c0340ba33c26a41ddaf6, type: 3}
+      propertyPath: m_Name
+      value: Char_Panel
       objectReference: {fileID: 0}
     - target: {fileID: 224086325738129828, guid: 564ebe706df8c0340ba33c26a41ddaf6,
         type: 3}

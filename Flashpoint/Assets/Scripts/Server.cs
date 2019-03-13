@@ -64,6 +64,7 @@ public class Server : MonoBehaviour
             }
             else //client IS connected
             {
+                //Debug.Log("client is connected");
                 NetworkStream s = c.tcp.GetStream();
                 if (s.DataAvailable)
                 {
@@ -184,7 +185,9 @@ public class Server : MonoBehaviour
                 Broadcast(newData, clients);
                 break;
 
-
+            case "CMSG":
+                Broadcast("SMSG|"+c.clientName+ " : "+aData[1], clients);
+                break;
         }
     }
 }

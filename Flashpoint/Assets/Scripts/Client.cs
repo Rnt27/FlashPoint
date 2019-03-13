@@ -63,7 +63,10 @@ public class Client : MonoBehaviour
     public void Send(string data)
     {
         if (!socketReady)
+        {
+            Debug.Log("Socker not ready");
             return;
+        }
 
         writer.WriteLine(data);
         writer.Flush();
@@ -91,6 +94,10 @@ public class Client : MonoBehaviour
 
             case "SRDY":
                 GameManager.Instance.StartFFPlacement();
+                break;
+
+            case "SMSG":
+                ChatManager.Instance.SendMessageToChat(aData[1], Message.MessageType.playerMessage);
                 break;
         }
     }
