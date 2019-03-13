@@ -8,8 +8,9 @@ public class MenuScript : MonoBehaviour {
 
 	//main menu buttons
 	
-    public Button loadGameButton;	
-	public Button exitGameButton;
+    public Button loadGameButton;
+    public Button joinGameButton;
+    public Button exitGameButton;
 
 	//scenes
 	public GameObject saveGamesList;
@@ -17,20 +18,19 @@ public class MenuScript : MonoBehaviour {
 
 	public void Awake() {
 		//create for all functions w corresponding button
-		loadGameButton.onClick.AddListener(LoadSaveFiles);
-		exitGameButton.onClick.AddListener(ExitGame);
+		loadGameButton.onClick.AddListener(LoadSavedFiles);
+        //Join game is performs onClick()->run Lobbies
+        exitGameButton.onClick.AddListener(ExitGame);
 
 	}
 
 
-	public void LoadSaveFiles(){
+	public void LoadSavedFiles(){
 		saveGamesList.SetActive(true);
 	}
 
 
-
-
-	public void ExitGame(){
+    public void ExitGame(){
 		Debug.Log("trying to exit game");
 		Application.Quit();
 	}

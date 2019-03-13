@@ -3,31 +3,39 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameManager : MonoBehaviour {
+public class ChatManager : MonoBehaviour
+{
+    public static ChatManager Instance { set; get; }
+    private Client client;
 
-    public string username;
+    //public string username;
 
     public int maxMessages = 30;
 
     public GameObject charPanel, textObject;
 
-    public InputField charBox;
+    public InputField charBox; 
 
     public Color playerMessage, systemInfo;//receivedMessage
 
     [SerializeField]
     List<Message> messageList = new List<Message>();
 
-    void Start() {
-
+    void Start()
+    {
+        Instance = this;
+        client = FindObjectOfType<Client>();
+        //username = client.clientName;
     }
 
-    void Update() {
+    void Update()
+    {
         if (charBox.text != "")
         {
             if (Input.GetKeyDown(KeyCode.Return))
             {
-                SendMessageToChat(username + ": " + charBox.text, Message.MessageType.playerMessage);
+                client.Send("CMSG|" + charBox.text) ;
+                //SendMessageToChat(username + ": " + charBox.text, Message.MessageType.playerMessage);
                 charBox.text = "";
             }
         }
@@ -64,7 +72,7 @@ public class GameManager : MonoBehaviour {
         newMessage.textObject.color = MessageTypeColor(messageType);
         messageList.Add(newMessage);
     }
-    
+
     Color MessageTypeColor(Message.MessageType messageType)
     {
         Color color = systemInfo;
@@ -74,26 +82,26 @@ public class GameManager : MonoBehaviour {
                 color = playerMessage;
                 break;
 
-            /*case Message.MessageType.receivedMessage:
-                color = receivedMessage;
-                break;
-            */
+                /*case Message.MessageType.receivedMessage:
+                    color = receivedMessage;
+                    break;
+                */
         }
 
         return color;
     }
 }
-    [System.Serializable]
+[System.Serializable]
 
-    public class Message
+public class Message
+{
+    public string text;
+    public Text textObject;
+    public MessageType messageType;
+    public enum MessageType
     {
-        public string text;
-        public Text textObject;
-        public MessageType messageType;
-        public enum MessageType
-        {
-            playerMessage,
-            systemInfo
-            //receivedMessage
-        }
+        playerMessage,
+        systemInfo
+        //receivedMessage
     }
+}
