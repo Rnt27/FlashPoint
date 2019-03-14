@@ -116,9 +116,9 @@ public class GameManager : MonoBehaviour
     }
     public void StartFFPlacement()
     {
-        Debug.Log("FirefighterPosition");
+        //Debug.Log("FirefighterPosition");
 
-        SceneManager.LoadScene("FirefighterPosition");
+        SceneManager.LoadScene("Main Screen");
     }
     
     public void DisplayUserConnected(string name)
@@ -126,6 +126,8 @@ public class GameManager : MonoBehaviour
         GameObject go = Instantiate(playerNamePrefab) as GameObject;
         go.transform.SetParent(playersConnectedContainer);
         go.GetComponentInChildren<Text>().text = name;
+        go.transform.localScale = new Vector3(1, 1, 1);
+
 
     }
 }

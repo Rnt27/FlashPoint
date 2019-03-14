@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44824666, g: 0.49827272, b: 0.57558244, a: 1}
+  m_IndirectSpecularColor: {r: 0.44824684, g: 0.4982729, b: 0.5755823, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -157,7 +157,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 128217d1ad402b849a58de75a9a2de68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  username: Team 8
   maxMessages: 30
   charPanel: {fileID: 0}
   textObject: {fileID: 1823392752932774, guid: 87f675e52cfc55944b679a56c69155d4, type: 3}
@@ -191,8 +190,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c81c6901ed8a24e9795d96b772a501f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firefighter: {fileID: 1700833710}
-  placeFirefighterPanel: {fileID: 801946993}
+  placeFirefighterPanel: 0
   mainGamePanel: {fileID: 0}
 --- !u!1 &280297894
 GameObject:
@@ -368,8 +366,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c81c6901ed8a24e9795d96b772a501f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firefighter: {fileID: 1700833710}
-  placeFirefighterPanel: {fileID: 0}
+  placeFirefighterPanel: 0
   mainGamePanel: {fileID: 0}
 --- !u!1 &762967196
 GameObject:
@@ -725,8 +722,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c81c6901ed8a24e9795d96b772a501f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firefighter: {fileID: 1700833710}
-  placeFirefighterPanel: {fileID: 0}
+  placeFirefighterPanel: 0
   mainGamePanel: {fileID: 0}
 --- !u!1 &2141330044
 GameObject:

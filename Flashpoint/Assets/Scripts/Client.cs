@@ -108,7 +108,7 @@ public class Client : MonoBehaviour
         c.name = name;
         players.Add(c);
         GameManager.Instance.DisplayUserConnected(name);
-        if (players.Count == 3)
+        if (players.Count == 2)
         {
             GameManager.Instance.StartLobby();
         }
@@ -134,6 +134,11 @@ public class Client : MonoBehaviour
         socket.Close();
         socketReady = false;
     }
+
+    public List<GameClient> getPlayers()
+    {
+        return this.players;
+    }
 }
 
 public class GameClient
@@ -143,3 +148,4 @@ public class GameClient
     public string color;
 
 }
+

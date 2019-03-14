@@ -3,7 +3,18 @@ guid: a87c7b4e2a00e1b48b3ae657a1588d68
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - mainMenu: {instanceID: 0}
+  - serverMenu: {instanceID: 0}
+  - connectMenu: {instanceID: 0}
+  - serverPrefab: {fileID: 6675325715215138516, guid: 815812d2560605044978e09bdd970df5,
+      type: 3}
+  - clientPrefab: {fileID: 7800938367365289285, guid: 5049d77ec3945cb4691573798d7ef073,
+      type: 3}
+  - nameInput: {instanceID: 0}
+  - playersConnectedContainer: {instanceID: 0}
+  - playerNamePrefab: {fileID: 3003303773186140647, guid: c9f7301f9911d744a9ec6cbdc7d0c833,
+      type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
