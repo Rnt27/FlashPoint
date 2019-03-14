@@ -5,15 +5,24 @@ using UnityEngine;
 public class Selectable : MonoBehaviour
 {
 
-    
-    //When the mouse hovers over the GameObject, it turns to this color (red)
-    Color m_MouseOverColor = Color.black;
+    public BoxCollider collider;
+
+    //for blinking
+    public float wait;
+
+    //When the mouse hovers over the GameObject, it turns to this color (yellow)
+    Color m_MouseOverColor = Color.yellow;
 
     //This stores the GameObject’s original color
     Color m_OriginalColor;
 
     //Get the GameObject’s mesh renderer to access the GameObject’s material and color
     MeshRenderer m_Renderer;
+
+    //To get neighbours
+    private List<Selectable> neighbours;
+    public List<WallController> walls;
+    public List<DoorController> doors;
 
     public bool selected = false;
     public string selectedName = "";
@@ -25,35 +34,49 @@ public class Selectable : MonoBehaviour
         m_Renderer = GetComponent<MeshRenderer>();
         //Fetch the original color of the GameObject
         m_OriginalColor = m_Renderer.material.color;
+
+        collider = GetComponent<BoxCollider>();
+
+        neighbours = new List<Selectable>();
+
+        walls = new List<WallController>();
+
+        doors = new List<DoorController>();
+
+        Neighbours();
     }
-
-
+        
     // Update is called once per frame
     void Update()
     {
-
+        
     }
 
     void OnMouseOver()
     {
-        selected = true;
-        if (this.transform.parent != null)
-        {
-            selectedName = this.transform.parent.name;
-        }
-        else
-        {
-            selectedName = this.name;
-        }
+        if(Cursor.visible==true){
 
-        // Change the color of the GameObject to black when the mouse is over GameObject
-        m_Renderer.material.color = m_MouseOverColor;
+            selected = true;
+            if (this.transform.parent != null)
+            {
+                selectedName = this.transform.parent.name;
+            }
+            else
+            {
+                selectedName = this.name;
+            }
 
-        if (Input.GetMouseButtonDown(1))
-        {
-            //find the context menu
-            GameObject contextMenu = GameObject.FindWithTag("contextMenu");
-            contextMenu.transform.position = Camera.main.WorldToScreenPoint(this.transform.position);
+            // Change the color of the GameObject to black when the mouse is over GameObject
+            m_Renderer.material.color = m_MouseOverColor;
+
+
+            if (Input.GetMouseButtonDown(1))
+            {
+                //find the context menu
+                GameObject contextMenu = GameObject.FindWithTag("contextMenu");
+                contextMenu.transform.position = Camera.main.WorldToScreenPoint(this.transform.position);
+
+            }
 
         }
     }
@@ -66,4 +89,187 @@ public class Selectable : MonoBehaviour
         // Reset the color of the GameObject back to normal
         m_Renderer.material.color = m_OriginalColor;
     }
+
+    void Neighbours()
+    {
+
+        Selectable[] tiles = FindObjectsOfType<Selectable>();
+
+        foreach (Selectable tile in tiles)
+        {
+
+            if(tile.gameObject.GetInstanceID() != gameObject.GetInstanceID())
+            {
+
+                if(collider.bounds.Intersects(tile.gameObject.GetComponent<BoxCollider>().bounds))
+                {
+
+                    neighbours.Add(tile);
+
+                }
+
+            }
+
+        }
+    }
+
+    public bool isAdjacent(Selectable tile)
+    {
+
+        if (neighbours.Contains(tile))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public void addWalls(WallController wall)
+    {
+
+        walls.Add(wall);
+
+    }
+
+    public void addDoors(DoorController door)
+    {
+
+        doors.Add(door);
+
+    }
+
+    public void removeWall(WallController wall)
+    {
+
+        walls.Remove(wall);
+
+    }
+
+    public void removeDoor(DoorController door)
+    {
+
+        doors.Remove(door);
+
+    }
+
+    //check if tile has wall
+    public bool containWall(WallController wall)
+    {
+
+        if (walls.Contains(wall))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+
+    }
+
+    //Check if tile has door
+    public bool containDoor(DoorController door)
+    {
+
+        if (doors.Contains(door))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+
+    }
+
+    //Returns true if tile contains closed door
+    public bool containsClosed(DoorController door)
+    {
+
+        if (doors.Contains(door))
+        {
+
+            if (!door.open)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+
+    }
+
+    //checks if both tiles have the same wall
+    public bool compareWalls(Selectable tile)
+    {
+
+        foreach(WallController wall in walls)
+        {
+
+            if (tile.containWall(wall))
+            {
+                return true;
+            }
+
+        }
+        return false;
+
+    }
+
+    //checks if both tiles have the same door
+    public bool compareDoors(Selectable tile)
+    {
+
+        foreach (DoorController door in doors)
+        {
+
+            if (tile.containDoor(door))
+            {
+                return true;
+            }
+
+        }
+        return false;
+
+    }
+    
+    //Compares if two tiles are between a closed door
+    public bool compareClose(Selectable tile)
+    {
+
+        foreach (DoorController door in doors)
+        {
+
+            if (tile.containsClosed(door))
+            {
+                return true;
+            }
+
+        }
+        return false;
+
+    }
+
+    /*public DoorController getDoor(Selectable tile)
+    {
+
+
+
+    }*/
+    /*private IEnumerator Blink()
+    {
+
+        m_Renderer.material.color = m_MouseOverColor;
+        yield return new WaitForSeconds(wait);
+        m_Renderer.material.color = m_OriginalColor;
+
+    }*/
 }

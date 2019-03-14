@@ -5,6 +5,16 @@ TagManager:
   serializedVersion: 2
   tags:
   - OutsideTile
+  - InsideTile
+  - BrokenWall
+  - Wall
+  - DoorInside
+  - DoorOutside
+  - Door
+  - NewPivot
+  - Undefined
+  - Clickable
+  - GhostAnimation
   layers:
   - Default
   - TransparentFX

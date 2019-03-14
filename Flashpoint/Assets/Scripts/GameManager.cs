@@ -126,6 +126,8 @@ public class GameManager : MonoBehaviour
         GameObject go = Instantiate(playerNamePrefab) as GameObject;
         go.transform.SetParent(playersConnectedContainer);
         go.GetComponentInChildren<Text>().text = name;
+        go.transform.localScale = new Vector3(1, 1, 1);
+
 
     }
 }
