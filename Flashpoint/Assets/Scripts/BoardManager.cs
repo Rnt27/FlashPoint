@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = System.Random;
+
 /**
  * Developer: Alex
  * Purpose: Manager for the board and all its spaces/pieces and work with GameManager
@@ -115,8 +117,18 @@ public class BoardManager : MonoBehaviour
     {
         int[] coordinates = new int[2];
         Vector3 position = floorObject.transform.position;
-        coordinates[0] = (int)((position.x - houseCorner.x) / tileSize); //x coordinate
-        coordinates[1] = (int)((position.z - houseCorner.z) / tileSize); //y coordinate
+		//TODO: 4 and 1 are hardcoded for the family board
+		if (floorObject.tag.Equals(inFloorTag))
+		{
+			coordinates[0] = (int)(Math.Abs((position.x - (houseCorner.x + 4)) / tileSize)) + 1; //x coordinate
+			coordinates[1] = (int)(Math.Abs((position.z - (houseCorner.z - 4)) / tileSize)) + 1; //z coordinate
+		}
+		else
+		{
+			coordinates[0] = (int)(Math.Abs((position.x - (houseCorner.x)) / tileSize)); //x coordinate
+			coordinates[1] = (int)(Math.Abs((position.z - (houseCorner.z)) / tileSize)); //z coordinate
+		}
+
         return coordinates;
     }
     // Use the corner of the board and the Vector3 of the wall GameObject to determine its 2D coordinate
@@ -125,18 +137,20 @@ public class BoardManager : MonoBehaviour
         double wallOffset = 2;
         int[] coordinates = new int[2];
         Vector3 position = edgeObject.transform.position;
-        bool vertical = (edgeObject.transform.rotation.y == 90); //Different calculation based on wall rotation.
+        bool vertical = (edgeObject.transform.rotation.y != 0); //Different calculation based on wall rotation.
 
         if (vertical) //Vertical Calculation
         {
-            coordinates[0] = (int)((position.x + wallOffset - houseCorner.x) / tileSize);
-            coordinates[1] = (int)((position.y - houseCorner.y) / tileSize);
+			Debug.Log("Vert");	
+            coordinates[0] = (int)Math.Abs((position.x + wallOffset - houseCorner.x) / tileSize);
+            coordinates[1] = (int)Math.Abs((position.z - houseCorner.z) / tileSize);
 
         }
         else //Horizontal Calculation
         {
-            coordinates[0] = (int)((position.x - houseCorner.x) / tileSize);
-            coordinates[1] = (int)((position.z - wallOffset - houseCorner.y) / tileSize);
+			Debug.Log("Horz");
+            coordinates[0] = (int)Math.Abs((position.x - houseCorner.x) / tileSize);
+            coordinates[1] = (int)Math.Abs((position.z - wallOffset - houseCorner.z) / tileSize);
         }
 
         return coordinates;
@@ -144,25 +158,73 @@ public class BoardManager : MonoBehaviour
 
     public bool IsOutside(int[] c)
     {
-        return ((c[0] == 0 || c[0] == columns - 1) && (c[1] == 0 || c[1] == rows - 1));
+        return (c[0] == 0 || c[0] == columns - 1 || c[1] == 0 || c[1] == rows - 1);
     }
     public bool IsOnBoard(int[] c)
     {
-        return (c[0] < 0 || c[0] > columns - 1 || c[1] < 0 || c[1] > rows - 1);
+        return (c[0] > 0 || c[0] < columns - 1 || c[1] > 0 || c[1] < rows - 1);
     }
     public bool IsOutside(int x, int y)
     {
-	    return ((x == 0 || x == columns - 1) && (y == 0 || y == rows - 1));
-	}
+	    return IsOutside(new int[] {x, y});
+    }
     public bool IsOnBoard(int x, int y)
     {
-	    return (x < 0 || x > columns - 1 || y < 0 || y > rows - 1);
+	    return IsOnBoard(new int[] {x, y});
     }
 
 
 	//-----------------------------+
 	// UNITY INIT				   | :
 	//-----------------------------+
+
+	// Generate fires on 6 random spaces
+	void GenerateFiresRandom()
+	{
+		ArrayList rolls = new ArrayList();
+		int index = 0;
+		for (int x = 1; x < columns-1; x++)
+		{
+			for (int y = 1; y < rows-1; y++)
+			{
+				rolls.Add(new int[2]{x,y});
+			}
+		}
+		
+		// Randomly pick 6 possible rolls and set their spaces to fire
+		int possibleRolls = rolls.Count;
+		int remainingRolls = 6;
+		while (remainingRolls != 0)
+		{
+			// Get random coordinate
+			Random r = new Random();
+			int rInt = r.Next(0, possibleRolls);
+			int[] roll = (int[]) rolls[rInt];
+			rolls.RemoveAt(rInt);
+			// Set space at coordinate to fire 
+			floors[roll[0], roll[1]].GetComponent<Space>().SetStatus(SpaceStatus.Fire);
+			Debug.Log("Chosen for fire: " + floors[roll[0], roll[1]].name);
+
+			possibleRolls--;
+			remainingRolls--;
+		}
+
+	}
+
+	// Generate fires on predetermined family mode spaces
+	void GenerateFiresFamily()
+	{
+		GetSpace(2,2).GetComponent<Space>().SetStatus(SpaceStatus.Fire);
+		GetSpace(3,2).GetComponent<Space>().SetStatus(SpaceStatus.Fire);
+		GetSpace(2, 3).GetComponent<Space>().SetStatus(SpaceStatus.Fire);
+		GetSpace(3, 3).GetComponent<Space>().SetStatus(SpaceStatus.Fire);
+		GetSpace(4, 3).GetComponent<Space>().SetStatus(SpaceStatus.Fire);
+		GetSpace(5, 3).GetComponent<Space>().SetStatus(SpaceStatus.Fire);
+		GetSpace(4, 4).GetComponent<Space>().SetStatus(SpaceStatus.Fire);
+		GetSpace(6, 5).GetComponent<Space>().SetStatus(SpaceStatus.Fire);
+		GetSpace(7, 5).GetComponent<Space>().SetStatus(SpaceStatus.Fire);
+		GetSpace(6, 6).GetComponent<Space>().SetStatus(SpaceStatus.Fire);
+	}
 
 	// Update board state based on the Vector3 positions of GameObjects already placed via Editor
 	void LoadFromEnvironment()
@@ -174,19 +236,27 @@ public class BoardManager : MonoBehaviour
 		{
 			int[] c = FloorCoordinate(inFloorObj[i]);
 
-			if (IsOutside(c)) //Check if floorObj is at an invalid position
+			Debug.Log(inFloorObj[i].name+": "+ inFloorObj[i].transform.position.x + " " + inFloorObj[i].transform.position.z);
+			Debug.Log(c[0] + " " + c[1]);
+			if (IsOutside(c) || !IsOnBoard(c)) //Check if floorObj is at an invalid position
 			{
+				Debug.Log(IsOnBoard(c));
 				throw new InvalidPositionException();
 			}
 
 			floors[c[0], c[1]] = inFloorObj[i]; //Set the space at x,y to the floor object
+	
 		}
+
+		Debug.Log("Done Inside.");
 
 		//Setup all Outside Floors
 		GameObject[] outFloorObj = GameObject.FindGameObjectsWithTag(outFloorTag);
 		for (int i = 0; i < outFloorObj.Length; i++)
 		{
 			int[] c = FloorCoordinate(outFloorObj[i]);
+			Debug.Log(outFloorObj[i].name + ": " + outFloorObj[i].transform.position.x + " " + outFloorObj[i].transform.position.z);
+			Debug.Log(c[0] + " " + c[1]);
 			if (!IsOutside(c))
 			{
 				throw new InvalidPositionException();
@@ -199,32 +269,43 @@ public class BoardManager : MonoBehaviour
 		for (int i = 0; i < wallObj.Length; i++)
 		{
 			int[] c = EdgeCoordinate(wallObj[i]);
-			if (IsOnBoard(c))
+			Debug.Log(wallObj[i].name + ": " + wallObj[i].transform.position.x + " " + wallObj[i].transform.position.z);
+			Debug.Log(c[0] + " " + c[1]);
+			if (!IsOnBoard(c))
 			{
 				throw new InvalidPositionException();
 			}
 
-			if ((int)wallObj[i].transform.rotation.y == 90) // Left edge
+			if (wallObj[i].transform.rotation.y != 0) // Left edge
 			{
 				leftEdge[c[0], c[1]] = wallObj[i];
+				Debug.Log(wallObj[i].name + " VERT!!!1");
+
 			}
 			else //Upper edge										
 			{
+				Debug.Log("HORIZONTAL");
+
 				upperEdge[c[0], c[1]] = wallObj[i];
 			}
 		}
+
+		Debug.Log("Wall finished.");
 
 		//Setup all Doors
 		GameObject[] doorObj = GameObject.FindGameObjectsWithTag(doorTag);
 		for (int i = 0; i < doorObj.Length; i++)
 		{
-			int[] c = FloorCoordinate(doorObj[i]);
-			if (IsOnBoard(c))
+		
+			int[] c = EdgeCoordinate(doorObj[i]);
+			Debug.Log(doorObj[i].name + ": " + doorObj[i].transform.position.x + " " + doorObj[i].transform.position.z);
+			Debug.Log(c[0] + " " + c[1]);
+			if (!IsOnBoard(c))
 			{
 				throw new InvalidPositionException();
 			}
-
-			if ((int)doorObj[i].transform.rotation.y == 90) // Left edge
+		
+			if (doorObj[i].transform.rotation.y != 0) // Left edge
 			{
 				leftEdge[c[0], c[1]] = doorObj[i];
 			}
@@ -247,11 +328,14 @@ public class BoardManager : MonoBehaviour
 	    leftEdge = new GameObject[columns, rows];
 		upperEdge = new GameObject[columns, rows];
 	    vehicles = new GameObject[columns, rows];
-}
+	    Debug.Log("Hello");
+		LoadFromEnvironment();
+	    GenerateFiresFamily();
+	}
     // Use this for initialization
     void Start()
     {
-	    LoadFromEnvironment();
+
     }
     // Update is called once per frame
     void Update() {

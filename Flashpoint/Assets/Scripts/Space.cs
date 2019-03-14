@@ -4,14 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Space : MonoBehaviour {
-	// Asset Path to all fire prefabs
-	String safePrefabPath = "";
-	String smokePrefabPath = "";
-	String firePrefabPath = "";
+	public SpaceStatus status;
 
-	SpaceStatus status;
-
-	GameObject[] fireObject;
+	public GameObject[] fireObject = new GameObject[3];
 	
 
 	public Space(SpaceStatus status)
@@ -84,9 +79,12 @@ public class Space : MonoBehaviour {
 
 	// Set the status of the space to s
 	public void SetStatus(SpaceStatus s)
-	{
+	{	
+		Debug.Log(gameObject.name + "set as "+ s.ToString());
+		Debug.Log(gameObject.transform.position);
 		this.status = s;
-		fireObject[(int)s].SetActive(true);
+		Instantiate(fireObject[(int)s]).SetActive(true);
+		fireObject[(int) s].transform.position = gameObject.transform.position;
 	
 		// Disable irrelevant fire objects
 		for(int i = (int) SpaceStatus.Safe; i < (int) SpaceStatus.Fire; i++)
@@ -101,21 +99,15 @@ public class Space : MonoBehaviour {
 
 	void Awake()
 	{
-		//Instantiate possible fireobjects from prefabs
-		this.fireObject[0] = (GameObject)Instantiate(Resources.Load(safePrefabPath));
-		this.fireObject[1] = (GameObject)Instantiate(Resources.Load(smokePrefabPath));
-		this.fireObject[2] = (GameObject)Instantiate(Resources.Load(firePrefabPath));
 
 		for (int i = 0; i < fireObject.Length; i++) // Places all fireobjects appropriately and disable. 
 		{
-			fireObject[i].transform.position = this.gameObject.transform.position;
-			fireObject[i].SetActive(false);
+			SetStatus(SpaceStatus.Safe); // Default initialization of space is Safe
 		}
 
 	}
 	// Use this for initialization
 	void Start () {
-		SetStatus(SpaceStatus.Safe); // Default initialization of space is Safe
 	}
 
 	// Update is called once per frame
