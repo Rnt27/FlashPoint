@@ -116,9 +116,9 @@ public class GameManager : MonoBehaviour
     }
     public void StartFFPlacement()
     {
-        Debug.Log("FirefighterPosition");
+        //Debug.Log("FirefighterPosition");
 
-        SceneManager.LoadScene("FirefighterPosition");
+        SceneManager.LoadScene("Main Screen");
     }
     
     public void DisplayUserConnected(string name)
