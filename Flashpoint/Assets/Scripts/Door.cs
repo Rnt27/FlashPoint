@@ -33,7 +33,7 @@ public class Door : MonoBehaviour, EdgeObstacle {
 		}
 	}
 
-	// Wall is passable if it is destroyed
+	// Door passable if destroyed or open
 	public bool IsPassable()
 	{
 		return (state == DoorState.Destroyed || state == DoorState.Open);

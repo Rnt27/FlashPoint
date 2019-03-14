@@ -35,8 +35,8 @@ public class BoardManager : MonoBehaviour
     // PUBLIC API				   | : 
     //-----------------------------+
 
-	//Return a reference to the Space script for coordinates x, y
-    public Space GetSpace(int x, int y)
+	//Return a reference to the GameObject of a space (launch pad) for coordinates x, y
+    public GameObject GetSpace(int x, int y)
     {
 	    int[] c = {x, y};
 	    if (!IsOnBoard(c))
@@ -44,11 +44,11 @@ public class BoardManager : MonoBehaviour
 			throw new InvalidPositionException();
 	    }
 
-	    return (Space) floors[x, y].GetComponent( typeof(Space) );
+	    return floors[x, y];
     }
 
-	//Return a reference to the EdgeObstacle script for coordinates x, y
-	public EdgeObstacle GetEdgeObstacle(int x, int y, String direction)
+	//Return a reference to the GameObject of a door/wall for coordinates x, y
+	public GameObject GetEdgeObstacle(int x, int y, String direction)
 	{
 		direction = direction.ToLowerInvariant();
 
@@ -61,11 +61,11 @@ public class BoardManager : MonoBehaviour
 		// Return either the edge above or to the left of the space
 		if (direction.Equals("up"))
 		{
-			return (EdgeObstacle)upperEdge[x, y].GetComponent(typeof(EdgeObstacle));
+			return upperEdge[x, y];
 		}
 		else if (direction.Equals("left"))
 		{
-			return (EdgeObstacle)leftEdge[x, y].GetComponent(typeof(EdgeObstacle));
+			return leftEdge[x, y];
 		}
 		else if (direction.Equals("down"))
 		{
@@ -73,7 +73,7 @@ public class BoardManager : MonoBehaviour
 			{
 				return null;
 			}
-			return (EdgeObstacle) upperEdge[x, y + 1].GetComponent(typeof(EdgeObstacle));
+			return upperEdge[x, y + 1];
 ;		}
 		else if (direction.Equals("right"))
 		{
@@ -82,7 +82,7 @@ public class BoardManager : MonoBehaviour
 				return null;
 			}
 
-			return (EdgeObstacle) leftEdge[x + 1, y].GetComponent(typeof(EdgeObstacle));
+			return leftEdge[x + 1, y];
 		}
 		else
 		{
@@ -90,8 +90,8 @@ public class BoardManager : MonoBehaviour
 		}
 	}
 
-	// Return a reference to the EdgeObstacle script for a given space GameObject
-	public EdgeObstacle GetEdgeObstacle(GameObject space, String direction)
+	// Return a reference to the GameObject of a door or wall
+	public GameObject GetEdgeObstacle(GameObject space, String direction)
 	{
 		direction = direction.ToLowerInvariant();
 
@@ -241,7 +241,7 @@ public class BoardManager : MonoBehaviour
 		if (Instance == null)
 		{
 			Instance = this;
-		} 
+		}
 		// Instantiate grids
 	    floors = new GameObject[columns, rows];
 	    leftEdge = new GameObject[columns, rows];

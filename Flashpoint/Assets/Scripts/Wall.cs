@@ -44,7 +44,6 @@ public class Wall : MonoBehaviour, EdgeObstacle {
 	}
 	void Update()
 	{
-		throw new System.NotImplementedException();
 	}
 
 
