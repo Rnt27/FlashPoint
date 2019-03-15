@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 4388106350187338}
   - component: {fileID: 33968832639366852}
   - component: {fileID: 23672364588018728}
-  - component: {fileID: 441906774144759339}
   m_Layer: 0
   m_Name: Blank
   m_TagString: Door
@@ -79,19 +78,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &441906774144759339
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1219932156644302}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.99, y: 0.92, z: 1.83}
-  m_Center: {x: 0, y: -0.04, z: 0}
 --- !u!1 &1344867537457146
 GameObject:
   m_ObjectHideFlags: 0
@@ -103,7 +89,6 @@ GameObject:
   - component: {fileID: 4983126921700970}
   - component: {fileID: 33930712408897516}
   - component: {fileID: 23049286357480208}
-  - component: {fileID: 65608305731572926}
   m_Layer: 0
   m_Name: Concrete
   m_TagString: Untagged
@@ -170,19 +155,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &65608305731572926
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1344867537457146}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1377037903749528
 GameObject:
   m_ObjectHideFlags: 0
@@ -194,7 +166,6 @@ GameObject:
   - component: {fileID: 4414092101219700}
   - component: {fileID: 33570475198013760}
   - component: {fileID: 23652406780485978}
-  - component: {fileID: 65338125961720214}
   m_Layer: 0
   m_Name: Concrete (1)
   m_TagString: NewPivot
@@ -261,19 +232,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &65338125961720214
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1377037903749528}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1424459322489324
 GameObject:
   m_ObjectHideFlags: 0
@@ -376,7 +334,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4278101388976576}
   - component: {fileID: 1288184596854944341}
-  - component: {fileID: 8755744203054277086}
+  - component: {fileID: 6284867998775753892}
   m_Layer: 0
   m_Name: Door 1
   m_TagString: Untagged
@@ -414,9 +372,9 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 2.41, y: 0.54, z: 2.51}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8755744203054277086
+--- !u!114 &6284867998775753892
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -430,6 +388,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   collider: {fileID: 0}
   open: 0
+  smooth: 0
   neighbours: []
   selected: 0
   selectedName: 
@@ -444,7 +403,6 @@ GameObject:
   - component: {fileID: 4652323027570040172}
   - component: {fileID: 6538528761757834772}
   - component: {fileID: 7235891004264724635}
-  - component: {fileID: 6378671222935491092}
   m_Layer: 0
   m_Name: Concrete (2)
   m_TagString: Clickable
@@ -511,19 +469,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &6378671222935491092
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 753746338709610774}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8232380481546850455
 GameObject:
   m_ObjectHideFlags: 0
