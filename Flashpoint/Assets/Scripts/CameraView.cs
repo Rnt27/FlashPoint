@@ -11,12 +11,16 @@ public class CameraView : MonoBehaviour {
 
     private Vector3 targetPosition;
 
-    public float smoothing;
+    public float smoothing = 2;
 
-    private PlaceFirefighter placing;
+    public FirefighterController firefighter;
 
     private Vector3 originalPlace;
     private Quaternion originalRotation;
+
+    PlaceFirefighter controlFirefighter;
+
+    FirefighterController[] firefighters;
 
     bool camera0;
     bool camera1;
@@ -24,12 +28,22 @@ public class CameraView : MonoBehaviour {
     bool camera3;
     bool camera4;
 
-    // Use this for initialization
+   // Use this for initialization
     void Start () {
 
         //target = FindObjectOfType<FirefighterController>().gameObject;
 
-        placing = FindObjectOfType<PlaceFirefighter>();
+        controlFirefighter = FindObjectOfType<PlaceFirefighter>();
+
+        firefighters = controlFirefighter.getFirefighters();
+
+        firefighter = controlFirefighter.firefighter;
+
+        //firefighters[0].myTurn = true;
+
+        //turnFirefighter();
+
+        //firefighter = FindObjectOfType<FirefighterController>();
         /*        deltaPos = new Vector3(2, 30, -12);
                     Vector3 pos = Player.TransformDirection(deltaPos);
                     transform.position = Player.position + pos;
@@ -54,6 +68,14 @@ public class CameraView : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+        //turnFirefighter();
+
+        //controlFirefighter.turnFirefighter();
+
+        firefighter = controlFirefighter.getFirefighter();
+
+        target = firefighter.gameObject;
+
         //Inputs to change the camera movement
         if (Input.GetKey("`"))
         {
@@ -69,6 +91,15 @@ public class CameraView : MonoBehaviour {
             camera4 = false;
         }
 
+        if (firefighter.spawned == false && !camera0 && !camera1 && !camera2 && !camera3 && !camera4)
+        {
+
+            transform.position = Vector3.Lerp(transform.position, originalPlace, smoothing * Time.deltaTime);
+
+            transform.rotation = Quaternion.Lerp(transform.rotation, originalRotation, smoothing * Time.deltaTime);
+
+        }
+
         if (camera0 && !camera1 && !camera2 && !camera3 && !camera4)
         {
 
@@ -78,7 +109,7 @@ public class CameraView : MonoBehaviour {
 
         }
 
-        if (placing.placeFirefighterPanel==false && !camera0 && !camera1 && !camera2 && !camera3 && !camera4)
+        if (firefighter.spawned==true && !camera0 && !camera1 && !camera2 && !camera3 && !camera4)
         {
 
             targetPosition = new Vector3(target.transform.position.x, target.transform.position.y + 16, target.transform.position.z - 10);
@@ -93,7 +124,7 @@ public class CameraView : MonoBehaviour {
                                                                                                                //Time.deltaTime is so that things happen the same for fast and slow computers no matter the speed
         }
 
-        if (Input.GetKeyUp("1") && placing.placeFirefighterPanel == false)
+        if (Input.GetKeyUp("1") && firefighter.spawned == true)
         {
 
             camera0 = false;
@@ -122,7 +153,7 @@ public class CameraView : MonoBehaviour {
                                                                                                                //Time.deltaTime is so that things happen the same for fast and slow computers no matter the speed
         }
 
-        if (Input.GetKeyUp("2") && placing.placeFirefighterPanel == false)
+        if (Input.GetKeyUp("2") && firefighter.spawned == true)
         {
 
             camera0 = false;
@@ -151,7 +182,7 @@ public class CameraView : MonoBehaviour {
                                                                                                                //Time.deltaTime is so that things happen the same for fast and slow computers no matter the speed
         }
 
-        if (Input.GetKeyUp("3") && placing.placeFirefighterPanel == false)
+        if (Input.GetKeyUp("3") && firefighter.spawned == true)
         {
 
             camera0 = false;
@@ -180,7 +211,7 @@ public class CameraView : MonoBehaviour {
                                                                                                                //Time.deltaTime is so that things happen the same for fast and slow computers no matter the speed
         }
 
-        if (Input.GetKeyUp("4") && placing.placeFirefighterPanel == false)
+        if (Input.GetKeyUp("4") && firefighter.spawned == true)
         {
 
             camera0 = false;
@@ -210,4 +241,21 @@ public class CameraView : MonoBehaviour {
         }
 
     }
+/*
+    private void turnFirefighter()
+    {
+
+        foreach (FirefighterController fire in firefighters)
+        {
+
+            if (fire.myTurn)
+            {
+
+                firefighter = fire;
+
+            }
+
+        }
+    }
+  */  
 }

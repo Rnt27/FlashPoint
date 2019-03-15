@@ -4,122 +4,155 @@ using UnityEngine;
 
 public class PlaceFirefighter : MonoBehaviour{
 
-    private FirefighterController firefighter;
+    public FirefighterController firefighter;
     public bool placeFirefighterPanel;
     public GameObject mainGamePanel;
     private GameObject tileHighlight;
     private Selectable[] tiles;
 
-    
+    public float keyDelay = 3f;  // 1 second
+    private float timePass = 0f;
+
+    public FirefighterController[] firefighters;
+
     private void Start()
     {
                 
         Vector2Int gridPoint = Geometry.GridPoint(0, 0);
         Vector3 point = Geometry.PointFromGrid(gridPoint);
-        firefighter = FindObjectOfType<FirefighterController>();
+
+        firefighters = FindObjectsOfType<FirefighterController>();
+
+        firefighters[0].myTurn = true;
+
+        firefighter = firefighters[0];
         
         //currently spawning firefighters
         placeFirefighterPanel = true;
+
     }
 
 
     void Update()
     {
+        //TurnFirefighter();
+
+//        if (firefighter.myTurn) { 
+
         MouseOverLocation();
 
+        //changing turns
+        if (Input.GetKey(KeyCode.UpArrow) && Cursor.visible)
+        {
+            ChangeTurn();
+        }
+
         //Place firefighter only if he has not yet done so
-        if (Input.GetMouseButtonDown(0) && firefighter.gameObject.activeSelf && placeFirefighterPanel)
-        {
-            
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            //If we click on outside Tiles
-            if (Physics.Raycast(ray, out hit) && hit.transform.gameObject.tag == "OutsideTile")
+        if (Input.GetMouseButtonDown(0) && firefighter.gameObject.activeSelf && !firefighter.spawned)
             {
 
-                //Spawn firefighter on that tile
-                firefighter.Spawn(hit.transform.gameObject.transform.position);
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+                //If we click on outside Tiles
+                if (Physics.Raycast(ray, out hit) && hit.transform.gameObject.tag == "OutsideTile")
+                {
 
-                firefighter.setTile(hit.transform.gameObject.GetComponent<Selectable>());
+                    //Spawn firefighter on that tile
+                    firefighter.Spawn(hit.transform.gameObject.transform.position);
 
-                placeFirefighterPanel = false;
+                    firefighter.setTile(hit.transform.gameObject.GetComponent<Selectable>());
+
+                    placeFirefighterPanel = false;
+
+                }
 
             }
 
-        }
-
-        //Click to move only to adjacent tile
-        else if (Input.GetMouseButtonDown(0) && !placeFirefighterPanel)
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            //If we click on outside Tiles
-            if (Physics.Raycast(ray, out hit) && hit.transform.gameObject.tag == "OutsideTile" && firefighter.getTile().isAdjacent(hit.transform.gameObject.GetComponent<Selectable>()))
+            //Click to move only to adjacent tile
+            else if (Input.GetMouseButtonDown(0) && firefighter.spawned)
             {
-
-                //Not able to move through walls, but yes through doors
-                if (!firefighter.getTile().compareWalls(hit.transform.gameObject.GetComponent<Selectable>()) && !firefighter.getTile().compareClose(hit.transform.gameObject.GetComponent<Selectable>()))
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+                //If we click on outside Tiles
+                if (Physics.Raycast(ray, out hit) && hit.transform.gameObject.tag == "OutsideTile" && firefighter.getTile().isAdjacent(hit.transform.gameObject.GetComponent<Selectable>()))
                 {
-                    //no diagonal
-                    if (!firefighter.isDiagonal(hit.transform.gameObject.GetComponent<Selectable>()))
-                    {
-                        //Move firefighter one tile
-                        firefighter.setTile(hit.transform.gameObject.GetComponent<Selectable>());
-                        firefighter.moving = true;
 
+                    //Not able to move through walls, but yes through doors
+                    if (!firefighter.getTile().compareWalls(hit.transform.gameObject.GetComponent<Selectable>()) && !firefighter.getTile().compareClose(hit.transform.gameObject.GetComponent<Selectable>()))
+                    {
+                        //no diagonal
+                        if (!firefighter.isDiagonal(hit.transform.gameObject.GetComponent<Selectable>()))
+                        {
+                            //Move firefighter one tile
+                            firefighter.setTile(hit.transform.gameObject.GetComponent<Selectable>());
+                            firefighter.moving = true;
+
+                        }
                     }
                 }
-            }
-            else if (Physics.Raycast(ray, out hit) && hit.transform.gameObject.tag == "InsideTile" && firefighter.getTile().isAdjacent(hit.transform.gameObject.GetComponent<Selectable>()))
-            {
-                //Not able to move through walls, but yes through doors
-                if (!firefighter.getTile().compareWalls(hit.transform.gameObject.GetComponent<Selectable>()))
+                else if (Physics.Raycast(ray, out hit) && hit.transform.gameObject.tag == "InsideTile" && firefighter.getTile().isAdjacent(hit.transform.gameObject.GetComponent<Selectable>()))
                 {
-                    //no diagonal
-                    if (!firefighter.isDiagonal(hit.transform.gameObject.GetComponent<Selectable>()))
+                    //Not able to move through walls, but yes through doors
+                    if (!firefighter.getTile().compareWalls(hit.transform.gameObject.GetComponent<Selectable>()))
                     {
-                        //Move firefighter one tile
-                        firefighter.setTile(hit.transform.gameObject.GetComponent<Selectable>());
-                        firefighter.moving = true;
+                        //no diagonal
+                        if (!firefighter.isDiagonal(hit.transform.gameObject.GetComponent<Selectable>()))
+                        {
+                            //Move firefighter one tile
+                            firefighter.setTile(hit.transform.gameObject.GetComponent<Selectable>());
+                            firefighter.moving = true;
 
+                        }
                     }
+                }
+
+                //hitting a wall
+                else if (Physics.Raycast(ray, out hit) && hit.transform.gameObject.tag == "Wall" && hit.transform.gameObject.GetComponent<WallController>().containTile(firefighter.getTile()))
+                {
+
+                    firefighter.targetWall = hit.transform.gameObject.GetComponent<WallController>();
+
+                    firefighter.punch = true;
+                    /*
+                    //Damage wall
+                    hit.transform.gameObject.GetComponent<WallController>().hitWall();
+                    */
+                }
+
+                else if (Physics.Raycast(ray, out hit) && hit.transform.gameObject.tag == "DoorInside" && hit.transform.gameObject.GetComponent<DoorController>().containTile(firefighter.getTile()))
+                {
+                    firefighter.targetDoor = hit.transform.gameObject.GetComponent<DoorController>();
+
+                    firefighter.touchDoor = true;
+                    //Door interaction
+                    hit.transform.gameObject.GetComponent<DoorController>().InteractDoor();
+
+                }
+
+                else if (Physics.Raycast(ray, out hit) && hit.transform.gameObject.tag == "DoorOutside" && hit.transform.gameObject.GetComponent<DoorController>().containTile(firefighter.getTile()))
+                {
+                    firefighter.targetDoor = hit.transform.gameObject.GetComponent<DoorController>();
+
+                    firefighter.touchDoor = true;
+                    //Door interaction
+                    hit.transform.gameObject.GetComponent<DoorController>().InteractDoor();
+
                 }
             }
 
-            //hitting a wall
-            else if (Physics.Raycast(ray, out hit) && hit.transform.gameObject.tag == "Wall" && hit.transform.gameObject.GetComponent<WallController>().containTile(firefighter.getTile()))
+ //       }
+
+        
+        //changing turns
+        if (Input.GetKey("0") && Cursor.visible)
+        {
+            if (Time.time - timePass > keyDelay)
             {
-
-                firefighter.targetWall = hit.transform.gameObject.GetComponent<WallController>();
-
-                firefighter.punch = true;
-                /*
-                //Damage wall
-                hit.transform.gameObject.GetComponent<WallController>().hitWall();
-                */
+                timePass = Time.time;
+                ChangeTurn();
             }
-
-            else if (Physics.Raycast(ray, out hit) && hit.transform.gameObject.tag == "DoorInside" && hit.transform.gameObject.GetComponent<DoorController>().containTile(firefighter.getTile()))
-            {
-                firefighter.targetDoor = hit.transform.gameObject.GetComponent<DoorController>();
-
-                firefighter.touchDoor = true;
-                //Door interaction
-                hit.transform.gameObject.GetComponent<DoorController>().InteractDoor();
-
-            }
-
-            else if (Physics.Raycast(ray, out hit) && hit.transform.gameObject.tag == "DoorOutside" && hit.transform.gameObject.GetComponent<DoorController>().containTile(firefighter.getTile()))
-            {
-                firefighter.targetDoor = hit.transform.gameObject.GetComponent<DoorController>();
-                
-                firefighter.touchDoor = true;
-                //Door interaction
-                hit.transform.gameObject.GetComponent<DoorController>().InteractDoor();
-
-            }
-
         }
+        
     }
        
     private void MouseOverLocation()
@@ -140,6 +173,63 @@ public class PlaceFirefighter : MonoBehaviour{
         return inclusive
             ? lower <= num && num <= upper
             : lower < num && num < upper;
+    }
+
+    public void TurnFirefighter()
+    {
+
+        foreach (FirefighterController fire in firefighters)
+        {
+
+            if (fire.myTurn)
+            {
+
+                firefighter = fire;
+
+            }
+
+        }
+    }
+
+    public FirefighterController getFirefighter()
+    {
+
+        return firefighter;
+
+    }
+    
+    public void ChangeTurn()
+    {
+
+        if (firefighter == firefighters[firefighters.Length-1])
+        {
+
+            firefighters[firefighters.Length-1].myTurn = false;
+            firefighters[0].myTurn = true;
+
+        }
+        else for (int i = 0; i < firefighters.Length-1; i++)
+        {
+
+            if(firefighter == firefighters[i])
+            {
+
+                    firefighters[i].myTurn = false;
+                    firefighters[i + 1].myTurn = true;
+
+            }
+
+        }
+        
+        TurnFirefighter();
+
+    }
+    
+    public FirefighterController[] getFirefighters()
+    {
+
+        return firefighters;
+
     }
 
 }

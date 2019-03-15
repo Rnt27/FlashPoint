@@ -62,165 +62,167 @@ public class FirefighterController : MonoBehaviour
 
         Quaternion rota = new Quaternion();
 
-        //Moving
-        if (spawned && moving)
+        if (myTurn)
         {
-            Cursor.visible = false;
-
-            Cursor.lockState = CursorLockMode.Locked;
-
-            myAnim.SetBool("Move", moving);
-                        
-            float step = moveSpeed * Time.deltaTime;
-
-            transform.position = Vector3.MoveTowards(transform.position, start + currentTile.gameObject.transform.position, step);
-
-            //The following will turn the character when needed
-            if(start.x + currentTile.gameObject.transform.localPosition.x > transform.localPosition.x)
+            //Moving
+            if (spawned && moving)
             {
+                Cursor.visible = false;
 
-                rota = Quaternion.Euler(0, 90, 0);
+                Cursor.lockState = CursorLockMode.Locked;
 
-                transform.rotation = Quaternion.Lerp(transform.rotation, rota, 3 * Time.deltaTime);
+                myAnim.SetBool("Move", moving);
+
+                float step = moveSpeed * Time.deltaTime;
+
+                transform.position = Vector3.MoveTowards(transform.position, start + currentTile.gameObject.transform.position, step);
+
+                //The following will turn the character when needed
+                if (start.x + currentTile.gameObject.transform.localPosition.x > transform.localPosition.x)
+                {
+
+                    rota = Quaternion.Euler(0, 90, 0);
+
+                    transform.rotation = Quaternion.Lerp(transform.rotation, rota, 3 * Time.deltaTime);
+
+                }
+
+                if (start.x + currentTile.gameObject.transform.localPosition.x < transform.localPosition.x)
+                {
+
+                    rota = Quaternion.Euler(0, -90, 0);
+
+                    transform.rotation = Quaternion.Lerp(transform.rotation, rota, 3 * Time.deltaTime);
+
+                }
+
+                if (start.z + currentTile.gameObject.transform.localPosition.z > transform.localPosition.z)
+                {
+
+                    rota = Quaternion.Euler(0, 0, 0);
+
+                    transform.rotation = Quaternion.Lerp(transform.rotation, rota, 3 * Time.deltaTime);
+
+                }
+
+                if (start.z + currentTile.gameObject.transform.localPosition.z < transform.localPosition.z)
+                {
+
+                    rota = Quaternion.Euler(0, 180, 0);
+
+                    transform.rotation = Quaternion.Lerp(transform.rotation, rota, 3 * Time.deltaTime);
+
+                }
+
+                if (transform.position - currentTile.transform.gameObject.transform.position == start)
+                {
+
+                    //GetComponent<Animator>().enabled = false;
+                    myAnim.SetBool("Move", false);
+
+                    Cursor.visible = true;
+
+                    Cursor.lockState = CursorLockMode.None;
+
+                    moving = false;
+
+                }
 
             }
 
-            if (start.x + currentTile.gameObject.transform.localPosition.x < transform.localPosition.x)
+            //Punching the wall
+            if (spawned && punch)
             {
 
-                rota = Quaternion.Euler(0, -90, 0);
+                myAnim.SetBool("Punch", true);
 
-                transform.rotation = Quaternion.Lerp(transform.rotation, rota, 3 * Time.deltaTime);
+                //The following will turn the character when needed
+                if (start.x + targetWall.gameObject.transform.localPosition.x > transform.localPosition.x)
+                {
+
+                    rota = Quaternion.Euler(0, 90, 0);
+
+                    transform.rotation = Quaternion.Lerp(transform.rotation, rota, 3 * Time.deltaTime);
+
+                }
+
+                if (start.x + targetWall.gameObject.transform.localPosition.x < transform.localPosition.x)
+                {
+
+                    rota = Quaternion.Euler(0, -90, 0);
+
+                    transform.rotation = Quaternion.Lerp(transform.rotation, rota, 3 * Time.deltaTime);
+
+                }
+
+                if (start.z + targetWall.gameObject.transform.localPosition.z > transform.localPosition.z)
+                {
+
+                    rota = Quaternion.Euler(0, 0, 0);
+
+                    transform.rotation = Quaternion.Lerp(transform.rotation, rota, 3 * Time.deltaTime);
+
+                }
+
+                if (start.z + targetWall.gameObject.transform.localPosition.z < transform.localPosition.z)
+                {
+
+                    rota = Quaternion.Euler(0, 180, 0);
+
+                    transform.rotation = Quaternion.Lerp(transform.rotation, rota, 3 * Time.deltaTime);
+
+                }
+
+                DamageWall();
 
             }
 
-            if (start.z + currentTile.gameObject.transform.localPosition.z > transform.localPosition.z)
+            //Interacting with door
+            if (spawned && touchDoor)
             {
+                myAnim.SetTrigger("TouchDoor");
 
-                rota = Quaternion.Euler(0, 0, 0);
+                //The following will turn the character when needed
+                if (start.x + targetDoor.gameObject.transform.localPosition.x > transform.localPosition.x)
+                {
 
-                transform.rotation = Quaternion.Lerp(transform.rotation, rota, 3 * Time.deltaTime);
+                    rota = Quaternion.Euler(0, 90, 0);
+
+                    transform.rotation = Quaternion.Lerp(transform.rotation, rota, 30 * Time.deltaTime);
+
+                }
+
+                if (start.x + targetDoor.gameObject.transform.localPosition.x < transform.localPosition.x)
+                {
+
+                    rota = Quaternion.Euler(0, -90, 0);
+
+                    transform.rotation = Quaternion.Lerp(transform.rotation, rota, 30 * Time.deltaTime);
+
+                }
+
+                if (start.z + targetDoor.gameObject.transform.localPosition.z > transform.localPosition.z)
+                {
+
+                    rota = Quaternion.Euler(0, 0, 0);
+
+                    transform.rotation = Quaternion.Lerp(transform.rotation, rota, 30 * Time.deltaTime);
+
+                }
+
+                if (start.z + targetDoor.gameObject.transform.localPosition.z < transform.localPosition.z)
+                {
+
+                    rota = Quaternion.Euler(0, 180, 0);
+
+                    transform.rotation = Quaternion.Lerp(transform.rotation, rota, 30 * Time.deltaTime);
+
+                }
+
+                touchDoor = false;
 
             }
-
-            if (start.z + currentTile.gameObject.transform.localPosition.z < transform.localPosition.z)
-            {
-
-                rota = Quaternion.Euler(0, 180, 0);
-
-                transform.rotation = Quaternion.Lerp(transform.rotation, rota, 3 * Time.deltaTime);
-
-            }
-
-            if (transform.position - currentTile.transform.gameObject.transform.position == start)
-            {
-
-                //GetComponent<Animator>().enabled = false;
-                myAnim.SetBool("Move", false);
-
-                Cursor.visible = true;
-
-                Cursor.lockState = CursorLockMode.None;
-
-                moving = false;
-
-            }
-
         }
-
-        //Punching the wall
-        if(spawned && punch)
-        {
-
-            myAnim.SetBool("Punch",true);
-
-            //The following will turn the character when needed
-            if (start.x + targetWall.gameObject.transform.localPosition.x > transform.localPosition.x)
-            {
-
-                rota = Quaternion.Euler(0, 90, 0);
-
-                transform.rotation = Quaternion.Lerp(transform.rotation, rota, 3 * Time.deltaTime);
-
-            }
-
-            if (start.x + targetWall.gameObject.transform.localPosition.x < transform.localPosition.x)
-            {
-
-                rota = Quaternion.Euler(0, -90, 0);
-
-                transform.rotation = Quaternion.Lerp(transform.rotation, rota, 3 * Time.deltaTime);
-
-            }
-
-            if (start.z + targetWall.gameObject.transform.localPosition.z > transform.localPosition.z)
-            {
-
-                rota = Quaternion.Euler(0, 0, 0);
-
-                transform.rotation = Quaternion.Lerp(transform.rotation, rota, 3 * Time.deltaTime);
-
-            }
-
-            if (start.z + targetWall.gameObject.transform.localPosition.z < transform.localPosition.z)
-            {
-
-                rota = Quaternion.Euler(0, 180, 0);
-
-                transform.rotation = Quaternion.Lerp(transform.rotation, rota, 3 * Time.deltaTime);
-
-            }
-
-            DamageWall();
-
-        }
-
-        //Interacting with door
-        if(spawned && touchDoor)
-        {
-            myAnim.SetTrigger("TouchDoor");
-
-            //The following will turn the character when needed
-            if (start.x + targetDoor.gameObject.transform.localPosition.x > transform.localPosition.x)
-            {
-
-                rota = Quaternion.Euler(0, 90, 0);
-
-                transform.rotation = Quaternion.Lerp(transform.rotation, rota, 30 * Time.deltaTime);
-
-            }
-
-            if (start.x + targetDoor.gameObject.transform.localPosition.x < transform.localPosition.x)
-            {
-                
-                rota = Quaternion.Euler(0, -90, 0);
-
-                transform.rotation = Quaternion.Lerp(transform.rotation, rota, 30 * Time.deltaTime);
-
-            }
-
-            if (start.z + targetDoor.gameObject.transform.localPosition.z > transform.localPosition.z)
-            {
-                
-                rota = Quaternion.Euler(0, 0, 0);
-
-                transform.rotation = Quaternion.Lerp(transform.rotation, rota, 30 * Time.deltaTime);
-
-            }
-
-            if (start.z + targetDoor.gameObject.transform.localPosition.z < transform.localPosition.z)
-            {
-                
-                rota = Quaternion.Euler(0, 180, 0);
-
-                transform.rotation = Quaternion.Lerp(transform.rotation, rota, 30 * Time.deltaTime);
-
-            }
-
-            touchDoor = false;
-
-        }
-
     }
 
     public void Spawn(Vector3 pos)
@@ -231,7 +233,7 @@ public class FirefighterController : MonoBehaviour
 
         myAnim.SetTrigger("Spawn");
 
-        myTurn = true;
+        //myTurn = true;
     }
 
     //change current tile for movement
