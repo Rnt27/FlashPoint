@@ -28,7 +28,8 @@ public class BoardManager : MonoBehaviour
     GameObject[,] leftEdge;
     GameObject[,] upperEdge;
     GameObject[,] vehicles;
-
+	ArrayList[,] firemen;
+	ArrayList[,] pois;
 
  
 
@@ -106,7 +107,49 @@ public class BoardManager : MonoBehaviour
 		return GetEdgeObstacle(c[0], c[1], direction);
 	}
 
-	// Returns a list of adjacent spaces
+	//Return a reference to all the POI's standing on the space
+	public ArrayList GetPOI(int x, int y)
+	{
+		return pois[x, y];
+	}
+	public ArrayList GetPOI(GameObject space)
+	{
+		int[] c = FloorCoordinate(space);
+		return GetPOI(c[0], c[1]);
+	}
+
+	//Return a reference to all the firemen standing on the space
+	public ArrayList GetFiremen(int x, int y)
+	{
+		return firemen[x, y];
+	}
+	public ArrayList GetFiremen(GameObject space)
+	{
+		int[] c = FloorCoordinate(space);
+		return GetFiremen(c[0], c[1]);
+	}
+
+
+	//-----------------------------+
+	// FIRE ADVANCEMENT			   | : 
+	//-----------------------------+
+
+	// Execute fire advancement procedure based on a dice roll.
+	public void AdvanceFire(int[] roll)
+	{
+		int x = roll[0];
+		int y = roll[1];
+
+		//Check for a fire on the rolled space 
+		Space target = GetSpace(x, y).GetComponent<Space>();
+
+		if (target.IncrementFire()) //Space returns true if an explosion should occur after incrementing
+		{
+			//Explosion logic
+		}
+
+	}
+
 
 	//-----------------------------+
 	// LOCATORS - BASED ON VECTOR3 | : These methods translate Vector3 positions of game objects into coordinates

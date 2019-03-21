@@ -97,6 +97,7 @@ public class Space : MonoBehaviour {
 
 	}
 
+
 	void Awake()
 	{
 
