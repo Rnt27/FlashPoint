@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface EdgeObstacle
 {
-
+	bool IsDestroyed();
 	void Damage();
 	bool IsPassable();
 }

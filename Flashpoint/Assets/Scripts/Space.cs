@@ -37,10 +37,10 @@ public class Space : MonoBehaviour {
 
 		switch (status){
 			case SpaceStatus.Safe:
-				SetStatus(status++);
+				SetStatus(status+1);
 				break;
 			case SpaceStatus.Smoke:
-				SetStatus(status++);
+				SetStatus(status+1);
 				break;
 			case SpaceStatus.Fire:
 				// Explosion should occur
@@ -65,10 +65,10 @@ public class Space : MonoBehaviour {
 				success = false;
 				break;
 			case SpaceStatus.Smoke:
-				SetStatus(status--);
+				SetStatus(status-1);
 				break;
 			case SpaceStatus.Fire:
-				SetStatus(status--);
+				SetStatus(status-1);
 				break;
 			default:
 				break;
@@ -80,8 +80,6 @@ public class Space : MonoBehaviour {
 	// Set the status of the space to s
 	public void SetStatus(SpaceStatus s)
 	{	
-		Debug.Log(gameObject.name + "set as "+ s.ToString());
-		Debug.Log(gameObject.transform.position);
 		this.status = s;
 		Instantiate(fireObject[(int)s]).SetActive(true);
 		fireObject[(int) s].transform.position = gameObject.transform.position;

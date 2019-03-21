@@ -38,6 +38,10 @@ public class Door : MonoBehaviour, EdgeObstacle {
 	{
 		return (state == DoorState.Destroyed || state == DoorState.Open);
 	}
+	public bool IsDestroyed()
+	{
+		return state == DoorState.Destroyed;
+	}
 
 	void Start()
 	{

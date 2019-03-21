@@ -129,6 +129,30 @@ public class BoardManager : MonoBehaviour
 		return GetFiremen(c[0], c[1]);
 	}
 
+	//Return a reference to all space gameobjects adjacent to the space at coordinates [x,y]
+	public ArrayList GetAdjacent(int x, int y)
+	{
+		ArrayList adj = new ArrayList();
+
+		if (IsOnBoard(x + 1, y))
+		{
+			adj.Add(GetSpace(x + 1, y));
+		}
+		if(IsOnBoard(x-1, y))
+		{
+			adj.Add(GetSpace(x - 1, y));
+		}
+		if (IsOnBoard(x, y + 1))
+		{
+			adj.Add(GetSpace(x, y + 1));
+		}
+		if(IsOnBoard(x, y - 1))
+		{
+			adj.Add(GetSpace(x, y - 1));
+		}
+
+		return adj;
+	}
 
 	//-----------------------------+
 	// FIRE ADVANCEMENT			   | : 
@@ -140,16 +164,101 @@ public class BoardManager : MonoBehaviour
 		int x = roll[0];
 		int y = roll[1];
 
+		Debug.Log("Rolled " + x + " " + y);
+
 		//Check for a fire on the rolled space 
 		Space target = GetSpace(x, y).GetComponent<Space>();
 
 		if (target.IncrementFire()) //Space returns true if an explosion should occur after incrementing
 		{
-			//Explosion logic
+			Explode(x, y);				
 		}
 
 	}
 
+	// Explosion logic
+	private void Explode(int x, int y)
+	{
+		Debug.Log("Explosion at " + x + " " + y);
+		int[] up = { x, y - 1 };
+		int[] down = { x, y + 1 };
+		int[] left = { x - 1, y }; 
+		int[] right = { x + 1, y };
+		int[][] coordinates = {up, down, left, right };
+		String[] directions = { "up", "down", "left", "right" };
+
+		// Explode in each direction
+		for(int i = 0; i < directions.Length; i++)
+		{
+			//Check for wall first
+			GameObject wall = GetEdgeObstacle(x, y, directions[i]);
+			if(wall != null && !wall.GetComponent<EdgeObstacle>().IsPassable())
+			{
+				//Wall in the way, damage the wall instead
+				wall.GetComponent<EdgeObstacle>().Damage();
+				continue;
+			}
+
+			//No wall in the way, increment fire of the adjacent space in that direction
+			Space adj = GetSpace(coordinates[i][0], coordinates[i][1]).GetComponent<Space>();
+			if (adj.IncrementFire())
+			{
+				//The adjacent space already had a fire, send a shockwave in that direction.
+				Shockwave(coordinates[i][0], coordinates[i][1], x, y);
+			}
+
+
+		}
+	}
+
+	private void Shockwave(int x, int y, int explodeX, int explodeY)
+	{
+		Debug.Log("Shockwave at " + x + " " + y);
+		String direction;
+		int xdiff = x - explodeX;
+		int ydiff = y - explodeY;
+		if(xdiff == -1)
+		{
+			direction = "left";
+		}
+		else if(xdiff == 1)
+		{
+			direction = "right";
+		}
+		else if(ydiff == 1)
+		{
+			direction = "down";
+		}
+		else
+		{
+			direction = "up";
+		}
+		//Continue in a straight line until reaching an non-fire space or wall 
+		int i = 0;
+		while (IsOnBoard(new int[] { (i*xdiff)+x, (i*ydiff)+y }))
+		{
+
+			//Check for wall in that direction first
+			GameObject wall = GetEdgeObstacle(i * xdiff + x, i * ydiff + y, direction);
+			if(wall != null)
+			{
+				if(!wall.GetComponent<EdgeObstacle>().IsPassable())
+				{
+					wall.GetComponent<EdgeObstacle>().Damage();
+					break;
+				}
+				
+			}
+
+			//Move to next space over
+			i++;
+			Space space = GetSpace(i * xdiff + x, i * ydiff + y).GetComponent<Space>();
+			if (!space.IncrementFire()) //Increment fire level. If it's already a fire continue
+			{	
+				break;
+			}
+		}
+	}
 
 	//-----------------------------+
 	// LOCATORS - BASED ON VECTOR3 | : These methods translate Vector3 positions of game objects into coordinates
@@ -184,14 +293,12 @@ public class BoardManager : MonoBehaviour
 
         if (vertical) //Vertical Calculation
         {
-			Debug.Log("Vert");	
             coordinates[0] = (int)Math.Abs((position.x + wallOffset - houseCorner.x) / tileSize);
             coordinates[1] = (int)Math.Abs((position.z - houseCorner.z) / tileSize);
 
         }
         else //Horizontal Calculation
         {
-			Debug.Log("Horz");
             coordinates[0] = (int)Math.Abs((position.x - houseCorner.x) / tileSize);
             coordinates[1] = (int)Math.Abs((position.z - wallOffset - houseCorner.z) / tileSize);
         }
@@ -279,11 +386,8 @@ public class BoardManager : MonoBehaviour
 		{
 			int[] c = FloorCoordinate(inFloorObj[i]);
 
-			Debug.Log(inFloorObj[i].name+": "+ inFloorObj[i].transform.position.x + " " + inFloorObj[i].transform.position.z);
-			Debug.Log(c[0] + " " + c[1]);
 			if (IsOutside(c) || !IsOnBoard(c)) //Check if floorObj is at an invalid position
 			{
-				Debug.Log(IsOnBoard(c));
 				throw new InvalidPositionException();
 			}
 
@@ -291,15 +395,12 @@ public class BoardManager : MonoBehaviour
 	
 		}
 
-		Debug.Log("Done Inside.");
 
 		//Setup all Outside Floors
 		GameObject[] outFloorObj = GameObject.FindGameObjectsWithTag(outFloorTag);
 		for (int i = 0; i < outFloorObj.Length; i++)
 		{
 			int[] c = FloorCoordinate(outFloorObj[i]);
-			Debug.Log(outFloorObj[i].name + ": " + outFloorObj[i].transform.position.x + " " + outFloorObj[i].transform.position.z);
-			Debug.Log(c[0] + " " + c[1]);
 			if (!IsOutside(c))
 			{
 				throw new InvalidPositionException();
@@ -312,8 +413,6 @@ public class BoardManager : MonoBehaviour
 		for (int i = 0; i < wallObj.Length; i++)
 		{
 			int[] c = EdgeCoordinate(wallObj[i]);
-			Debug.Log(wallObj[i].name + ": " + wallObj[i].transform.position.x + " " + wallObj[i].transform.position.z);
-			Debug.Log(c[0] + " " + c[1]);
 			if (!IsOnBoard(c))
 			{
 				throw new InvalidPositionException();
@@ -322,18 +421,14 @@ public class BoardManager : MonoBehaviour
 			if (wallObj[i].transform.rotation.y != 0) // Left edge
 			{
 				leftEdge[c[0], c[1]] = wallObj[i];
-				Debug.Log(wallObj[i].name + " VERT!!!1");
 
 			}
 			else //Upper edge										
 			{
-				Debug.Log("HORIZONTAL");
 
 				upperEdge[c[0], c[1]] = wallObj[i];
 			}
 		}
-
-		Debug.Log("Wall finished.");
 
 		//Setup all Doors
 		GameObject[] doorObj = GameObject.FindGameObjectsWithTag(doorTag);
@@ -341,8 +436,6 @@ public class BoardManager : MonoBehaviour
 		{
 		
 			int[] c = EdgeCoordinate(doorObj[i]);
-			Debug.Log(doorObj[i].name + ": " + doorObj[i].transform.position.x + " " + doorObj[i].transform.position.z);
-			Debug.Log(c[0] + " " + c[1]);
 			if (!IsOnBoard(c))
 			{
 				throw new InvalidPositionException();
@@ -371,9 +464,10 @@ public class BoardManager : MonoBehaviour
 	    leftEdge = new GameObject[columns, rows];
 		upperEdge = new GameObject[columns, rows];
 	    vehicles = new GameObject[columns, rows];
-	    Debug.Log("Hello");
 		LoadFromEnvironment();
 	    GenerateFiresFamily();
+		AdvanceFire(new int[] { 2, 2 });
+		AdvanceFire(new int[] { 1, 1 });
 	}
     // Use this for initialization
     void Start()
