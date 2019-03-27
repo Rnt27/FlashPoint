@@ -31,8 +31,6 @@ public class BoardManager : MonoBehaviour
 	ArrayList[,] firemen;
 	ArrayList[,] pois;
 
- 
-
 
     //-----------------------------+
     // PUBLIC API				   | : 

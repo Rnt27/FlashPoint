@@ -8,6 +8,7 @@ public class Wall : MonoBehaviour, EdgeObstacle {
 	// Damage wall by incrementing state
 	public void Damage()
 	{
+		
 		switch (state)
 		{
 			case WallState.Intact: 
@@ -22,6 +23,10 @@ public class Wall : MonoBehaviour, EdgeObstacle {
 			default:
 				break;
 		}
+		//Alter appearance of the wall
+		Debug.Log("Trying to hit wall " +gameObject.name);
+		gameObject.GetComponent<WallController>().HitWall();
+
 		//TODO: Increment house damage in GameManager
 	}
 
