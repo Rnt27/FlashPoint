@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/NetFamilyLobby.unity
+    guid: 0a61028f721289342a0431d3a19bb221
+  - enabled: 1
     path: Assets/Scenes/Menu.unity
     guid: e081d098d98ed0c4498eae564c673c68
   - enabled: 1

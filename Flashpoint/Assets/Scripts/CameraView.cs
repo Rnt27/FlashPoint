@@ -18,9 +18,9 @@ public class CameraView : MonoBehaviour {
     private Vector3 originalPlace;
     private Quaternion originalRotation;
 
-    PlaceFirefighter controlFirefighter;
+    FirefighterController controlFirefighter;
 
-    FirefighterController[] firefighters;
+    //FirefighterController[] firefighters;
 
     bool camera0;
     bool camera1;
@@ -33,11 +33,12 @@ public class CameraView : MonoBehaviour {
 
         //target = FindObjectOfType<FirefighterController>().gameObject;
 
-        controlFirefighter = FindObjectOfType<PlaceFirefighter>();
+        controlFirefighter = FindObjectOfType<FirefighterController>();
 
-        firefighters = controlFirefighter.getFirefighters();
+        //firefighters = controlFirefighter.getFirefighters();
 
-        firefighter = controlFirefighter.firefighter;
+        //firefighter = controlFirefighter.firefighter;
+        firefighter = controlFirefighter;
 
         //firefighters[0].myTurn = true;
 
@@ -72,7 +73,7 @@ public class CameraView : MonoBehaviour {
 
         //controlFirefighter.turnFirefighter();
 
-        firefighter = controlFirefighter.getFirefighter();
+        firefighter = controlFirefighter;
 
         target = firefighter.gameObject;
 
