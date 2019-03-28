@@ -13,7 +13,7 @@ public class PlaceFirefighter : MonoBehaviour{
     public float keyDelay = 3f;  // 1 second
     private float timePass = 0f;
 
-    public FirefighterController[] firefighters;0
+    public FirefighterController[] firefighters;
 
     private bool setup = false;
 
