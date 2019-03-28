@@ -13,7 +13,7 @@ public class PlaceFirefighter : MonoBehaviour{
     public float keyDelay = 3f;  // 1 second
     private float timePass = 0f;
 
-    public FirefighterController[] firefighters;
+    public FirefighterController[] firefighters;0
 
     private bool setup = false;
 
@@ -32,12 +32,14 @@ public class PlaceFirefighter : MonoBehaviour{
             {
                 if (f.name == "local")
                 {
+                    f.myTurn = true; 
                     firefighter = f;
+
                 }
                 
             }
         }
-        //firefighters[0].myTurn = true;
+        
 
         //firefighter = firefighters[0];
 
@@ -78,19 +80,7 @@ public class PlaceFirefighter : MonoBehaviour{
         {
             Setup();
         }
-        /*firefighters = FindObjectsOfType<FirefighterController>();
-        foreach (FirefighterController f in firefighters)
-        {
-            if (f.myTurn == false)
-            {
-                f.myTurn = true;
-                firefighter = f;
-                
-            }
-        }*/
-        //firefighters[0].myTurn = true;
-        //firefighter = firefighters[0];
-        //TurnFirefighter();
+        
 
         //        if (firefighter.myTurn) { 
 
