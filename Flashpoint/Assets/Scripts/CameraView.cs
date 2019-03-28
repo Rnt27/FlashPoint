@@ -76,6 +76,7 @@ public class CameraView : MonoBehaviour {
         firefighter = controlFirefighter;
 
         target = firefighter.gameObject;
+        Debug.Log(target.name);
 
         //Inputs to change the camera movement
         if (Input.GetKey("`"))
