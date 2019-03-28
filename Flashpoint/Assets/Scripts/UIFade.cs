@@ -11,11 +11,12 @@ public class UIFade : MonoBehaviour
     Image start;
     Image click;
 
-    public Color tempColor;
-    public Color tempColor2;
+    Color tempColor;
+    Color tempColor2;
     Color tempColor3;
     Color tempColor4;
     float Fade = 1;
+    float Fade2 = 0;
     float difference = 0.01F;
 
     // Start is called before the first frame update
@@ -30,14 +31,6 @@ public class UIFade : MonoBehaviour
         tempColor2 = nameGame.color;
         tempColor3 = start.color;
         tempColor4 = click.color;
-
-        tempColor2.a = 0;
-        tempColor3.a = 0;
-        tempColor4.a = 0;
-
-        nameGame.color = tempColor2;
-        start.color = tempColor3;
-        click.color = tempColor4;
 
     }
 
@@ -60,41 +53,29 @@ public class UIFade : MonoBehaviour
             }
                         
         }
-
-        if (tempColor4.a > 0 && tempColor2.a > 0.9)
+        
+        if (tempColor2.a > 0.9)
         {
 
-            tempColor4.a -= 0.1F * Time.time; ;
-            click.color = tempColor4;
-
+            StartCoroutine("Blink");
+            
         }
-        if (tempColor4.a < 1 && tempColor2.a > 0.9)
-        {
-
-            tempColor4.a += 0.1F * Time.time; ;
-            click.color = tempColor4;
-
-        }
+        
     }
 
+    //Fade in the letters
     public void FadeIn()
     {
 
-        //Fade += difference * Time.time;
-
         tempColor2.a += difference * Time.time; 
         tempColor3.a += difference * Time.time; 
-        //tempColor4.a += difference * Time.time;
-
+        
         nameGame.color = tempColor2;
         start.color = tempColor3;
-        //click.color = tempColor4;
-
-        //StartCoroutine(Fading(uiObject, uiObject.alpha, 1));
-
+        
     }
     
-    //Starting fade out routine
+    //Starting fade out the focus
     public void FadeOut()
     {
 
@@ -102,41 +83,31 @@ public class UIFade : MonoBehaviour
         tempColor.a = Fade;
         image.color = tempColor;
 
-        //StartCoroutine(Fading(image, tempColor.a, 0));
-
     }
 
-   /* //for fading
-    public IEnumerator Fading(Image image, float begin, float end)
+    //blinking text
+    public IEnumerator Blink()
     {
-        float timeStartLerping = Time.time;
-        float timeSinceLerping = Time.time - timeStartLerping;
 
-        //Where we are in the fade
-        float percentageCompleted = timeSinceLerping / 0.5F;
-
-        while(true)
+        if (Fade2 == 0)
         {
-            timeSinceLerping = Time.time - timeStartLerping;
-            percentageCompleted = timeSinceLerping / 0.5F;
-
-            float current = Mathf.Lerp(begin, end, percentageCompleted);
-
-            tempColor.a = current;
-
-            image.color = tempColor;
-
-            if (percentageCompleted >= 1) break;
-
-            //run at speed of update function
-            yield return new WaitForEndOfFrame();
+            yield return new WaitForSeconds(1F);
+            Fade2 = 1;
+            tempColor4.a = Fade2;
+            click.color = tempColor4;
 
         }
 
-        nameGame.SetActive(true);
-        start.SetActive(true);
-        click.SetActive(true);
+        if (Fade2 == 1)
+        {
 
+            yield return new WaitForSeconds(1F);
+            Fade2 = 0;
+            tempColor4.a = Fade2;
+            click.color = tempColor4;
+
+        }
+        
     }
-    */
+ 
 }
