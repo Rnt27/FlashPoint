@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UIFade : MonoBehaviour
 {
@@ -61,6 +62,13 @@ public class UIFade : MonoBehaviour
             
         }
         
+        if(Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
+        {
+
+            SceneManager.LoadScene("ChooseDifficulty");
+
+        }
+
     }
 
     //Fade in the letters
