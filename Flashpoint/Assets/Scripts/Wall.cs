@@ -16,6 +16,7 @@ public class Wall : MonoBehaviour, EdgeObstacle {
 				break; 
 			case WallState.Damaged: 
 				SetState(state+1);
+				BoardManager.Instance.HouseDamage();
 				break;
 			case WallState.Destroyed: 
 				//Nothing happens
@@ -26,6 +27,7 @@ public class Wall : MonoBehaviour, EdgeObstacle {
 		//Alter appearance of the wall
 		Debug.Log("Trying to hit wall " +gameObject.name);
 		gameObject.GetComponent<WallController>().HitWall();
+		Debug.Log(gameObject.GetComponent<WallController>().name);
 
 		//TODO: Increment house damage in GameManager
 	}

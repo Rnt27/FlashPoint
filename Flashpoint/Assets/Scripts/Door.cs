@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Door : MonoBehaviour, EdgeObstacle {
-	DoorState state;
+	public DoorState state;
 
 
 	// Open/Close the door 

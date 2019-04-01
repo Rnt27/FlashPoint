@@ -7,7 +7,10 @@ public class Space : MonoBehaviour {
 	public SpaceStatus status;
 
 	public GameObject[] fireObject = new GameObject[3];
-	
+	public GameObject[] fireInstances;
+
+	public int x { get; set; }
+	public int y { get; set; }
 
 	public Space(SpaceStatus status)
 	{
@@ -27,6 +30,29 @@ public class Space : MonoBehaviour {
 				this.status = SpaceStatus.Safe;
 				break;
 		}
+	}
+
+	public Space(SpaceStatus status, int x, int y)
+	{
+		switch (status)
+		{
+			case SpaceStatus.Safe:
+				this.status = status;
+				// Set the fire 
+				break;
+			case SpaceStatus.Smoke:
+				this.status = status;
+				break;
+			case SpaceStatus.Fire:
+				this.status = status;
+				break;
+			default: // Fire
+				this.status = SpaceStatus.Safe;
+				break;
+		}
+
+		this.x = x;
+		this.y = y;
 	}
 	
 	// Increases the fire level (SpaceStatus) of the space.
@@ -81,15 +107,20 @@ public class Space : MonoBehaviour {
 	public void SetStatus(SpaceStatus s)
 	{	
 		this.status = s;
-		Instantiate(fireObject[(int)s]).SetActive(true);
-		fireObject[(int) s].transform.position = gameObject.transform.position;
+		Debug.Log((int)s);
+		Debug.Log(fireObject[(int) s]);
+		fireInstances[(int) s] = Instantiate(fireObject[(int) s]);
+		Debug.Log(fireInstances[(int)s].name);
+		fireInstances[(int)s].SetActive(true);
+		fireInstances[(int) s].transform.position = gameObject.transform.position;
 	
 		// Disable irrelevant fire objects
 		for(int i = (int) SpaceStatus.Safe; i < (int) SpaceStatus.Fire; i++)
 		{
 			if(i != (int) s)
 			{
-				fireObject[i].SetActive(false);
+				Destroy(fireInstances[i]);
+				
 			}
 		}
 
@@ -98,12 +129,8 @@ public class Space : MonoBehaviour {
 
 	void Awake()
 	{
-
-		for (int i = 0; i < fireObject.Length; i++) // Places all fireobjects appropriately and disable. 
-		{
-			SetStatus(SpaceStatus.Safe); // Default initialization of space is Safe
-		}
-
+		fireInstances = new GameObject[3];
+		SetStatus(SpaceStatus.Safe);
 	}
 	// Use this for initialization
 	void Start () {

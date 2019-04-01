@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Random = System.Random;
 
 /**
@@ -10,11 +11,22 @@ using Random = System.Random;
  **/
 public class BoardManager : MonoBehaviour
 {
+	private int SavedWinThreshold = 5; 
+	public int HouseHP { get; private set; } //House Damage Loss Condition
+	public int RemainingPOI { get; private set; } //POI Death Loss Condition
+	public int SavedPOI { get; private set; } //POI Save Win condition
+
+	public void HouseDamage(){ HouseHP--; }
+	public void PoiDeath(){ RemainingPOI--; }
+	public void PoiSaved() { SavedPOI++; }
+
 
 	static String inFloorTag = "InsideTile";
 	static String outFloorTag = "OutsideTile";
 	static String wallTag = "Wall";
 	static String doorTag = "Door";
+	static String POItag = "POI";
+	static string firemanTag = "Fireman";
 
 	public static BoardManager Instance = null;
     public int columns = 10;
@@ -27,14 +39,52 @@ public class BoardManager : MonoBehaviour
     GameObject[,] floors;
     GameObject[,] leftEdge;
     GameObject[,] upperEdge;
-    GameObject[,] vehicles;
+    GameObject[,] ambulances;
+    GameObject[,] deckguns;
 	ArrayList[,] firemen;
 	ArrayList[,] pois;
 
+	/*
+	 * Waiting on Features:
+	 *	1 - Firefighter knockout
+	 *	2 - POI death
+	 *	3 - Server End Game
+	 * */
 
     //-----------------------------+
     // PUBLIC API				   | : 
     //-----------------------------+
+
+	//Add a space into the BoardManager. Because spaces are stationary, we can also store the space's coordinate in its own object
+	void AddSpace(GameObject space, int x, int y )
+	{
+		if (!IsOnBoard(x, y))
+		{
+			throw new InvalidPositionException();
+		}
+		floors[x, y] = space;
+		space.GetComponent<Space>().x = x;
+		space.GetComponent<Space>().y = y;
+	}
+	void AddEdgeObstacle(GameObject edge, int x, int y, String direction)
+	{
+		if (!IsOnBoard(x, y))
+		{
+			throw new InvalidPositionException();
+		}
+
+		direction.ToLowerInvariant();
+
+		if (direction.Equals("left"))
+		{
+			leftEdge[x, y] = edge;
+		}else if (direction.Equals("up")){
+			leftEdge[x, y] = edge;
+		}else{
+			throw new ArgumentException("Direction must be either left or up.");
+		}
+		
+	}
 
 	//Return a reference to the GameObject of a space (launch pad) for coordinates x, y
     public GameObject GetSpace(int x, int y)
@@ -47,6 +97,16 @@ public class BoardManager : MonoBehaviour
 
 	    return floors[x, y];
     }
+	public GameObject GetSpace(GameObject spaceObject)
+	{
+		foreach(GameObject s in floors)
+		{
+			if (s == spaceObject) return s;
+		}
+
+		return null;
+	}
+
 
 	//Return a reference to the GameObject of a door/wall for coordinates x, y
 	public GameObject GetEdgeObstacle(int x, int y, String direction)
@@ -153,10 +213,21 @@ public class BoardManager : MonoBehaviour
 	}
 
 	//-----------------------------+
-	// FIRE ADVANCEMENT			   | : 
+	// END TURN LOGIC			   | : Check Win, Contact Server for Dice Roll, Advance Fire, Check Deaths/Knockouts, Check Loss, Extinguish Outside Fires, Contact Server for Dice Rolls Replenish POI
 	//-----------------------------+
 
-	// Execute fire advancement procedure based on a dice roll.
+	// (1) - Check Win TODO: Exit current scene to winning scene. 
+	public void CheckWin()
+	{
+		if(SavedPOI >= SavedWinThreshold)
+		{
+			//Load client into the win scene
+			Scene scene = SceneManager.GetSceneByName("Win");
+			
+		}
+	}
+
+	// (2) - Execute fire advancement procedure based on a dice roll.
 	public void AdvanceFire(int[] roll)
 	{
 		int x = roll[0];
@@ -258,6 +329,67 @@ public class BoardManager : MonoBehaviour
 		}
 	}
 
+	// (3) - Check for Deaths and Knockouts TODO: Finish actual death and knockout movement sequence
+	public void ResolveDeaths()
+	{
+		int currentDeaths = 0;
+		//Iterate through all spaces and check if there are any firemen or POI's on unsafe spaces
+		for(int x = 0; x < columns; x++)
+		{
+			for(int y = 0; y < rows; y++)
+			{
+				if (floors[x, y].GetComponent<Space>().status != SpaceStatus.Fire) continue; //Ignore non-fire spaces
+				//Get local objects via BoardManager
+				ArrayList localFiremen = firemen[x, y];
+				ArrayList localPOI = pois[x, y];
+		
+				//Resolve Knockouts for Firemen
+				if(localFiremen.Count > 0)
+				{
+					//TODO: Fireman knockout logic using Fireman class
+				}
+				//Resolve Deaths for POI's
+				if(localPOI.Count > 0)
+				{
+					foreach (GameObject poi in localPOI)
+					{
+						PoiDeath();
+						currentDeaths++;
+						//TODO: POI death logic using POI class
+
+					}
+				}
+
+			}
+		}
+	}
+
+	// (4) - Check for Loss TODO: Exit current scene to losing scene
+	public bool CheckLoss()
+	{
+		return (HouseHP == 0) || (RemainingPOI == 0); 
+	}
+	
+	// (5) - Extinguish Outside Fires
+	public void ExtinguishOutsideFires()
+	{
+		// Iterate through all spaces and for those that are outside, set to safe again.
+		foreach(GameObject s in floors)
+		{
+			if (s.tag == outFloorTag) s.GetComponent<Space>().SetStatus(SpaceStatus.Safe);
+		}
+	}
+
+	// (6) - Replenish POI a given amount of POI's onto the board. 
+	public void ReplenishPOI(List<int[]> rolls)
+	{
+		foreach(int[] roll in rolls)
+		{
+
+		}
+	}
+	
+
 	//-----------------------------+
 	// LOCATORS - BASED ON VECTOR3 | : These methods translate Vector3 positions of game objects into coordinates
 	//-----------------------------+
@@ -301,8 +433,10 @@ public class BoardManager : MonoBehaviour
             coordinates[1] = (int)Math.Abs((position.z - wallOffset - houseCorner.z) / tileSize);
         }
 
+
         return coordinates;
     }
+	// TODO: Doors were fucked with, update method of getting edge coordinate.
 
     public bool IsOutside(int[] c)
     {
@@ -428,8 +562,9 @@ public class BoardManager : MonoBehaviour
 			}
 		}
 
-		//Setup all Doors
+		//Setup all Doors TODO
 		GameObject[] doorObj = GameObject.FindGameObjectsWithTag(doorTag);
+		Debug.Log("Number of Doors: " + doorObj.Length);
 		for (int i = 0; i < doorObj.Length; i++)
 		{
 		
@@ -461,11 +596,12 @@ public class BoardManager : MonoBehaviour
 	    floors = new GameObject[columns, rows];
 	    leftEdge = new GameObject[columns, rows];
 		upperEdge = new GameObject[columns, rows];
-	    vehicles = new GameObject[columns, rows];
+	    ambulances = new GameObject[columns, rows];
 		LoadFromEnvironment();
 	    GenerateFiresFamily();
-		AdvanceFire(new int[] { 2, 2 });
 		AdvanceFire(new int[] { 1, 1 });
+		AdvanceFire(new int[] { 1, 1 });
+		
 	}
     // Use this for initialization
     void Start()
@@ -486,4 +622,8 @@ class InvalidPositionException : Exception
     }
 }
 
+class SpaceNotOnBoardException : Exception
+{
+	public SpaceNotOnBoardException() { }
+}
 
