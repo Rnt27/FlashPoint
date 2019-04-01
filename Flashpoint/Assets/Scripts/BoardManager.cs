@@ -219,11 +219,11 @@ public class BoardManager : MonoBehaviour
 	// (1) - Check Win TODO: Exit current scene to winning scene. 
 	public void CheckWin()
 	{
+
 		if(SavedPOI >= SavedWinThreshold)
 		{
 			//Load client into the win scene
-			Scene scene = SceneManager.GetSceneByName("Win");
-			
+			SceneManager.LoadScene("EndGameWin");
 		}
 	}
 
@@ -365,9 +365,12 @@ public class BoardManager : MonoBehaviour
 	}
 
 	// (4) - Check for Loss TODO: Exit current scene to losing scene
-	public bool CheckLoss()
+	public void CheckLoss()
 	{
-		return (HouseHP == 0) || (RemainingPOI == 0); 
+		
+		if (HouseHP == 0 || RemainingPOI == 0){
+			SceneManager.LoadScene("EndGameLoss");
+		}
 	}
 	
 	// (5) - Extinguish Outside Fires
@@ -389,6 +392,8 @@ public class BoardManager : MonoBehaviour
 		}
 	}
 	
+
+
 
 	//-----------------------------+
 	// LOCATORS - BASED ON VECTOR3 | : These methods translate Vector3 positions of game objects into coordinates
