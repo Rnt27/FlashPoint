@@ -165,17 +165,6 @@ public class BoardManager : MonoBehaviour
 		return GetEdgeObstacle(c[0], c[1], direction);
 	}
 
-	//Return a reference to all the POI's standing on the space
-	public ArrayList GetPOI(int x, int y)
-	{
-		return pois[x, y];
-	}
-	public ArrayList GetPOI(GameObject space)
-	{
-		int[] c = FloorCoordinate(space);
-		return GetPOI(c[0], c[1]);
-	}
-
 	//Return a reference to all the firemen standing on the space
 	public ArrayList GetFiremen(int x, int y)
 	{
@@ -339,9 +328,10 @@ public class BoardManager : MonoBehaviour
 			for(int y = 0; y < rows; y++)
 			{
 				if (floors[x, y].GetComponent<Space>().status != SpaceStatus.Fire) continue; //Ignore non-fire spaces
-				//Get local objects via BoardManager
+				
+				//Get objects on x,y via BoardManager
 				ArrayList localFiremen = firemen[x, y];
-				ArrayList localPOI = pois[x, y];
+				List<GameObject> localPOI = POIManager.Instance.GetFromSpace(x, y);
 		
 				//Resolve Knockouts for Firemen
 				if(localFiremen.Count > 0)
@@ -353,10 +343,8 @@ public class BoardManager : MonoBehaviour
 				{
 					foreach (GameObject poi in localPOI)
 					{
-						PoiDeath();
 						currentDeaths++;
-						//TODO: POI death logic using POI class
-
+						poi.GetComponent<POI>().Death();						
 					}
 				}
 
