@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Wall : MonoBehaviour, EdgeObstacle {
 	public WallState state;
+	public int x;
+	public int y;
+	public string direction;
 
 	// Damage wall by incrementing state
 	public void Damage()

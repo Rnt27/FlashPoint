@@ -5,10 +5,11 @@ using UnityEngine;
 
 public class POIManager : MonoBehaviour
 {
-
+	public int numVictims = 12;
+	public int maxPOIs = 18; 
 	public static POIManager Instance = null;
-
-	public GameObject[] poiPrefabs;
+	public GameObject[] victimPrefabs;
+	public GameObject poiPrefab; 
 
 	List<GameObject> pois;
 
@@ -22,20 +23,42 @@ public class POIManager : MonoBehaviour
 	}
 
 	// Create a new POI and place it on the board on space x,y
-	public GameObject GeneratePOI(int x, int y)
+	public GameObject GeneratePOI(int x, int y, bool victimRoll)
 	{
-		//Choose a random prefab for the POI
-		System.Random r = new System.Random();
-		GameObject newPOI = Instantiate(poiPrefabs[r.Next(0, poiPrefabs.Length)]);
+		//If it's a victim, decrease the total amount of victims left "in the bag"
+		if (victimRoll)
+		{
+			numVictims--; 
+		}
+		GameObject newPOI = Instantiate(poiPrefab);
+
+		//Randomly choose if the POI is a victim or not. (Without replacement)
 		
+
 		//Add POI script to the gameObject and move it to the desired location.
 		newPOI.AddComponent<POI>();
-		newPOI.GetComponent<POI>().MoveTo(x, y);
+		newPOI.GetComponent<POI>().InitPOI(x, y, victimRoll);
 
 		//Add the poi to our list
 		pois.Add(newPOI);
 
 		return newPOI;
+	}
+
+	public GameObject PlaceVictim(int x, int y)
+	{
+		//Choose a random prefab for the new victim
+		System.Random r = new System.Random();
+		GameObject newVictim = Instantiate(victimPrefabs[r.Next(0, victimPrefabs.Length)]);
+
+		//Add Victim script to the gameObject and move it to the desired location.
+		newVictim.AddComponent<Victim>();
+		newVictim.GetComponent<Victim>().InitPOI(x, y);
+
+		//Add victim to our list
+		pois.Add(newVictim);
+
+		return newVictim;
 	}
 
 	// Return a list of POI's that are standing on a certain space. 

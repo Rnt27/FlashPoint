@@ -24,9 +24,10 @@ public class BoardManager : MonoBehaviour
 	static String inFloorTag = "InsideTile";
 	static String outFloorTag = "OutsideTile";
 	static String wallTag = "Wall";
-	static String doorTag = "Door";
+	static String inDoorTag = "DoorInside";
+	static String outDoorTag = "DoorOutside";
 	static String POItag = "POI";
-	static string firemanTag = "Fireman";
+	static String firemanTag = "Fireman";
 
 	public static BoardManager Instance = null;
     public int columns = 10;
@@ -116,7 +117,7 @@ public class BoardManager : MonoBehaviour
 		int[] c = {x, y};
 		if (!IsOnBoard(c))
 		{
-			throw new InvalidPositionException();
+			return null;
 		}
 
 		// Return either the edge above or to the left of the space
@@ -177,25 +178,37 @@ public class BoardManager : MonoBehaviour
 	}
 
 	//Return a reference to all space gameobjects adjacent to the space at coordinates [x,y]
-	public ArrayList GetAdjacent(int x, int y)
+	public List<GameObject> GetAdjacent(int x, int y)
 	{
-		ArrayList adj = new ArrayList();
+		List<GameObject> adj = new List<GameObject>();
 
-		if (IsOnBoard(x + 1, y))
+		if (IsOnBoard(x + 1, y)) //Right
 		{
-			adj.Add(GetSpace(x + 1, y));
+			if (GetEdgeObstacle(x, y, "right") == null || GetEdgeObstacle(x, y, "right").GetComponent<EdgeObstacle>().IsPassable())
+			{
+				adj.Add(GetSpace(x + 1, y));
+			}
 		}
-		if(IsOnBoard(x-1, y))
+		if(IsOnBoard(x-1, y)) //Left
 		{
-			adj.Add(GetSpace(x - 1, y));
+			if(GetEdgeObstacle(x, y, "left") == null || GetEdgeObstacle(x, y, "left").GetComponent<EdgeObstacle>().IsPassable())
+			{
+				adj.Add(GetSpace(x - 1, y));
+			}
 		}
-		if (IsOnBoard(x, y + 1))
+		if (IsOnBoard(x, y - 1)) //Up
 		{
-			adj.Add(GetSpace(x, y + 1));
+			if(GetEdgeObstacle(x, y, "up") == null || GetEdgeObstacle(x, y, "up").GetComponent<EdgeObstacle>().IsPassable())
+			{
+				adj.Add(GetSpace(x, y - 1 ));
+			}
 		}
-		if(IsOnBoard(x, y - 1))
+		if(IsOnBoard(x, y - 1)) //Down
 		{
-			adj.Add(GetSpace(x, y - 1));
+			if(GetEdgeObstacle(x, y, "down") == null || GetEdgeObstacle(x, y, "down").GetComponent<EdgeObstacle>().IsPassable())
+			{
+				adj.Add(GetSpace(x, y + 1));
+			}
 		}
 
 		return adj;
@@ -318,6 +331,60 @@ public class BoardManager : MonoBehaviour
 		}
 	}
 
+	// (2.1) Flashover - Increment Fire of Smoke Spaces adjacent to fire spaces
+	public void Flashover()
+	{
+		//Iterate through every space
+		for(int x = 0; x < columns; x++)
+		{
+			for(int y = 0; y < rows; y++)
+			{
+				//Flashovers originate from Fire, DFS the board for each space that is a fire
+				FlashoverDFS(x, y);
+			}
+		}
+	}
+
+	// (2.2) DFS to increment smoke from an origin fire
+	private void FlashoverDFS(int x, int y)
+	{
+		Space origin = floors[x, y].GetComponent<Space>();
+		Stack<Space> dfsStack = new Stack<Space>();
+		if (origin.status != SpaceStatus.Fire) return;
+		Debug.Log("Flashover starting on " + x+ " "+ y);
+
+		//Stack origin and loop until stack empties
+		dfsStack.Push(origin);
+		while (dfsStack.Count != 0)
+		{
+			Space curr = dfsStack.Peek(); //Always work with top of the stack
+			int[] c = { curr.x, curr.y };
+			Debug.Log("DFS Visiting: " + curr.x + " " + curr.y);
+
+			//Check each adjacent space
+			List<GameObject> adj = GetAdjacent(c[0], c[1]);
+			bool end = true;
+			foreach(GameObject s in adj)
+			{
+				Space adjSpace = s.GetComponent<Space>();
+				Debug.Log("Checking " + adjSpace.x + " " + adjSpace.y + "Status: " +adjSpace.status);
+
+				if (adjSpace.status == SpaceStatus.Smoke) //Fire spreads i.e. an edge exists
+				{
+					adjSpace.IncrementFire(); //Ignite
+					dfsStack.Push(adjSpace); //Push and continue dfs on adjSpace
+					end = false; 
+					break; 
+				}
+			}
+			//Reaching end of loop means there is no adjacent smoke, pop from stack, backtrack and continue dfs 
+			if (end)
+			{
+				dfsStack.Pop();
+			}
+		}
+	}
+
 	// (3) - Check for Deaths and Knockouts TODO: Finish actual death and knockout movement sequence
 	public void ResolveDeaths()
 	{
@@ -371,7 +438,7 @@ public class BoardManager : MonoBehaviour
 		}
 	}
 
-	// (6) - Replenish POI a given amount of POI's onto the board. 
+	// (6) - Replenish POI a given amount onto the board. 
 	public void ReplenishPOI(List<int[]> rolls)
 	{
 		foreach(int[] roll in rolls)
@@ -556,7 +623,7 @@ public class BoardManager : MonoBehaviour
 		}
 
 		//Setup all Doors TODO
-		GameObject[] doorObj = GameObject.FindGameObjectsWithTag(doorTag);
+		GameObject[] doorObj = GameObject.FindGameObjectsWithTag(inDoorTag);
 		Debug.Log("Number of Doors: " + doorObj.Length);
 		for (int i = 0; i < doorObj.Length; i++)
 		{
@@ -578,6 +645,62 @@ public class BoardManager : MonoBehaviour
 		}
 	}
 
+	// Update board state based on GameObjects placed in the Scene
+	void LoadFromScene()
+	{
+		//Spaces
+		GameObject[] inSpaces = GameObject.FindGameObjectsWithTag(inFloorTag);
+		for (int i = 0; i < inSpaces.Length; i++)
+		{
+			int x = inSpaces[i].GetComponent<Space>().x;
+			int y = inSpaces[i].GetComponent<Space>().y;
+			floors[x, y] = inSpaces[i];
+		}
+		GameObject[] outSpaces = GameObject.FindGameObjectsWithTag(outFloorTag);
+		for(int i = 0; i < outSpaces.Length; i++)
+		{
+			int x = outSpaces[i].GetComponent<Space>().x;
+			int y = outSpaces[i].GetComponent<Space>().y;
+			floors[x, y] = outSpaces[i];
+		}
+
+		GameObject[] walls = GameObject.FindGameObjectsWithTag(wallTag);
+		for(int i = 0; i < walls.Length; i++)
+		{
+			int x = walls[i].GetComponent<Wall>().x;
+			int y = walls[i].GetComponent<Wall>().y;
+			String direction = walls[i].GetComponent<Wall>().direction;
+			if (direction.ToLowerInvariant().Equals("left")) leftEdge[x, y] = walls[i];
+			else if (direction.ToLowerInvariant().Equals("up")) upperEdge[x, y] = walls[i];
+			else throw new Exception(walls[i].name); 
+
+		}
+
+		GameObject[] inDoors = GameObject.FindGameObjectsWithTag(inDoorTag);
+		for(int i = 0; i < inDoors.Length; i++)
+		{
+			int x = inDoors[i].GetComponent<Door>().x;
+			int y = inDoors[i].GetComponent<Door>().y;
+			String direction = inDoors[i].GetComponent<Door>().direction;
+			if (direction.ToLowerInvariant().Equals("left")) leftEdge[x, y] = inDoors[i];
+			else if (direction.ToLowerInvariant().Equals("up")) upperEdge[x, y] = inDoors[i];
+			else throw new InvalidPositionException();
+		}
+
+		GameObject[] outDoors = GameObject.FindGameObjectsWithTag(outDoorTag);
+		for(int i = 0; i < outDoors.Length; i++)
+		{
+			int x = outDoors[i].GetComponent<Door>().x;
+			int y = outDoors[i].GetComponent<Door>().y;
+			String direction = outDoors[i].GetComponent<Door>().direction;
+			if (direction.ToLowerInvariant().Equals("left")) leftEdge[x, y] = outDoors[i];
+			else if (direction.ToLowerInvariant().Equals("up")) upperEdge[x, y] = outDoors[i];
+			else throw new InvalidPositionException();
+		}
+		
+
+	}
+
 	void Awake()
     {
 		// Singleton
@@ -590,14 +713,17 @@ public class BoardManager : MonoBehaviour
 	    leftEdge = new GameObject[columns, rows];
 		upperEdge = new GameObject[columns, rows];
 	    ambulances = new GameObject[columns, rows];
-		LoadFromEnvironment();
-	    GenerateFiresFamily();
+		LoadFromScene();
+	    //GenerateFiresFamily();
 		AdvanceFire(new int[] { 1, 1 });
 		AdvanceFire(new int[] { 1, 1 });
-		
+		AdvanceFire(new int[] { 1, 2 });
+	
+
+
 	}
-    // Use this for initialization
-    void Start()
+	// Use this for initialization
+	void Start()
     {
 
     }

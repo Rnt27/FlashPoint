@@ -9,8 +9,8 @@ public class Space : MonoBehaviour {
 	public GameObject[] fireObject = new GameObject[3];
 	public GameObject[] fireInstances;
 
-	public int x { get; set; }
-	public int y { get; set; }
+	public int x;
+	public int y;
 
 	public Space(SpaceStatus status)
 	{
@@ -110,7 +110,6 @@ public class Space : MonoBehaviour {
 		Debug.Log((int)s);
 		Debug.Log(fireObject[(int) s]);
 		fireInstances[(int) s] = Instantiate(fireObject[(int) s]);
-		Debug.Log(fireInstances[(int)s].name);
 		fireInstances[(int)s].SetActive(true);
 		fireInstances[(int) s].transform.position = gameObject.transform.position;
 	
@@ -130,7 +129,7 @@ public class Space : MonoBehaviour {
 	void Awake()
 	{
 		fireInstances = new GameObject[3];
-		SetStatus(SpaceStatus.Safe);
+		//SetStatus(SpaceStatus.Safe);
 	}
 	// Use this for initialization
 	void Start () {

@@ -6,49 +6,27 @@ using UnityEngine;
 public class POI : MonoBehaviour
 {
 
-	public int x { get; set; }
-	public int y { get; set; }
+	public int x;
+	public int y;
+	public bool victim;
 
-	// TODO: Need reference to the firefighter carrying me?
-
-	
-	// TODO: Handle animations and actual game object transformation for each method. (Potentially done in a controller)
-	// Handle state change, animation and gameobject transformation for the POI 
-	public void Move(string direction)
-	{
-		switch (direction)
-		{
-			case "up":
-				if(BoardManager.Instance.IsOnBoard(x, y-1)) y--;
-				else throw new InvalidMoveException();
-				break;
-			case "down":
-				if (BoardManager.Instance.IsOnBoard(x, y+1)) y++;
-				else throw new InvalidMoveException();
-				break;
-			case "right":
-				if (BoardManager.Instance.IsOnBoard(x+1, y)) x++;
-				else throw new InvalidMoveException();
-				break;
-			case "left":
-				if (BoardManager.Instance.IsOnBoard(x-1, y)) y--;
-				else throw new InvalidMoveException();
-				break;
-			default:
-				break;
-				throw new ArgumentException();
-		}
-	}
 
 	// POI is killed by fire. 
 	public void Death()
 	{
 		//Any animations or transformations go here
 
+
+		//TODO: Inidicate to players whether or not the POI was a victim.
 		//Remove self from game and update state
+
+		if (victim)
+		{
+			BoardManager.Instance.PoiDeath();
+			BoardManager.Instance.CheckLoss();
+		}
+
 		Destroy(gameObject);
-		BoardManager.Instance.PoiDeath();
-		BoardManager.Instance.CheckWin();
 	}
 
 	// Teleport POI to a certain space
@@ -71,13 +49,38 @@ public class POI : MonoBehaviour
 	{
 		if (space.gameObject.tag.Equals("OutsideTile")) //The POI collided with an outside tile
 		{
-			//Remove self from game
-			Destroy(gameObject);
-
 			//Update Game State and Check for a win
 			BoardManager.Instance.PoiSaved();
 			BoardManager.Instance.CheckWin();
+
+			//Remove self from game
+			Destroy(gameObject);
 		}
+		
+	}
+
+	// TODO: Reveal the identity of the POI to the players
+	private GameObject Reveal()
+	{
+		if (!victim)
+		{
+			//TODO: Animation/Message to indicate that the POI is a victim
+			Destroy(gameObject);
+			return null;
+		}
+		else
+		{
+			GameObject newVictim = POIManager.Instance.PlaceVictim(x, y);
+			Destroy(gameObject);
+			return newVictim;
+		}
+	}
+
+	public void InitPOI(int x, int y, bool victim)
+	{
+		this.x = x;
+		this.y = y;
+		this.victim = victim;
 	}
 
 	// Start is called before the first frame update

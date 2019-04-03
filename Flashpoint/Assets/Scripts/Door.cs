@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Door : MonoBehaviour, EdgeObstacle {
 	public DoorState state;
+	public int x;
+	public int y;
+	public string direction;
 
 
 	// Open/Close the door 
