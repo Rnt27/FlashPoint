@@ -108,6 +108,23 @@ public class BoardManager : MonoBehaviour
 		return null;
 	}
 
+	//Return the coordinates of a Launch Pad GameObject
+	public int[] GetSpaceCoordinates(GameObject space)
+	{
+		for(int x = 0; x < columns; x++)
+		{
+			for(int y = 0; y < rows; y++)
+			{
+				if(floors[x,y] == space)
+				{
+					return new int[] { x, y };
+				}
+			}
+		}
+
+		//Not found
+		return null; 
+	}
 
 	//Return a reference to the GameObject of a door/wall for coordinates x, y
 	public GameObject GetEdgeObstacle(int x, int y, String direction)
@@ -213,6 +230,32 @@ public class BoardManager : MonoBehaviour
 
 		return adj;
 	}
+
+	//Return a reference to all Wall gameobjects adjacent to launch pad
+	public List<GameObject> GetAdjacentWalls(GameObject space)
+	{
+		List<GameObject> walls = new List<GameObject>();
+		String[] directions = { "up", "down", "left", "right" };
+		int[] c = GetSpaceCoordinates(space);
+
+		if(c == null)
+		{
+			throw new ArgumentException();
+		}
+
+		//Check if there is a wall in each direciton
+		foreach(String direction in directions)
+		{
+			GameObject edge = GetEdgeObstacle(c[0], c[1], direction);
+			if(edge != null && edge.tag == wallTag)
+			{
+				walls.Add(edge);
+			}
+		}
+
+		return walls; 
+	}
+
 
 	//-----------------------------+
 	// END TURN LOGIC			   | : Check Win, Contact Server for Dice Roll, Advance Fire, Check Deaths/Knockouts, Check Loss, Extinguish Outside Fires, Contact Server for Dice Rolls Replenish POI
