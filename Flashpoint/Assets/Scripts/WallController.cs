@@ -19,7 +19,7 @@ public class WallController : MonoBehaviour
 
     private List<Selectable> neighbours;
 
-    public int life;
+    private int life;
 
     public bool selected = false;
     public string selectedName = "";
@@ -150,6 +150,12 @@ public class WallController : MonoBehaviour
             }
 
         }
+    }
+
+    public int getLife()
+    {
+        int myLife = this.life;
+        return myLife;
     }
 
     //used to see if firefighter is there

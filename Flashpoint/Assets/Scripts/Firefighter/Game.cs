@@ -25,22 +25,27 @@ public class Game : MonoBehaviour
 
     void Update()
     {
-        MouseOverLocation();
+        //MouseOverLocation();
         
-
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
-            if (Physics.Raycast(ray, out hit))
+            if (Physics.Raycast(ray, out hit) && (hit.transform.gameObject.tag == "InsideTile"  || hit.transform.gameObject.tag == "OutsideTile"))
             {
                 firefighter.SetTargetTile(hit.transform.gameObject.GetComponent<Selectable>());
                 firefighter.EnableMove();
             }
-            
+
+            else if (Physics.Raycast(ray, out hit) && hit.transform.gameObject.tag == "Wall")
+            {
+                firefighter.SetTargetWall(hit.transform.gameObject.GetComponent<WallController>());
+                firefighter.EnablePunch();
+            }
         }
     }
+
     /*
     private void SpawnAllFirefighters()
     {
