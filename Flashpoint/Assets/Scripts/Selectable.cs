@@ -1,11 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Selectable : MonoBehaviour
 {
 
     public BoxCollider collider;
+
+    // action menu variable
+    public GameObject actionPrefab;
+    public Transform actionContainer;
+    private bool no_menu = true;
+    private string[] action = { "Move to here", "Carry victim to here" };
+    private string[] extinguishAction = {"Extinguish Smoke", "Extinguish Fire"};
+    private string chop = "Chop Wall";
+    private string[] doorAction = { "Open Door", "Close Door"};
+    private string paramedicAction = "Treat"; // Extinguish Fire = 4 AP  and Extinguish Smoke =  2AP
+    private string imagingTechnicianAction = "Identify POI";
+    private string hazmatTechnicianAction = "Dispose";
 
     //for blinking
     public float wait;
@@ -50,6 +63,44 @@ public class Selectable : MonoBehaviour
     void Update()
     {
         
+
+    }
+
+    void actionMenu(string[] actions)
+    {
+        //no_menu = !no_menu;
+        m_Renderer.material.color = Color.blue;
+
+        //find the context menu
+        Canvas myCanvas = FindObjectOfType<Canvas>();
+        GameObject contextMenu = myCanvas.transform.Find("ContextMenu").gameObject;
+        contextMenu.SetActive(true);
+        Vector2 menuPosition = Input.mousePosition;
+        contextMenu.transform.position = new Vector3(menuPosition.x + 35, menuPosition.y - 65, 0);
+        //contextMenu.transform.position = Camera.main.WorldToScreenPoint(this.transform.position);
+        //GameObject panel = contextMenu.transform.Find("actionPanel").gameObject;
+
+        foreach (Transform child in actionContainer)
+        {
+            //GameObject a = child as GameObject;
+            GameObject.Destroy(child.gameObject);
+            // do whatever you want with each child transform here
+        }
+
+        foreach (string action in actions)
+        {
+            //Debug.Log(action);
+
+            GameObject go = Instantiate(actionPrefab) as GameObject;
+            go.transform.SetParent(actionContainer);
+            go.GetComponentInChildren<Text>().text = action;
+            Debug.Log("child: " + go.transform.GetChild(0).transform.GetChild(1));
+            int ap = 1; //evaluate AP needed
+            go.transform.GetChild(0).transform.GetChild(1).GetComponent<Text>().text = ap.ToString() + "AP";
+            go.transform.localScale = new Vector3(1, 1, 1);
+
+        }
+
     }
 
     void OnMouseOver()
@@ -66,17 +117,17 @@ public class Selectable : MonoBehaviour
                 selectedName = this.name;
             }
 
-            // Change the color of the GameObject to black when the mouse is over GameObject
+            // Change the color of the GameObject to yellow when the mouse is over GameObject
             m_Renderer.material.color = m_MouseOverColor;
-
 
             if (Input.GetMouseButtonDown(1))
             {
-                //find the context menu
-                GameObject contextMenu = GameObject.FindWithTag("contextMenu");
-                contextMenu.transform.position = Camera.main.WorldToScreenPoint(this.transform.position);
 
+                actionMenu(action);
             }
+
+
+
 
         }
     }
