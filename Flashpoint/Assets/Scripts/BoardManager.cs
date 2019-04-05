@@ -761,8 +761,9 @@ public class BoardManager : MonoBehaviour
 		AdvanceFire(new int[] { 1, 1 });
 		AdvanceFire(new int[] { 1, 1 });
 		AdvanceFire(new int[] { 1, 2 });
-	
 
+		GameObject poi1 = POIManager.Instance.GeneratePOI(1, 4, true);
+		poi1.GetComponent<POI>().Reveal();
 
 	}
 	// Use this for initialization

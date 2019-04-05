@@ -38,7 +38,6 @@ public class POIManager : MonoBehaviour
 		//Add POI script to the gameObject and move it to the desired location.
 		newPOI.AddComponent<POI>();
 		newPOI.GetComponent<POI>().InitPOI(x, y, victimRoll);
-
 		//Add the poi to our list
 		pois.Add(newPOI);
 
@@ -54,7 +53,6 @@ public class POIManager : MonoBehaviour
 		//Add Victim script to the gameObject and move it to the desired location.
 		newVictim.AddComponent<Victim>();
 		newVictim.GetComponent<Victim>().InitPOI(x, y);
-
 		//Add victim to our list
 		pois.Add(newVictim);
 

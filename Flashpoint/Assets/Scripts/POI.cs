@@ -60,7 +60,7 @@ public class POI : MonoBehaviour
 	}
 
 	// TODO: Reveal the identity of the POI to the players
-	private GameObject Reveal()
+	public GameObject Reveal()
 	{
 		if (!victim)
 		{
@@ -81,6 +81,7 @@ public class POI : MonoBehaviour
 		this.x = x;
 		this.y = y;
 		this.victim = victim;
+		MoveTo(x,y);
 	}
 
 	// Start is called before the first frame update
