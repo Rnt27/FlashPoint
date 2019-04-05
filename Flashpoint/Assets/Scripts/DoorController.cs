@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class DoorController : MonoBehaviour
 {
+    // action menu variables
+    public Canvas myCanvas;
+    private bool activeContextMenu = false;
+    private string[] doorAction = { "Open Door", "Close Door" };
+
+
     public BoxCollider collider;
 
     public bool open;
@@ -169,6 +175,13 @@ public class DoorController : MonoBehaviour
                 }
             }
 
+            if (Input.GetMouseButtonDown(1))
+            {
+                //SwitchRendererColor(Color.blue);
+                myCanvas.GetComponent<CanvasManager>().ShowActionMenu(doorAction, this.gameObject, "door");
+
+            }
+
         }
     }
 
@@ -179,6 +192,16 @@ public class DoorController : MonoBehaviour
         selectedName = "";
         // Reset the color of the GameObject back to normal
 
+        if (!activeContextMenu)
+        {
+            SwitchRendererColor();
+        }
+
+    }
+
+    public void SwitchRendererColor()
+    {
+
         foreach (Transform child in transform)
         {
 
@@ -188,6 +211,12 @@ public class DoorController : MonoBehaviour
             }
 
         }
+
+    }
+
+    public void SetActiveContextMenu(bool a)
+    {
+        activeContextMenu = a;
     }
 
     //to damage the door
