@@ -53,6 +53,8 @@ public class APManager : MonoBehaviour
 
         VAP.SetActive(false);
 
+        changeAP();
+        changeSP();
     }
 
     // Update is called once per frame
@@ -66,6 +68,138 @@ public class APManager : MonoBehaviour
         {
             VAP.SetActive(false);
         }
+                
+    }
+        
+    public void addVeteran()
+    {
+
+        veteran = true;
+
+
+    }
+
+    private void setSavedAP(int num)
+    {
+
+        maxSaved = num;
+        currentSaved = maxSaved;
+        HandleSavedAP();
+
+    }
+
+    public void EndAP()
+    {
+        veteran = false;
+        setSavedAP(AP);
+        AP = maxAP;
+        SP = maxSP;
+
+    }
+
+    public void setAP(int thisAP)
+    {
+
+        if(thisAP <= maxAP && thisAP > 0)
+        {
+
+            AP = thisAP;
+
+        }
+        changeAP();
+
+    }
+
+    public void setSP(int thisSP)
+    {
+
+        if (thisSP <= maxSP && thisSP > 0)
+        {
+
+            AP = thisSP;
+
+        }
+        changeSP();
+
+    }
+
+    public void setRAP(int savedAP)
+    {
+
+        if (savedAP <= maxSaved && savedAP > 0)
+        {
+
+            currentSaved = savedAP;
+
+        }
+        HandleSavedAP();
+
+    }
+
+    private void HandleSavedAP()
+    {
+
+        savedText.text = currentSaved + "/" + maxSaved;
+
+        float currentX = MapValues(currentSaved, 0, maxSaved, minX, maxX);
+
+        savedTransform.position = new Vector3(currentX, cachedY);
+
+        if (currentSaved > maxSaved / 2)
+        {
+
+            visualSaved.color = new Color32((byte)MapValues(currentSaved, maxSaved / 2, maxSaved, 255, 0), 255, 0, 255);
+
+        }
+        else
+        {
+
+            visualSaved.color = new Color32(255, (byte)MapValues(currentSaved, 0, maxSaved / 2, 0, 255), 0, 255);
+
+        }
+
+    }
+
+    private float MapValues(float x, float inMin, float inMax, float outMin, float outMax)
+    {
+
+        return (x - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
+
+    }
+
+    private void changeSP()
+    {
+
+        switch (SP)
+        {
+
+            case 3:
+                SP1.SetActive(true);
+                SP2.SetActive(true);
+                SP3.SetActive(true);
+                break;
+            case 2:
+                SP1.SetActive(true);
+                SP2.SetActive(true);
+                SP3.SetActive(false);
+                break;
+            case 1:
+                SP1.SetActive(true);
+                SP2.SetActive(false);
+                SP3.SetActive(false);
+                break;
+            case 0:
+                SP1.SetActive(false);
+                SP2.SetActive(false);
+                SP3.SetActive(false);
+                break;
+
+        }
+
+    }
+
+    private void changeAP()
+    {
 
         switch (AP)
         {
@@ -114,89 +248,6 @@ public class APManager : MonoBehaviour
                 break;
 
         }
-
-        switch (SP)
-        {
-
-            case 3:
-                SP1.SetActive(true);
-                SP2.SetActive(true);
-                SP3.SetActive(true);
-                break;
-            case 2:
-                SP1.SetActive(true);
-                SP2.SetActive(true);
-                SP3.SetActive(false);
-                break;
-            case 1:
-                SP1.SetActive(true);
-                SP2.SetActive(false);
-                SP3.SetActive(false);
-                break;
-            case 0:
-                SP1.SetActive(false);
-                SP2.SetActive(false);
-                SP3.SetActive(false);
-                break;
-
-        }
-
-    }
-
-    public void addVeteran()
-    {
-
-        veteran = true;
-
-
-    }
-
-    private void setSavedAP(int num)
-    {
-
-        maxSaved = num;
-        currentSaved = maxSaved;
-        HandleSavedAP();
-
-    }
-
-    public void EndAP()
-    {
-        veteran = false;
-        setSavedAP(AP);
-        AP = maxAP;
-        SP = maxSP;
-
-    }
-
-    private void HandleSavedAP()
-    {
-
-        savedText.text = currentSaved + "/" + maxSaved;
-
-        float currentX = MapValues(currentSaved, 0, maxSaved, minX, maxX);
-
-        savedTransform.position = new Vector3(currentX, cachedY);
-
-        if (currentSaved > maxSaved / 2)
-        {
-
-            visualSaved.color = new Color32((byte)MapValues(currentSaved, maxSaved / 2, maxSaved, 255, 0), 255, 0, 255);
-
-        }
-        else
-        {
-
-            visualSaved.color = new Color32(255, (byte)MapValues(currentSaved, 0, maxSaved / 2, 0, 255), 0, 255);
-
-        }
-
-    }
-
-    private float MapValues(float x, float inMin, float inMax, float outMin, float outMax)
-    {
-
-        return (x - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
 
     }
 }
