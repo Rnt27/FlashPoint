@@ -11,7 +11,7 @@ public class HouseLife : MonoBehaviour
     private float minX;
     private float maxX;
 
-    private int currentHealth;
+    public int currentHealth;
 
     private int maxHealth = 25;
     public Text healthText;
@@ -42,7 +42,7 @@ public class HouseLife : MonoBehaviour
 
     private void HandleHealth()
     {
-
+        
         healthText.text = currentHealth + "/25";
 
         float currentX = MapValues(currentHealth, 0, maxHealth, minX, maxX);
@@ -73,7 +73,7 @@ public class HouseLife : MonoBehaviour
 
     public void diminishHealth()
     {
-
+        if(currentHealth > 0)
         currentHealth--;
 
         HandleHealth();
