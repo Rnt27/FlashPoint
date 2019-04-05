@@ -4304,6 +4304,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d816b872e6341334cb68c2909cde2e6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
+  state: 0
+--- !u!114 &783587680
+MonoBehaviour:
+=======
   status: 0
   fireObject:
   - {fileID: 1385932175079197374, guid: c7d11ecf6dc2a4d4c87a8d8c777711be, type: 3}
@@ -4439,6 +4444,7 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: 966057665447eac44911277135f89b3d, type: 3}
 --- !u!1 &979507469
 GameObject:
+>>>>>>> f8b88936d2ea91353be59843942482a08e8c5fc1
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
