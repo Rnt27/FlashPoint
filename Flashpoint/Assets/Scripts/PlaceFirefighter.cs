@@ -15,29 +15,74 @@ public class PlaceFirefighter : MonoBehaviour{
 
     public FirefighterController[] firefighters;
 
-    private void Start()
+    private bool setup = false;
+
+    public void Setup()
     {
-                
+
         Vector2Int gridPoint = Geometry.GridPoint(0, 0);
         Vector3 point = Geometry.PointFromGrid(gridPoint);
 
         firefighters = FindObjectsOfType<FirefighterController>();
+        //Debug.Log(firefighters[0].name);
+        //Debug.Log(firefighters[1].name);
+        foreach (FirefighterController f in firefighters)
+        {
+            if (f.myTurn == false)
+            {
+                if (f.name == "local")
+                {
+                    f.myTurn = true; 
+                    firefighter = f;
 
+                }
+                
+            }
+        }
+        
+
+        //firefighter = firefighters[0];
+
+        //currently spawning firefighters
+        placeFirefighterPanel = true;
+
+    }
+
+    private void Start()
+    {
+                
+        /*Vector2Int gridPoint = Geometry.GridPoint(0, 0);
+        Vector3 point = Geometry.PointFromGrid(gridPoint);
+
+        firefighters = FindObjectsOfType<FirefighterController>();
+        //Debug.Log(firefighters[0].name);
+        //Debug.Log(firefighters[1].name);
+        /*foreach (FirefighterController f in firefighters)
+        {
+            if (f.myTurn == false){
+                f.myTurn = true;
+                firefighter = f;
+            }
+        }
         firefighters[0].myTurn = true;
 
         firefighter = firefighters[0];
         
         //currently spawning firefighters
-        placeFirefighterPanel = true;
+        placeFirefighterPanel = true;*/
 
     }
 
 
     void Update()
     {
-        //TurnFirefighter();
+        if (!setup)
+        {
+            Setup();
+        }
+        
 
-//        if (firefighter.myTurn) { 
+        //        if (firefighter.myTurn) { 
 
         MouseOverLocation();
 
