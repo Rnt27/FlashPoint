@@ -10,6 +10,7 @@ public class Selectable : MonoBehaviour
     public BoxCollider collider;
 
     // action menu variable
+    public Canvas myCanvas;
     public GameObject actionPrefab;
     public Transform actionContainer;
     private bool no_menu = true;
@@ -75,7 +76,7 @@ public class Selectable : MonoBehaviour
         //m_Renderer.material.color = Color.blue;
 
         //find the context menu
-        Canvas myCanvas = FindObjectOfType<Canvas>();
+        
         GameObject contextMenu = myCanvas.transform.Find("ContextMenu").gameObject;
         GameObject popupWindow = myCanvas.transform.Find("popupWindow").gameObject;
         //Debug.Log(popupWindow);
@@ -138,14 +139,9 @@ public class Selectable : MonoBehaviour
         Debug.Log("child: " + popupWindow.transform.GetChild(1).transform.GetChild(0).transform.GetChild(1).transform.GetChild(1));
         popupWindow.GetComponent<Animator>().Play("Exit Panel In");
 
-        Button no = question.GetChild(1).transform.GetChild(2).transform.GetChild(1).GetComponentInChildren<Button>();
-        no.onClick.AddListener(() => noPopup());
+        //Button no = question.GetChild(1).transform.GetChild(2).transform.GetChild(1).GetComponentInChildren<Button>();
+        //no.onClick.AddListener(() => noPopup());
 
-    }
-
-    void noPopup()
-    {
-        popup = false;
     }
 
     void OnMouseOver()
