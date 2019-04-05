@@ -11,17 +11,14 @@ public class Selectable : MonoBehaviour
 
     // action menu variable
     public Canvas myCanvas;
-    public GameObject actionPrefab;
-    public Transform actionContainer;
-    private bool no_menu = true;
+    private bool activeContextMenu = false;
     private string[] action = { "Move to here", "Carry victim to here" };
     private string[] extinguishAction = {"Extinguish Smoke", "Extinguish Fire" };
-    private string chop = "Chop Wall";
-    private string[] doorAction = { "Open Door", "Close Door"};
     private string paramedicAction = "Treat"; // Extinguish Fire = 4 AP  and Extinguish Smoke =  2AP
     private string imagingTechnicianAction = "Identify POI";
     private string hazmatTechnicianAction = "Dispose";
-    private bool popup = false;
+    
+
 
     //for blinking
     public float wait;
@@ -45,6 +42,9 @@ public class Selectable : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //Debug.Log("mycanvas= " + myCanvas);
+        CanvasManager myCanvasManager = myCanvas.GetComponent<CanvasManager>();
+        //Debug.Log("mycanvasManager= " + myCanvasManager);
         //cam = GetComponent<Camera>();
         //Fetch the mesh renderer component from the GameObject
         m_Renderer = GetComponent<MeshRenderer>();
@@ -69,86 +69,23 @@ public class Selectable : MonoBehaviour
 
     }
 
-    void ShowActionMenu(string[] actions)
+    public void SwitchColorToOriginal()
     {
-        no_menu = false;
-        m_Renderer.material.color = Color.blue;
-        //m_Renderer.material.color = Color.blue;
-
-        //find the context menu
-        
-        GameObject contextMenu = myCanvas.transform.Find("ContextMenu").gameObject;
-        GameObject popupWindow = myCanvas.transform.Find("popupWindow").gameObject;
-        //Debug.Log(popupWindow);
-        
-        contextMenu.SetActive(true);
-        Vector2 menuPosition = Input.mousePosition;
-        contextMenu.transform.position = new Vector3(menuPosition.x +70, menuPosition.y - 30, 0);
-
-        // Destroy previous menu
-        foreach (Transform child in actionContainer)
-        {
-            //GameObject a = child as GameObject;
-            GameObject.Destroy(child.gameObject);
-
-        }
-
-        foreach (string action in actions)
-        {
-            //Debug.Log(action);
-
-            GameObject go = Instantiate(actionPrefab) as GameObject;
-            go.transform.SetParent(actionContainer);
-            go.GetComponentInChildren<Text>().text = action;
-            Debug.Log(go.transform.GetChild(0).GetComponentInChildren<Button>());
-            string msg = "hello";
-            go.transform.GetChild(0).GetComponentInChildren<Button>().onClick.AddListener(() => showPopupWindow(popupWindow, msg));
-            //Debug.Log("child: " + go.transform.GetChild(0).transform.GetChild(1));
-            int ap = 1; //evaluate AP needed
-            go.transform.GetChild(0).transform.GetChild(1).GetComponent<Text>().text = ap.ToString() + "AP";
-            go.transform.localScale = new Vector3(1, 1, 1);
-
-        }
+        m_Renderer.material.color = m_OriginalColor;
 
     }
 
-    void HideActionMenu()
+    public void SetActiveContextMenu(bool a)
     {
-        no_menu = true;
-        
-        //m_Renderer.material.color = Color.blue;
-
-        //find the context menu
-        Canvas myCanvas = FindObjectOfType<Canvas>();
-        GameObject contextMenu = myCanvas.transform.Find("ContextMenu").gameObject;
-        //Debug.Log(popupWindow);
-
-        contextMenu.SetActive(false);
-
-
-
+        activeContextMenu = a;
     }
+    
 
-    void showPopupWindow(GameObject popupWindow, string msg)
-    {
-        popup = true;
-        HideActionMenu();
-        //Debug.Log("test");
-        Transform question = popupWindow.transform.GetChild(1).transform.GetChild(0).transform.GetChild(1).transform.GetChild(1);
-        question.GetComponent<Text>().text = msg;
-        Debug.Log("child: " + popupWindow.transform.GetChild(1).transform.GetChild(0).transform.GetChild(1).transform.GetChild(1));
-        popupWindow.GetComponent<Animator>().Play("Exit Panel In");
-
-        //Button no = question.GetChild(1).transform.GetChild(2).transform.GetChild(1).GetComponentInChildren<Button>();
-        //no.onClick.AddListener(() => noPopup());
-
-    }
 
     void OnMouseOver()
     {
-        /*if (EventSystem.current.IsPointerOverGameObject())
-            return;*/
-        if (Cursor.visible==true && !popup)
+        
+        if (Cursor.visible==true && !activeContextMenu && !myCanvas.GetComponent<CanvasManager>().popupOn)
         {
 
             selected = true;
@@ -160,13 +97,16 @@ public class Selectable : MonoBehaviour
             {
                 selectedName = this.name;
             }
+            //Debug.Log("Renderer =  " + m_Renderer);
 
             // Change the color of the GameObject to yellow when the mouse is over GameObject
             m_Renderer.material.color = m_MouseOverColor;
 
-            if (Input.GetMouseButtonDown(1) && !popup)
+            if (Input.GetMouseButtonDown(1))
             {
-                ShowActionMenu(action);
+                //m_Renderer.material.color = Color.blue;
+
+                myCanvas.GetComponent<CanvasManager>().ShowActionMenu(action, this.gameObject, "tile");
             }
 
 
@@ -181,7 +121,12 @@ public class Selectable : MonoBehaviour
 
         selectedName = "";
         // Reset the color of the GameObject back to normal
-        m_Renderer.material.color = m_OriginalColor;
+        if (!activeContextMenu)
+        {
+            m_Renderer.material.color = m_OriginalColor;
+        }
+        
+        
         
         
     }

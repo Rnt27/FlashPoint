@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class WallController : MonoBehaviour
 {
+    //action menu variables
+    public Canvas myCanvas;
+    private bool activeContextMenu = false;
+    private string[] chop = { "Chop Wall" };
 
     //When the mouse hovers over the GameObject, it turns to this color (yellow)
     Color m_MouseOverColor = Color.yellow;
@@ -73,9 +77,9 @@ public class WallController : MonoBehaviour
 
     void OnMouseOver()
     {
-        if (Cursor.visible == true)
-            selected = true;
+        if (Cursor.visible == true && !activeContextMenu && !myCanvas.GetComponent<CanvasManager>().popupOn)
         {
+            selected = true;
 
             foreach (Transform child in transform)
             {
@@ -96,9 +100,8 @@ public class WallController : MonoBehaviour
 
             if (Input.GetMouseButtonDown(1))
             {
-                //find the context menu
-                GameObject contextMenu = GameObject.FindWithTag("contextMenu");
-                contextMenu.transform.position = Camera.main.WorldToScreenPoint(this.transform.position);
+                //SwitchRendererColor(Color.blue);
+                myCanvas.GetComponent<CanvasManager>().ShowActionMenu(chop, this.gameObject, "wall");
 
             }
 
@@ -112,19 +115,34 @@ public class WallController : MonoBehaviour
         selectedName = "";
         // Reset the color of the GameObject back to normal
 
+        if (!activeContextMenu)
+        {
+            SwitchRendererColor(Color.white);
+        }
+            
+    }
+
+    public void SwitchRendererColor(Color myColor)
+    {
         foreach (Transform child in transform)
         {
 
             if (child.CompareTag("BrokenWall") && child.gameObject.activeSelf)
             {
-                m_Renderer2.material.color = Color.white;
+                m_Renderer2.material.color = myColor;
             }
             else if (child.gameObject.activeSelf)
             {
-                m_Renderer1.material.color = Color.white;
+                m_Renderer1.material.color = myColor;
             }
 
         }
+    }
+
+
+    public void SetActiveContextMenu(bool a)
+    {
+        activeContextMenu = a;
     }
 
     void Neighbours()
