@@ -32,6 +32,9 @@ public class APManager : MonoBehaviour
 
     public Image visualSaved;
 
+    private int SP;
+    public int maxSP;
+
     private int AP;
     public int maxAP = 4;
     // Start is called before the first frame update
@@ -46,7 +49,10 @@ public class APManager : MonoBehaviour
 
         AP = maxAP;
 
+        SP = maxSP;
+
         VAP.SetActive(false);
+
     }
 
     // Update is called once per frame
@@ -55,8 +61,94 @@ public class APManager : MonoBehaviour
         if (veteran)
         {
             VAP.SetActive(true);
+        }
+        if (!veteran)
+        {
             VAP.SetActive(false);
         }
+
+        switch (AP)
+        {
+
+            case 5:
+                AP1.SetActive(true);
+                AP2.SetActive(true);
+                AP3.SetActive(true);
+                AP4.SetActive(true);
+                AP5.SetActive(true);
+                break;
+            case 4:
+                AP1.SetActive(true);
+                AP2.SetActive(true);
+                AP3.SetActive(true);
+                AP4.SetActive(true);
+                AP5.SetActive(false);
+                break;
+            case 3:
+                AP1.SetActive(true);
+                AP2.SetActive(true);
+                AP3.SetActive(true);
+                AP4.SetActive(false);
+                AP5.SetActive(false);
+                break;
+            case 2:
+                AP1.SetActive(true);
+                AP2.SetActive(true);
+                AP3.SetActive(false);
+                AP4.SetActive(false);
+                AP5.SetActive(false);
+                break;
+            case 1:
+                AP1.SetActive(true);
+                AP2.SetActive(false);
+                AP3.SetActive(false);
+                AP4.SetActive(false);
+                AP5.SetActive(false);
+                break;
+            case 0:
+                AP1.SetActive(false);
+                AP2.SetActive(false);
+                AP3.SetActive(false);
+                AP4.SetActive(false);
+                AP5.SetActive(false);
+                break;
+
+        }
+
+        switch (SP)
+        {
+
+            case 3:
+                SP1.SetActive(true);
+                SP2.SetActive(true);
+                SP3.SetActive(true);
+                break;
+            case 2:
+                SP1.SetActive(true);
+                SP2.SetActive(true);
+                SP3.SetActive(false);
+                break;
+            case 1:
+                SP1.SetActive(true);
+                SP2.SetActive(false);
+                SP3.SetActive(false);
+                break;
+            case 0:
+                SP1.SetActive(false);
+                SP2.SetActive(false);
+                SP3.SetActive(false);
+                break;
+
+        }
+
+    }
+
+    public void addVeteran()
+    {
+
+        veteran = true;
+
+
     }
 
     private void setSavedAP(int num)
@@ -70,9 +162,10 @@ public class APManager : MonoBehaviour
 
     public void EndAP()
     {
-
+        veteran = false;
         setSavedAP(AP);
         AP = maxAP;
+        SP = maxSP;
 
     }
 
