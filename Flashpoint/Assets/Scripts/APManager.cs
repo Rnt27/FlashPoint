@@ -94,7 +94,7 @@ public class APManager : MonoBehaviour
         }
         if(maxSaved == 0)
         {
-            savedText.text = "SAVED:" + "0" + "/" + maxSaved;
+            savedText.text = "SAVED AP:" + "0" + "/" + maxSaved;
             visualSaved.transform.gameObject.SetActive(false);
 
         }
@@ -158,7 +158,7 @@ public class APManager : MonoBehaviour
     private void HandleSavedAP()
     {
 
-        savedText.text = "SAVED:" + currentSaved + "/" + maxSaved;
+        savedText.text = "SAVED AP:" + currentSaved + "/" + maxSaved;
 
         float currentX = MapValues(currentSaved, 0, maxSaved, minX, maxX);
 
