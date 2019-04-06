@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class POIUI : MonoBehaviour
 {
@@ -43,6 +44,14 @@ public class POIUI : MonoBehaviour
         if (deathCount < maxDeath)
         {
             deathCount++;
+
+            if (deathCount == maxDeath)
+            {
+
+                SceneManager.LoadScene("Defeat");
+
+            }
+
             handleDeath();
         }
     }
@@ -51,7 +60,7 @@ public class POIUI : MonoBehaviour
     {
 
         victimsDead.text = deathCount + "/" + maxDeath;
-
+                
     }
 
     public void increaseVictory()
@@ -59,6 +68,14 @@ public class POIUI : MonoBehaviour
         if (currentVictory < maxVictory)
         {
             currentVictory++;
+
+            if (currentVictory == maxVictory)
+            {
+
+                SceneManager.LoadScene("Victory");
+
+            }
+
             handleVictory();
         }
 

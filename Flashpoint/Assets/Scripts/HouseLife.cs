@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class HouseLife : MonoBehaviour
 {
@@ -38,12 +39,13 @@ public class HouseLife : MonoBehaviour
             diminishHealth();
 
         }
+                
     }
 
     private void HandleHealth()
     {
         
-        healthText.text = currentHealth + "/25";
+        healthText.text = currentHealth + "/" + maxHealth;
 
         float currentX = MapValues(currentHealth, 0, maxHealth, minX, maxX);
 
@@ -75,6 +77,13 @@ public class HouseLife : MonoBehaviour
     {
         if(currentHealth > 0)
         currentHealth--;
+
+        if (currentHealth == 0)
+        {
+
+            SceneManager.LoadScene("Defeat");
+
+        }
 
         HandleHealth();
     }
