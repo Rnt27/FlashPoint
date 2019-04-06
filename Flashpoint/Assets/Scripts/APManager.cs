@@ -30,10 +30,13 @@ public class APManager : MonoBehaviour
     private int maxSaved;
     public Text savedText;
 
+    public Text APnow;
+    public Text SPnow;
+
     public Image visualSaved;
 
     private int SP;
-    public int maxSP;
+    public int maxSP = 0;
 
     private int AP;
     public int maxAP = 4;
@@ -47,14 +50,14 @@ public class APManager : MonoBehaviour
 
         currentSaved = maxSaved;
 
-        AP = maxAP;
+        setAP(maxAP);
 
-        SP = maxSP;
+        setSP(maxSP);
 
         VAP.SetActive(false);
 
-        changeAP();
-        changeSP();
+        visualSaved.transform.gameObject.SetActive(false);
+
     }
 
     // Update is called once per frame
@@ -84,62 +87,79 @@ public class APManager : MonoBehaviour
 
         maxSaved = num;
         currentSaved = maxSaved;
-        HandleSavedAP();
+        if (maxSaved > 0)
+        {
+            visualSaved.transform.gameObject.SetActive(true);
+            HandleSavedAP();
+        }
+        if(maxSaved <= 0)
+        {
 
+            visualSaved.transform.gameObject.SetActive(false);
+
+        }
     }
 
     public void EndAP()
     {
         veteran = false;
         setSavedAP(AP);
-        AP = maxAP;
-        SP = maxSP;
-
+        if(currentSaved == 0) visualSaved.transform.gameObject.SetActive(false);
+        setAP(maxAP);
+        setSP(maxSP);
+        
     }
 
     public void setAP(int thisAP)
     {
 
-        if(thisAP <= maxAP && thisAP > 0)
+        if(thisAP <= maxAP && thisAP >= 0)
         {
 
             AP = thisAP;
-
+            changeAP();
         }
-        changeAP();
-
+        
     }
 
     public void setSP(int thisSP)
     {
 
-        if (thisSP <= maxSP && thisSP > 0)
+        if (thisSP <= maxSP && thisSP >= 0)
+        {
+            SPnow.transform.gameObject.SetActive(true);
+            SP = thisSP;
+            changeSP();
+        }
+        if(thisSP <= 0)
         {
 
-            AP = thisSP;
+            SPnow.transform.gameObject.SetActive(false);
 
         }
-        changeSP();
+        
 
     }
 
     public void setRAP(int savedAP)
     {
 
-        if (savedAP <= maxSaved && savedAP > 0)
+        if (savedAP <= maxSaved && savedAP >= 0)
         {
 
+            visualSaved.transform.gameObject.SetActive(true);
             currentSaved = savedAP;
+            HandleSavedAP();
 
         }
-        HandleSavedAP();
+        
 
     }
 
     private void HandleSavedAP()
     {
 
-        savedText.text = currentSaved + "/" + maxSaved;
+        savedText.text = "SAVED:" + currentSaved + "/" + maxSaved;
 
         float currentX = MapValues(currentSaved, 0, maxSaved, minX, maxX);
 
@@ -248,6 +268,8 @@ public class APManager : MonoBehaviour
                 break;
 
         }
+
+        APnow.text = "AP: " + AP;
 
     }
 }

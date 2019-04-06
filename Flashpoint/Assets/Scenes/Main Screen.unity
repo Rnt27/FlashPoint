@@ -2376,7 +2376,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -81.2, y: -35}
+  m_AnchoredPosition: {x: -64.1, y: -74.16}
   m_SizeDelta: {x: 155.5, y: 136.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &745339648
@@ -2412,7 +2412,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "VICTIMS\n  0/3"
+  m_Text: 0/3
 --- !u!222 &745339649
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5373,6 +5373,8 @@ MonoBehaviour:
   savedTransform: {fileID: 1119929308}
   currentSaved: 0
   savedText: {fileID: 1989493957}
+  APnow: {fileID: 1120997561}
+  SPnow: {fileID: 788225293}
   visualSaved: {fileID: 1119929309}
   maxSP: 0
   maxAP: 4
@@ -6078,8 +6080,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 250.0001, y: 49.999958}
-  m_SizeDelta: {x: 500, y: 100}
+  m_AnchoredPosition: {x: 218.1, y: 49.999958}
+  m_SizeDelta: {x: 441.84, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1119929309
 MonoBehaviour:
@@ -7227,8 +7229,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -6.2, y: 104.32}
-  m_SizeDelta: {x: 500, y: 100}
+  m_AnchoredPosition: {x: 9.5, y: 104.32}
+  m_SizeDelta: {x: 441.84, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1551922060
 MonoBehaviour:
@@ -8328,7 +8330,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -50, y: -91.8}
+  m_AnchoredPosition: {x: -50, y: -69.4}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1818393048
@@ -9160,7 +9162,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: -86.8, y: 103.06921}
-  m_SizeDelta: {x: 180.4, y: 36.6}
+  m_SizeDelta: {x: 195.75, y: 36.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1989493957
 MonoBehaviour:
@@ -9195,7 +9197,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: SAVED:0/0
+  m_Text: SAVED AP:0/0
 --- !u!222 &1989493958
 CanvasRenderer:
   m_ObjectHideFlags: 0
