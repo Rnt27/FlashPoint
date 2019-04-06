@@ -48,7 +48,7 @@ public class APManager : MonoBehaviour
         maxX = savedTransform.position.x;
         minX = savedTransform.position.x - savedTransform.rect.width;
 
-        currentSaved = maxSaved;
+        setMaxSavedAP(0);
 
         setAP(maxAP);
 
@@ -82,19 +82,19 @@ public class APManager : MonoBehaviour
 
     }
 
-    private void setSavedAP(int num)
+    private void setMaxSavedAP(int num)
     {
-
+        if (num >= 0) ;
         maxSaved = num;
-        currentSaved = maxSaved;
+
         if (maxSaved > 0)
         {
             visualSaved.transform.gameObject.SetActive(true);
             HandleSavedAP();
         }
-        if(maxSaved <= 0)
+        if(maxSaved == 0)
         {
-
+            savedText.text = "SAVED:" + "0" + "/" + maxSaved;
             visualSaved.transform.gameObject.SetActive(false);
 
         }
@@ -103,8 +103,8 @@ public class APManager : MonoBehaviour
     public void EndAP()
     {
         veteran = false;
-        setSavedAP(AP);
-        if(currentSaved == 0) visualSaved.transform.gameObject.SetActive(false);
+        setMaxSavedAP(AP);
+        setRAP(maxSaved);
         setAP(maxAP);
         setSP(maxSP);
         
@@ -147,7 +147,6 @@ public class APManager : MonoBehaviour
         if (savedAP <= maxSaved && savedAP >= 0)
         {
 
-            visualSaved.transform.gameObject.SetActive(true);
             currentSaved = savedAP;
             HandleSavedAP();
 
