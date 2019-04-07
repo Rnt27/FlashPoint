@@ -12,6 +12,7 @@ public class Space : MonoBehaviour {
 	public int x;
 	public int y;
 
+
 	public Space(SpaceStatus status)
 	{
 		switch (status)
