@@ -1,0 +1,479 @@
+fileFormatVersion: 2
+guid: 02df6613ce36445449b174963f177e6a
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: backlght
+    100004: black
+    100006: body
+    100008: Capsule01
+    100010: Capsule02
+    100012: chrome
+    100014: Dummy
+    100016: Ellipse01
+    100018: Ellipse02
+    100020: Ellipse03
+    100022: Ellipse04
+    100024: glass
+    100026: glassblk
+    100028: Group01
+    100030: headlght
+    100032: headturn
+    100034: interior
+    100036: Layer:laye
+    100038: mirror
+    100040: nplate
+    100042: Object01
+    100044: Object010
+    100046: Object02
+    100048: Object020
+    100050: Object03
+    100052: Object03.Object10
+    100054: Object030
+    100056: Object04
+    100058: Object04.Object09
+    100060: Object040
+    100062: Object05
+    100064: Object050
+    100066: Object06
+    100068: Object060
+    100070: Object07
+    100072: Object070
+    100074: Object071
+    100076: Object08
+    100078: Object080
+    100080: plastic
+    100082: rearlght
+    100084: Rectangle0
+    100086: Rectangle1
+    100088: Rectangle2
+    100090: Rectangle3
+    100092: Rectangle4
+    100094: Shape01
+    100096: Sphere02
+    100098: Sphere02.Sphere01
+    100100: turnlght
+    100102: tyre
+    100104: wheel
+    400000: //RootNode
+    400002: backlght
+    400004: black
+    400006: body
+    400008: Capsule01
+    400010: Capsule02
+    400012: chrome
+    400014: Dummy
+    400016: Ellipse01
+    400018: Ellipse02
+    400020: Ellipse03
+    400022: Ellipse04
+    400024: glass
+    400026: glassblk
+    400028: Group01
+    400030: headlght
+    400032: headturn
+    400034: interior
+    400036: Layer:laye
+    400038: mirror
+    400040: nplate
+    400042: Object01
+    400044: Object010
+    400046: Object02
+    400048: Object020
+    400050: Object03
+    400052: Object03.Object10
+    400054: Object030
+    400056: Object04
+    400058: Object04.Object09
+    400060: Object040
+    400062: Object05
+    400064: Object050
+    400066: Object06
+    400068: Object060
+    400070: Object07
+    400072: Object070
+    400074: Object071
+    400076: Object08
+    400078: Object080
+    400080: plastic
+    400082: rearlght
+    400084: Rectangle0
+    400086: Rectangle1
+    400088: Rectangle2
+    400090: Rectangle3
+    400092: Rectangle4
+    400094: Shape01
+    400096: Sphere02
+    400098: Sphere02.Sphere01
+    400100: turnlght
+    400102: tyre
+    400104: wheel
+    2100000: backlght
+    2100002: black
+    2100004: +03
+    2100006: Metal_Chrome
+    2100008: lamp  car
+    2100010: glassblk
+    2100012: headlght
+    2100014: headturn
+    2100016: interior
+    2100018: mirror
+    2100020: "\xED\xEE\xEC\xE5\xF0"
+    2100022: ',Black_'
+    2100024: rearlght
+    2100026: Rat textile 2
+    2100028: 03
+    2100030: +
+    2100032: body1
+    2100034: body2
+    2100036: 'Material #17'
+    2100038: 'Material #15'
+    2100040: "plastik \xE1\xE8\xF0\xFE\xE7\xE0"
+    2100042: Metal_Chrome2
+    2300000: backlght
+    2300002: black
+    2300004: body
+    2300006: Capsule01
+    2300008: Capsule02
+    2300010: chrome
+    2300012: Ellipse01
+    2300014: Ellipse02
+    2300016: Ellipse03
+    2300018: Ellipse04
+    2300020: glass
+    2300022: glassblk
+    2300024: headlght
+    2300026: headturn
+    2300028: interior
+    2300030: Layer:laye
+    2300032: mirror
+    2300034: nplate
+    2300036: Object01
+    2300038: Object010
+    2300040: Object02
+    2300042: Object020
+    2300044: Object03
+    2300046: Object03.Object10
+    2300048: Object030
+    2300050: Object04
+    2300052: Object04.Object09
+    2300054: Object040
+    2300056: Object05
+    2300058: Object050
+    2300060: Object06
+    2300062: Object060
+    2300064: Object07
+    2300066: Object070
+    2300068: Object071
+    2300070: Object08
+    2300072: Object080
+    2300074: plastic
+    2300076: rearlght
+    2300078: Rectangle0
+    2300080: Rectangle1
+    2300082: Rectangle2
+    2300084: Rectangle3
+    2300086: Rectangle4
+    2300088: Shape01
+    2300090: Sphere02
+    2300092: Sphere02.Sphere01
+    2300094: turnlght
+    2300096: tyre
+    2300098: wheel
+    3300000: backlght
+    3300002: black
+    3300004: body
+    3300006: Capsule01
+    3300008: Capsule02
+    3300010: chrome
+    3300012: Ellipse01
+    3300014: Ellipse02
+    3300016: Ellipse03
+    3300018: Ellipse04
+    3300020: glass
+    3300022: glassblk
+    3300024: headlght
+    3300026: headturn
+    3300028: interior
+    3300030: Layer:laye
+    3300032: mirror
+    3300034: nplate
+    3300036: Object01
+    3300038: Object010
+    3300040: Object02
+    3300042: Object020
+    3300044: Object03
+    3300046: Object03.Object10
+    3300048: Object030
+    3300050: Object04
+    3300052: Object04.Object09
+    3300054: Object040
+    3300056: Object05
+    3300058: Object050
+    3300060: Object06
+    3300062: Object060
+    3300064: Object07
+    3300066: Object070
+    3300068: Object071
+    3300070: Object08
+    3300072: Object080
+    3300074: plastic
+    3300076: rearlght
+    3300078: Rectangle0
+    3300080: Rectangle1
+    3300082: Rectangle2
+    3300084: Rectangle3
+    3300086: Rectangle4
+    3300088: Shape01
+    3300090: Sphere02
+    3300092: Sphere02.Sphere01
+    3300094: turnlght
+    3300096: tyre
+    3300098: wheel
+    4300000: backlght
+    4300002: black
+    4300004: body
+    4300006: chrome
+    4300008: glass
+    4300010: glassblk
+    4300012: headlght
+    4300014: headturn
+    4300016: interior
+    4300018: mirror
+    4300020: nplate
+    4300022: plastic
+    4300024: rearlght
+    4300026: turnlght
+    4300028: tyre
+    4300030: wheel
+    4300032: Object01
+    4300034: Object02
+    4300036: Object03
+    4300038: Object04
+    4300040: Object05
+    4300042: Object06
+    4300044: Object07
+    4300046: Layer:laye
+    4300048: Shape01
+    4300050: Object070
+    4300052: Object08
+    4300054: Object04.Object09
+    4300056: Object03.Object10
+    4300058: Object010
+    4300060: Object020
+    4300062: Object030
+    4300064: Object040
+    4300066: Object050
+    4300068: Object060
+    4300070: Object071
+    4300072: Object080
+    4300074: Sphere02
+    4300076: Sphere02.Sphere01
+    4300078: Ellipse01
+    4300080: Ellipse02
+    4300082: Ellipse03
+    4300084: Ellipse04
+    4300086: Rectangle0
+    4300088: Capsule01
+    4300090: Capsule02
+    4300092: Rectangle1
+    4300094: Rectangle2
+    4300096: Rectangle3
+    4300098: Rectangle4
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: +
+    second: {fileID: 2100000, guid: 64e3fe9be6703e5478fb14ec35a83616, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: +03
+    second: {fileID: 2100000, guid: 09c4f9e358d95ee4ab65bea45130ca6a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ',Black_'
+    second: {fileID: 2100000, guid: 61bb7e4521486ea48a4efca9916c10aa, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 03
+    second: {fileID: 2100000, guid: 0365f41cd3ad7a64a96d615296d34f2e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 'Material #15'
+    second: {fileID: 2100000, guid: f3cd893633598da4f8d18770a845fdd9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 'Material #17'
+    second: {fileID: 2100000, guid: 026ad78865566394cb26581d94526ab4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Metal_Chrome
+    second: {fileID: 2100000, guid: 3e3b3d4fe29efa54792c6d3c60d79ca9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Metal_Chrome2
+    second: {fileID: 2100000, guid: ba3e8d0100618e44da79b8999a04f18d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Rat textile 2
+    second: {fileID: 2100000, guid: 42ed31f78fc08e646b7e7fdfbc162cff, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: backlght
+    second: {fileID: 2100000, guid: 1d5ba946e057f794ca82f22e65ca1317, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: black
+    second: {fileID: 2100000, guid: f6f481ad79985ad4eb0d425b5eb36c41, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: body1
+    second: {fileID: 2100000, guid: 5403708c854840f49b11287c50b50331, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: body2
+    second: {fileID: 2100000, guid: 6323d1831f9f63a40a3f0385aab803f9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: glassblk
+    second: {fileID: 2100000, guid: 7cf7f9ee5ed64494c9b280eb7c694585, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: headlght
+    second: {fileID: 2100000, guid: 9cf73b0f14a216c429d3a07e88955bd8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: headturn
+    second: {fileID: 2100000, guid: 060b3d01f873dac4395179a88bc75650, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: interior
+    second: {fileID: 2100000, guid: 562d1e100dc3aeb4496862ac654f5e81, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lamp  car
+    second: {fileID: 2100000, guid: 2e7a47c8cff436840a4c968891223366, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: mirror
+    second: {fileID: 2100000, guid: b3ceac9170bfb8946a40fc7eadab921d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: "plastik \xE1\xE8\xF0\xFE\xE7\xE0"
+    second: {fileID: 2100000, guid: c6a724ad10608804e83ece19add42218, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: rearlght
+    second: {fileID: 2100000, guid: f526ae2ef85bfae41b31383af21eca05, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: "\xED\xEE\xEC\xE5\xF0"
+    second: {fileID: 2100000, guid: dc0186b56528b7944be2cab9e818ae5b, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

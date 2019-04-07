@@ -5,7 +5,7 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/StartGame.unity
     guid: e6fb8a1e81d59a549a1c148d9f222226
   - enabled: 0
@@ -38,4 +38,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/NOT USED/Lobbies.unity
     guid: ea79bc4a9def246aba0377edf62c401a
+  - enabled: 1
+    path: Assets/Scenes/ChooseDifficulty.unity
+    guid: 70d795867c6704d41a2563aa7942a31f
+  - enabled: 1
+    path: Assets/Scenes/Defeat.unity
+    guid: 3a78ac57e4964124985fd58e113edb25
+  - enabled: 1
+    path: Assets/Scenes/Victory.unity
+    guid: bde66d71954072047a11902715679313
   m_configObjects: {}
