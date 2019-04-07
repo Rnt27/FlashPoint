@@ -10,10 +10,12 @@ public class Selectable : MonoBehaviour
     public BoxCollider collider;
 
     // action menu variable
+    private bool isConcrete = false;
     public Canvas myCanvas;
     private bool activeContextMenu = false;
-    private string[] action = { "Move to here", "Carry victim to here" };
-    private string[] extinguishAction = {"Extinguish Smoke", "Extinguish Fire" };
+    private string[] ActionSpaceSafe = { "Move to here", "Carry victim to here" };
+    private string[] ActionSpaceFire = { "Move to here", "Carry victim to here", "Turn Fire to Smoke", "Extinguish Fire" };
+    private string[] ActionSpaceSmoke = { "Move to here", "Carry victim to here", "Extinguish Smoke" };
     private string paramedicAction = "Treat"; // Extinguish Fire = 4 AP  and Extinguish Smoke =  2AP
     private string imagingTechnicianAction = "Identify POI";
     private string hazmatTechnicianAction = "Dispose";
@@ -42,6 +44,10 @@ public class Selectable : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (gameObject.name == "Concrete")
+        {
+            isConcrete = true;
+        }
         //Debug.Log("mycanvas= " + myCanvas);
         CanvasManager myCanvasManager = myCanvas.GetComponent<CanvasManager>();
         //Debug.Log("mycanvasManager= " + myCanvasManager);
@@ -102,11 +108,26 @@ public class Selectable : MonoBehaviour
             // Change the color of the GameObject to yellow when the mouse is over GameObject
             m_Renderer.material.color = m_MouseOverColor;
 
-            if (Input.GetMouseButtonDown(1))
+            if (Input.GetMouseButtonDown(1) && !isConcrete)
             {
                 //m_Renderer.material.color = Color.blue;
+                if(gameObject.GetComponent<Space>().status == SpaceStatus.Safe)
+                {
+                    myCanvas.GetComponent<CanvasManager>().ShowActionMenu(ActionSpaceSafe, this.gameObject, "tile");
+                }
 
-                myCanvas.GetComponent<CanvasManager>().ShowActionMenu(action, this.gameObject, "tile");
+                else if (gameObject.GetComponent<Space>().status == SpaceStatus.Fire)
+                {
+                    myCanvas.GetComponent<CanvasManager>().ShowActionMenu(ActionSpaceFire, this.gameObject, "tile");
+                }
+
+                else if (gameObject.GetComponent<Space>().status == SpaceStatus.Smoke)
+                {
+                    myCanvas.GetComponent<CanvasManager>().ShowActionMenu(ActionSpaceSmoke, this.gameObject, "tile");
+                }
+
+
+                
             }
 
 

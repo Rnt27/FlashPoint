@@ -26,8 +26,8 @@ public class Game : MonoBehaviour
     void Update()
     {
         //MouseOverLocation();
-        
-        if (Input.GetMouseButtonDown(0))
+
+        /*if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -43,7 +43,27 @@ public class Game : MonoBehaviour
                 firefighter.SetTargetWall(hit.transform.gameObject.GetComponent<WallController>());
                 firefighter.EnablePunch();
             }
-        }
+        }*/
+
+
+        
+        
+
+    }
+
+    //Test action menu
+    public void Move(Selectable target)
+    {
+        firefighter.SetTargetTile(target);
+        firefighter.EnableMove();
+
+    }
+
+    public void Chop(WallController target)
+    {
+        firefighter.SetTargetWall(target);
+        firefighter.EnablePunch();
+
     }
 
     /*

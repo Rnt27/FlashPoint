@@ -7,7 +7,8 @@ public class DoorController : MonoBehaviour
     // action menu variables
     public Canvas myCanvas;
     private bool activeContextMenu = false;
-    private string[] doorAction = { "Open Door", "Close Door" };
+    private string[] OpenDoor = { "Open Door"};
+    private string[] CloseDoor = {"Close Door" };
 
 
     public BoxCollider collider;
@@ -151,9 +152,9 @@ public class DoorController : MonoBehaviour
 
     void OnMouseOver()
     {
-        if (Cursor.visible == true)
-            selected = true;
+        if (Cursor.visible == true && !activeContextMenu && !myCanvas.GetComponent<CanvasManager>().popupOn)      
         {
+            selected = true;
 
             foreach (Transform child in transform)
             {
@@ -175,10 +176,18 @@ public class DoorController : MonoBehaviour
                 }
             }
 
-            if (Input.GetMouseButtonDown(1))
+            if (Input.GetMouseButtonDown(1) && gameObject.tag == "DoorInside")
             {
                 //SwitchRendererColor(Color.blue);
-                myCanvas.GetComponent<CanvasManager>().ShowActionMenu(doorAction, this.gameObject, "door");
+                if (open)
+                {
+                    myCanvas.GetComponent<CanvasManager>().ShowActionMenu(CloseDoor, this.gameObject, "door");
+                }
+                else
+                {
+                    myCanvas.GetComponent<CanvasManager>().ShowActionMenu(OpenDoor, this.gameObject, "door");
+                }
+                
 
             }
 
