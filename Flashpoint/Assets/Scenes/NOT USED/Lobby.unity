@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657838, g: 0.49641234, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1109,7 +1109,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 128217d1ad402b849a58de75a9a2de68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  username: Team 8
   maxMessages: 30
   charPanel: {fileID: 111740022}
   textObject: {fileID: 1957817674904146, guid: 1228591bcdb6f1440939c2b5ce7af3d6, type: 3}
@@ -1250,7 +1249,7 @@ PrefabInstance:
     - target: {fileID: 224955992747461240, guid: 564ebe706df8c0340ba33c26a41ddaf6,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.000030517578
+      value: -0.000015258789
       objectReference: {fileID: 0}
     - target: {fileID: 4866537026111648, guid: 564ebe706df8c0340ba33c26a41ddaf6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1314,16 +1313,6 @@ PrefabInstance:
       propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 224086325738129828, guid: 564ebe706df8c0340ba33c26a41ddaf6,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 1400
-      objectReference: {fileID: 0}
-    - target: {fileID: 224794219865221048, guid: 564ebe706df8c0340ba33c26a41ddaf6,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 1400
-      objectReference: {fileID: 0}
     - target: {fileID: 224311160794729356, guid: 564ebe706df8c0340ba33c26a41ddaf6,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -1348,6 +1337,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224086325738129828, guid: 564ebe706df8c0340ba33c26a41ddaf6,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1400
+      objectReference: {fileID: 0}
+    - target: {fileID: 224794219865221048, guid: 564ebe706df8c0340ba33c26a41ddaf6,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1400
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 564ebe706df8c0340ba33c26a41ddaf6, type: 3}
