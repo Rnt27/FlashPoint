@@ -15,7 +15,7 @@ public class Game : MonoBehaviour
     //public GameObject m_FirefighterPrefab;        // Reference to the prefab the players will control
 
     public FirefighterManager[] m_Firefighters;     // A collection of managers for enabling and disabling different aspects of the Firefighter
-    public FirefighterManager firefighter;
+    //public FirefighterManager firefighter;
 
     private bool m_hasLevelStarted = false;
     private bool m_isGamePlaying = false;
@@ -32,7 +32,8 @@ public class Game : MonoBehaviour
 
     void Awake()
     {
-        firefighter = FindObjectOfType<FirefighterManager>();
+        m_Firefighters = FindObjectsOfType<FirefighterManager>();
+        //firefighter = m_Firefighters[0];
     }
 
     void Start()
@@ -55,11 +56,33 @@ public class Game : MonoBehaviour
 
     private IEnumerator RoundPlaying()
     {
-        firefighter.EnableAction();
-        EnableFirefighterControl();
-        while (firefighter.getAP() != 0)
+        m_isGamePlaying = true;
+        while (!m_isGameOver)
         {
-            // Debug.Log("Firefighter AP: " + firefighter.getAP());
+            foreach (FirefighterManager firefighter in m_Firefighters)
+            {
+                firefighter.EnableAction();
+                firefighter.EnableControl();
+
+                yield return StartCoroutine(TurnPlaying(firefighter));
+                firefighter.Reset();
+            }
+
+            yield return null;
+        }
+    }
+
+    private IEnumerator RoundEnding()
+    {
+        Debug.Log("Firefighter Disabled");
+        DisableFirefighterControl();
+        yield return m_EndWait;
+    }
+
+    private IEnumerator TurnPlaying(FirefighterManager firefighter)
+    {
+        while (firefighter.getAP() != 0 && firefighter.IsMyTurn())
+        {
             if (Input.GetMouseButtonDown(0))
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -83,15 +106,9 @@ public class Game : MonoBehaviour
                     firefighter.EnableTouchDoor();
                 }
             }
+            Debug.Log("Firefighter No." + firefighter.m_PlayerNumber + " AP: " + firefighter.getAP());
             yield return null;
         }
-    }
-
-    private IEnumerator RoundEnding()
-    {
-        Debug.Log("Firefighter Disabled");
-        DisableFirefighterControl();
-        yield return m_EndWait;
     }
 
 
@@ -137,11 +154,17 @@ public class Game : MonoBehaviour
 
     private void DisableFirefighterControl()
     {
-        firefighter.DisableControl();
+        foreach(FirefighterManager firefighter in m_Firefighters)
+        {
+            firefighter.DisableControl();
+        }
     }
 
     private void EnableFirefighterControl()
     {
-        firefighter.EnableControl();
+        foreach (FirefighterManager firefighter in m_Firefighters)
+        {
+            firefighter.EnableControl();
+        }
     }
 }

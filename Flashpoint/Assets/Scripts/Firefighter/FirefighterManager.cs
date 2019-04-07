@@ -6,10 +6,9 @@ using UnityEngine;
 [System.Serializable]
 public class FirefighterManager : MonoBehaviour
 {
-    //public Transform m_SpawnPoint;                            // The position and direction the firefighter will have when it spawns
-    //public int m_PlayerNumber;                              // This specifies which player this firefighter belongs to
-
+    [HideInInspector] public int m_PlayerNumber;              // This specifies which player this firefighter belongs to
     [HideInInspector] public GameObject m_Instance;           // A reference to the instance of the firefighter when it is created
+
     private Selectable currentTile;
 
     private int AP;                                           // The action points firefighter has    
@@ -21,7 +20,6 @@ public class FirefighterManager : MonoBehaviour
     private bool Punch;
     private bool TouchDoor;
     private bool Extinguish;
-    private bool Carry;
 
     // Methods enable actions, called by GameManager
     public void EnableAction() { myTurn = true; }
@@ -29,7 +27,6 @@ public class FirefighterManager : MonoBehaviour
     public void EnablePunch() { Punch = true; }
     public void EnableTouchDoor() { TouchDoor = true; }
     public void EnableExitinguish() { Extinguish = true; }
-    public void EnableCarry() { Carry = true; }
 
     // References to firefighter's action scripts
     private FirefighterMovement m_Movement;
@@ -43,6 +40,8 @@ public class FirefighterManager : MonoBehaviour
     
     // Get Methods
     public int getAP() { return this.AP; }
+    public bool IsMyTurn() { return this.myTurn; }
+    public bool IsCarryingVictim() { return this.isCarryingVictim; }
 
     // Awake
     public void Awake()
@@ -58,7 +57,6 @@ public class FirefighterManager : MonoBehaviour
         Punch = false;
         TouchDoor = false;
         Extinguish = false;
-        Carry = false;
 
         //m_Movement.m_PlayerNumber = m_PlayerNumber;
     }
@@ -150,14 +148,11 @@ public class FirefighterManager : MonoBehaviour
 
             // Carry
         }
-    }
-
-    
-
-    
+    }    
 
     public void Reset()
     {
-
+        this.myTurn = false;
+        this.AP = 4;
     }
 }
