@@ -1,0 +1,207 @@
+fileFormatVersion: 2
+guid: 7486e86474fb8bf45aef052407a4edd7
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: Fbx_Root
+    100002: //RootNode
+    100004: Firetruck_
+    100006: Non_subD
+    100008: Non_subD_0
+    100010: Non_subD_1
+    100012: Non_subD_2
+    100014: subD
+    100016: subD1
+    100018: subD2
+    100020: subD3
+    100022: subD_1
+    100024: subD_2
+    100026: subD_3
+    100028: subD_4
+    100030: subD_5
+    100032: subD_6
+    100034: subD_7
+    100036: subD_8
+    100038: subD_9
+    100040: subD_RAD_0
+    100042: subD_RAD_H
+    100044: subD_RAD_V
+    400000: Fbx_Root
+    400002: //RootNode
+    400004: Firetruck_
+    400006: Non_subD
+    400008: Non_subD_0
+    400010: Non_subD_1
+    400012: Non_subD_2
+    400014: subD
+    400016: subD1
+    400018: subD2
+    400020: subD3
+    400022: subD_1
+    400024: subD_2
+    400026: subD_3
+    400028: subD_4
+    400030: subD_5
+    400032: subD_6
+    400034: subD_7
+    400036: subD_8
+    400038: subD_9
+    400040: subD_RAD_0
+    400042: subD_RAD_H
+    400044: subD_RAD_V
+    2100000: fire_big_usa-fl-
+    2100002: fire_big_usa-1
+    2100004: fire_big_usa-ins
+    2100006: fire_big_usa-2
+    2100008: fire_big_usa-gla
+    2100010: fire_big_usa-rub
+    2100012: fire_big_usa-chr
+    2100014: fire_big_usa-blu
+    2100016: fire_big_usa-red
+    2100018: fire_big_usa-whi
+    2100020: fire_big_usa-mir
+    2100022: fire_big_usa-ora
+    2100024: fire_big_usa-3
+    2100026: Cera_
+    2100028: fire_big_usa-bla
+    2100030: ',Black_'
+    2100032: chrome08 210
+    2100034: fire_big_usa-tir
+    2100036: fire_big_usa-bod
+    2300000: Non_subD
+    2300002: Non_subD_0
+    2300004: Non_subD_1
+    2300006: Non_subD_2
+    2300008: subD
+    2300010: subD1
+    2300012: subD2
+    2300014: subD3
+    2300016: subD_1
+    2300018: subD_2
+    2300020: subD_3
+    2300022: subD_4
+    2300024: subD_5
+    2300026: subD_6
+    2300028: subD_7
+    2300030: subD_8
+    2300032: subD_9
+    3300000: Non_subD
+    3300002: Non_subD_0
+    3300004: Non_subD_1
+    3300006: Non_subD_2
+    3300008: subD
+    3300010: subD1
+    3300012: subD2
+    3300014: subD3
+    3300016: subD_1
+    3300018: subD_2
+    3300020: subD_3
+    3300022: subD_4
+    3300024: subD_5
+    3300026: subD_6
+    3300028: subD_7
+    3300030: subD_8
+    3300032: subD_9
+    4300000: subD
+    4300002: subD_1
+    4300004: subD_2
+    4300006: subD_3
+    4300008: subD_4
+    4300010: subD_5
+    4300012: subD_6
+    4300014: subD_7
+    4300016: subD_8
+    4300018: subD_9
+    4300020: subD1
+    4300022: Non_subD_1
+    4300024: subD2
+    4300026: Non_subD_0
+    4300028: subD3
+    4300030: Non_subD_2
+    4300032: Non_subD
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

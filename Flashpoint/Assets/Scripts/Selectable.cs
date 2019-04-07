@@ -1,11 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class Selectable : MonoBehaviour
 {
 
     public BoxCollider collider;
+
+    // action menu variable
+    public Canvas myCanvas;
+    private bool activeContextMenu = false;
+    private string[] action = { "Move to here", "Carry victim to here" };
+    private string[] extinguishAction = {"Extinguish Smoke", "Extinguish Fire" };
+    private string paramedicAction = "Treat"; // Extinguish Fire = 4 AP  and Extinguish Smoke =  2AP
+    private string imagingTechnicianAction = "Identify POI";
+    private string hazmatTechnicianAction = "Dispose";
+    
+
 
     //for blinking
     public float wait;
@@ -29,6 +42,9 @@ public class Selectable : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //Debug.Log("mycanvas= " + myCanvas);
+        CanvasManager myCanvasManager = myCanvas.GetComponent<CanvasManager>();
+        //Debug.Log("mycanvasManager= " + myCanvasManager);
         //cam = GetComponent<Camera>();
         //Fetch the mesh renderer component from the GameObject
         m_Renderer = GetComponent<MeshRenderer>();
@@ -50,11 +66,27 @@ public class Selectable : MonoBehaviour
     void Update()
     {
         
+
     }
+
+    public void SwitchColorToOriginal()
+    {
+        m_Renderer.material.color = m_OriginalColor;
+
+    }
+
+    public void SetActiveContextMenu(bool a)
+    {
+        activeContextMenu = a;
+    }
+    
+
 
     void OnMouseOver()
     {
-        if(Cursor.visible==true){
+        
+        if (Cursor.visible==true && !activeContextMenu && !myCanvas.GetComponent<CanvasManager>().popupOn)
+        {
 
             selected = true;
             if (this.transform.parent != null)
@@ -65,18 +97,20 @@ public class Selectable : MonoBehaviour
             {
                 selectedName = this.name;
             }
+            //Debug.Log("Renderer =  " + m_Renderer);
 
-            // Change the color of the GameObject to black when the mouse is over GameObject
+            // Change the color of the GameObject to yellow when the mouse is over GameObject
             m_Renderer.material.color = m_MouseOverColor;
-
 
             if (Input.GetMouseButtonDown(1))
             {
-                //find the context menu
-                GameObject contextMenu = GameObject.FindWithTag("contextMenu");
-                contextMenu.transform.position = Camera.main.WorldToScreenPoint(this.transform.position);
+                //m_Renderer.material.color = Color.blue;
 
+                myCanvas.GetComponent<CanvasManager>().ShowActionMenu(action, this.gameObject, "tile");
             }
+
+
+
 
         }
     }
@@ -87,7 +121,14 @@ public class Selectable : MonoBehaviour
 
         selectedName = "";
         // Reset the color of the GameObject back to normal
-        m_Renderer.material.color = m_OriginalColor;
+        if (!activeContextMenu)
+        {
+            m_Renderer.material.color = m_OriginalColor;
+        }
+        
+        
+        
+        
     }
 
     void Neighbours()

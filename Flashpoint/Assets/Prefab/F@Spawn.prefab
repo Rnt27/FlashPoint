@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 444794341}
   - component: {fileID: 7151571870018977303}
   - component: {fileID: 5013643127216754422}
+  - component: {fileID: 4225002778295962257}
+  - component: {fileID: 8178631589360710710}
   m_Layer: 0
   m_Name: F@Spawn
   m_TagString: Untagged
@@ -130,6 +132,34 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
+--- !u!114 &4225002778295962257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 444794340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfef85ffa7415644182df5919cf32e94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pname: firefigther
+  playerColor: {r: 1, g: 1, b: 1, a: 1}
+--- !u!114 &8178631589360710710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 444794340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d2a4cad3af6147198e8191ac31a140e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ChatHistory: Welcome
+  playerInfo: 
 --- !u!1 &290416568587115232
 GameObject:
   m_ObjectHideFlags: 0

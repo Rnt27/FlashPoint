@@ -15,6 +15,7 @@ TagManager:
   - Undefined
   - Clickable
   - GhostAnimation
+  - contextMenu
   layers:
   - Default
   - TransparentFX
