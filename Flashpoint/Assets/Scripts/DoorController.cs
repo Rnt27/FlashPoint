@@ -266,6 +266,11 @@ public class DoorController : MonoBehaviour
         }
 
     }
+    
+    public bool getDoorState()
+    {
+        return open;
+    }
     /*
     public bool containClosed(Selectable tile)
     {

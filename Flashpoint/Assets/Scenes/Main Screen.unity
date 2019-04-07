@@ -392,6 +392,7 @@ GameObject:
   - component: {fileID: 137831539}
   - component: {fileID: 137831541}
   - component: {fileID: 137831542}
+  - component: {fileID: 137831543}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -463,6 +464,19 @@ MonoBehaviour:
   mainGamePanel: {fileID: 772632406}
   keyDelay: 3
   firefighters: []
+--- !u!114 &137831543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 137831538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 427a77ebc120d114c92132fac0f0f703, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Firefighters: []
 --- !u!4 &152561861 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 02df6613ce36445449b174963f177e6a,
@@ -840,7 +854,7 @@ PrefabInstance:
     - target: {fileID: 2648115697053244109, guid: 743fd4b7b795d6041b4e7293db12e876,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 34.170982
+      value: 33.78669
       objectReference: {fileID: 0}
     - target: {fileID: 2648115697053244109, guid: 743fd4b7b795d6041b4e7293db12e876,
         type: 3}

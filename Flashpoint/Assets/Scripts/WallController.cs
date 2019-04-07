@@ -187,6 +187,10 @@ public class WallController : MonoBehaviour
 
     }
 
+    public int getLife(){
+        return life; 
+    }
+
     public void HitWall()
     {
         life = life - 1;
