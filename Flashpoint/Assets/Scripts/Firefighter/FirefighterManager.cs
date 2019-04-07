@@ -44,6 +44,25 @@ public class FirefighterManager : MonoBehaviour
     // Get Methods
     public int getAP() { return this.AP; }
 
+    // Awake
+    public void Awake()
+    {
+        m_Movement = GetComponent<FirefighterMovement>();
+        m_PunchWall = GetComponent<FirefightePunchWall>();
+        m_TouchDoor = GetComponent<FirefighterTouchDoor>();
+
+        AP = 4;
+        myTurn = false;
+
+        Move = false;
+        Punch = false;
+        TouchDoor = false;
+        Extinguish = false;
+        Carry = false;
+
+        //m_Movement.m_PlayerNumber = m_PlayerNumber;
+    }
+
     // Setup
     /*
     public void Setup()
@@ -57,17 +76,15 @@ public class FirefighterManager : MonoBehaviour
     // Disable all action control at the end of player's turn, called in GameManager
     public void DisableControl()
     {
-        if (!myTurn)
-        {
             m_Movement.enabled = false;
             m_PunchWall.enabled = false;
             m_TouchDoor.enabled = false;
-        }
     }
 
     // Enable all action control at the beginning of player's turn, called in GamaManager
     public void EnableControl()
     {
+        // Debug.Log("Firefighter Enabled");
         m_Movement.enabled = true;
         m_PunchWall.enabled = true;
         m_TouchDoor.enabled = true;
@@ -78,24 +95,7 @@ public class FirefighterManager : MonoBehaviour
         AP -= reducedAP;
     }
 
-    // Awake
-    public void Awake ()
-    {
-        m_Movement = GetComponent<FirefighterMovement> ();
-        m_PunchWall = GetComponent<FirefightePunchWall> ();
-        m_TouchDoor = GetComponent<FirefighterTouchDoor> ();
-
-        AP = 4;
-        myTurn = true;
-
-        Move = false;
-        Punch = false;
-        TouchDoor = false;
-        Extinguish = false;
-        Carry = false;
-        
-        //m_Movement.m_PlayerNumber = m_PlayerNumber;
-    }
+    
 
     // Update
     void Update()
@@ -111,7 +111,7 @@ public class FirefighterManager : MonoBehaviour
                 if (Vector3.Distance(m_Movement.get_m_Transform().position, m_Movement.get_m_Target()) == 0)
                 {
                     Move = false;
-                    //ReduceAP(1);
+                    ReduceAP(1);
                     //Debug.Log(AP.ToString());
                     //currentTile = m_Movement.get_m_TargetTile();
                     m_Movement.get_m_Animator().SetBool("Move", false);
@@ -127,7 +127,7 @@ public class FirefighterManager : MonoBehaviour
                 if (m_PunchWall.TargetDamaged())
                 {
                     Punch = false;
-                    //ReduceAP(1);
+                    ReduceAP(1);
                     m_PunchWall.get_m_Animator().SetBool("Punch", false);
                 }
             }
@@ -141,11 +141,11 @@ public class FirefighterManager : MonoBehaviour
                 if (m_TouchDoor.DoorTouched())
                 {
                     TouchDoor = false;
-                    //ReduceAP(1);
+                    ReduceAP(1);
                     // m_TouchDoor.get_m_Animator().SetBool("TouchDoor", false);
                 }
             }
-
+ 
             // Extinguish
 
             // Carry
