@@ -6,7 +6,12 @@ public class DoorController : MonoBehaviour
 {
     public BoxCollider collider;
 
-    public bool open;
+    private bool open;
+
+    public bool getDoorState()
+    {
+        return open;
+    }
 
     int life;
 

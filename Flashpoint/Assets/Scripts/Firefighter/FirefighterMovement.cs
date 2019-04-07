@@ -54,8 +54,6 @@ public class FirefighterMovement : MonoBehaviour
         m_Transform.position = Vector3.MoveTowards(m_Transform.position, m_Target, m_Speed * Time.deltaTime);
     }
 
-  
-
     public void Turn(float turnInput)
     {
         Quaternion turnRotation = Quaternion.Euler(0f, turnInput, 0f);

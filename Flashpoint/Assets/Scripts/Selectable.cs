@@ -191,7 +191,7 @@ public class Selectable : MonoBehaviour
         if (doors.Contains(door))
         {
 
-            if (!door.open)
+            if (!door.getDoorState())
             {
                 return true;
             }

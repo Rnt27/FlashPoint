@@ -627,6 +627,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80a17e9b996c39243977a993c1638864, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Instance: {fileID: 0}
 --- !u!114 &1247947752
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -749,6 +750,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 427a77ebc120d114c92132fac0f0f703, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Firefighters:
+  - {fileID: 0}
+  - {fileID: 0}
   firefighter: {fileID: 0}
 --- !u!4 &2105995182
 Transform:
@@ -775,6 +779,7 @@ GameObject:
   - component: {fileID: 2106448008}
   - component: {fileID: 2106448007}
   - component: {fileID: 2106448006}
+  - component: {fileID: 2106448009}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -846,3 +851,16 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 60, y: 0, z: 0}
+--- !u!114 &2106448009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2106448005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ecce526cf3f6ea4d835b206faa04479, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Player: {fileID: 1247947747}
