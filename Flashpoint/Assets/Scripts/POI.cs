@@ -25,7 +25,8 @@ public class POI : MonoBehaviour
 			BoardManager.Instance.PoiDeath();
 			BoardManager.Instance.CheckLoss();
 		}
-
+		//Remove self from POIManager
+		POIManager.Instance.RemovePOI(gameObject);
 		Destroy(gameObject);
 	}
 
@@ -53,7 +54,8 @@ public class POI : MonoBehaviour
 			BoardManager.Instance.PoiSaved();
 			BoardManager.Instance.CheckWin();
 
-			//Remove self from game
+			//Remove self from game and POIManager
+			POIManager.Instance.RemovePOI(gameObject);
 			Destroy(gameObject);
 		}
 		
@@ -62,15 +64,21 @@ public class POI : MonoBehaviour
 	// TODO: Reveal the identity of the POI to the players
 	public GameObject Reveal()
 	{
+		//Remove self from the POIManager
+		POIManager.Instance.RemovePOI(gameObject);
+
 		if (!victim)
 		{
-			//TODO: Animation/Message to indicate that the POI is a victim
+			//TODO: Animation/Message to indicate that the POI is a false alarm 
+			POIManager.Instance.RemovePOI(gameObject);
+			POIManager.Instance.numFalseAlarms--;
 			Destroy(gameObject);
 			return null;
 		}
 		else
 		{
 			GameObject newVictim = POIManager.Instance.PlaceVictim(x, y);
+			POIManager.Instance.RemovePOI(gameObject);
 			Destroy(gameObject);
 			return newVictim;
 		}

@@ -2,11 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = System.Random;
 
 public class POIManager : MonoBehaviour
 {
 	public int numVictims = 12;
-	public int maxPOIs = 18; 
+	public int numFalseAlarms = 6;
+	public int maxOnBoard = 3; 
 	public static POIManager Instance = null;
 	public GameObject[] victimPrefabs;
 	public GameObject poiPrefab; 
@@ -22,14 +24,32 @@ public class POIManager : MonoBehaviour
 		return pois.Remove(poi);
 	}
 
+	//Get the number of missing POI's
+	public int NumMissing()
+	{
+		return 3 - pois.Count;
+	}
+
+	//Roll based on the pieces left in the bag if the next piece will be a victim or false alarm
+	public bool RollVictim()
+	{
+		Random r = new Random();
+		int roll = r.Next(1, numVictims + numFalseAlarms);
+		if (roll >= 1 && roll <= numVictims) return true;
+		else return false;
+	}
+
 	// Create a new POI and place it on the board on space x,y
 	public GameObject GeneratePOI(int x, int y, bool victimRoll)
 	{
-		//If it's a victim, decrease the total amount of victims left "in the bag"
-		if (victimRoll)
+		if (numVictims + numFalseAlarms == 0) //No more POI's left in the bag 
 		{
-			numVictims--; 
+			return null; 
 		}
+		//If it's a victim, decrease the total amount of victims left "in the bag"
+		if (victimRoll) numVictims--;
+		else numFalseAlarms--;
+
 		GameObject newPOI = Instantiate(poiPrefab);
 
 		//Randomly choose if the POI is a victim or not. (Without replacement)
@@ -73,7 +93,11 @@ public class POIManager : MonoBehaviour
 
 		return onSpace;
 	}
-	
+	public List<GameObject> GetFromSpace(GameObject space)
+	{
+		int[] c= BoardManager.Instance.GetSpaceCoordinates(space);
+		return GetFromSpace(c[0], c[1]);
+	}
 
 	private void Awake()
 	{

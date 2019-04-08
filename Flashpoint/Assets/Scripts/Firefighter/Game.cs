@@ -8,6 +8,7 @@ using UnityEngine;
 
 public class Game : MonoBehaviour
 {
+	public static Game Instance = null; 
     public FirefighterManager[] m_Firefighters;     // A collection of managers for enabling and disabling different aspects of the Firefighter
     public FirefighterManager m_Firefighter;
 
@@ -21,13 +22,42 @@ public class Game : MonoBehaviour
     public bool IsGameOver { get { return m_isGameOver; } set { m_isGameOver = value; } }
     public bool HasLevelFinished { get { return m_hasLevelFinished; } set { m_hasLevelFinished = value; } }
 
+    private bool moveButtonActive = false;
+    private bool punchButtonActive = false;
+    private bool touchButtonActive = false;
+    private bool extinguishButtonActive = false;
+    private bool endTurnButtonActive = false;
+
+    public void setMoveButtonActive() { this.moveButtonActive = true; }
+    public void setPunchButtonActive() { this.punchButtonActive = true; }
+    public void setTouchButtonActive() { this.touchButtonActive = true; }
+    public void setExtinguishButtonActive() { this.extinguishButtonActive = true; }
+    public void setEndTurnButtonActive() { this.endTurnButtonActive = true; }
+
     private WaitForSeconds m_StartWait = new WaitForSeconds(1f);
     private WaitForSeconds m_EndWait = new WaitForSeconds(1f);
 
+    public List<GameObject> GetFFOnSpace(GameObject target)
+    {
+	    List<GameObject> onSpace = new List<GameObject>();
+	    Space targetSpace = target.GetComponent<Space>();
+	    foreach (FirefighterManager f in m_Firefighters) //Check each firefighter and see if their current space is the space
+	    {
+			if(f.getCurrentSpace() == targetSpace) onSpace.Add(f.gameObject);
+	    }
+
+	    return onSpace;
+    }
+
+
     void Awake()
     {
+	    if (Instance == null)
+	    {
+		    Instance = this;
+	    }
         m_Firefighters = FindObjectsOfType<FirefighterManager>();
-        m_Firefighter = m_Firefighters[0];
+        //m_Firefighter = m_Firefighters[0];
     }
 
     void Start()
@@ -77,6 +107,7 @@ public class Game : MonoBehaviour
                 firefighter.EnableControl();
 
                 yield return StartCoroutine(TurnPlaying(firefighter));
+
                 firefighter.Reset();
             }
 
@@ -93,7 +124,7 @@ public class Game : MonoBehaviour
 
     private IEnumerator TurnPlaying(FirefighterManager firefighter)
     {
-        while (firefighter.getAP() != 0 && firefighter.IsMyTurn())
+        while (firefighter.getAP() > 0 && firefighter.IsMyTurn())
         {
             if (Input.GetMouseButtonDown(0))
             {
@@ -102,7 +133,6 @@ public class Game : MonoBehaviour
 
                 if (Physics.Raycast(ray, out hit) && (hit.transform.gameObject.tag == "InsideTile" || hit.transform.gameObject.tag == "OutsideTile"))
                 {
-                    //firefighter.SetTargetTile(hit.transform.gameObject.GetComponent<Selectable>());
                     firefighter.SetTargetSpace(hit.transform.gameObject.GetComponent<Space>());
                     firefighter.EnableMove();
                 }
@@ -119,7 +149,19 @@ public class Game : MonoBehaviour
                     firefighter.EnableTouchDoor();
                 }
             }
-            Debug.Log("Firefighter No." + firefighter.m_PlayerNumber + " AP: " + firefighter.getAP());
+
+            if (Input.GetMouseButtonDown(1))
+            {
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+
+                if (Physics.Raycast(ray, out hit) && hit.transform.gameObject.tag == "InsideTile" && hit.transform.gameObject.GetComponent<Space>().status != SpaceStatus.Safe)
+                {
+                    firefighter.SetTargetFire(hit.transform.gameObject.GetComponent<Space>());
+                    firefighter.EnableExtinguish();
+                }
+            }
+            //Debug.Log("Firefighter No." + firefighter.m_PlayerNumber + " AP: " + firefighter.getAP());
             yield return null;
         }
     }
@@ -151,16 +193,5 @@ public class Game : MonoBehaviour
             }
         }
         return AllSpawned;
-    }
-
-    //Test action menu
-    public void Move(Selectable target)
-    {
-        m_Firefighter.EnableMove();
-    }
-
-    public void Chop(WallController target)
-    {
-        m_Firefighter.EnablePunch();
     }
 }

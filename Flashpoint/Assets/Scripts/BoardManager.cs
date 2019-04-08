@@ -11,7 +11,7 @@ using Random = System.Random;
  **/
 public class BoardManager : MonoBehaviour
 {
-	private int SavedWinThreshold = 5; 
+	private int SavedWinThreshold = 7; 
 	public int HouseHP { get; private set; } //House Damage Loss Condition
 	public int RemainingPOI { get; private set; } //POI Death Loss Condition
 	public int SavedPOI { get; private set; } //POI Save Win condition
@@ -28,6 +28,7 @@ public class BoardManager : MonoBehaviour
 	static String outDoorTag = "DoorOutside";
 	static String POItag = "POI";
 	static String firemanTag = "Fireman";
+	static String hazmatTag = "Hazmat";
 
 	public static BoardManager Instance = null;
     public int columns = 10;
@@ -37,13 +38,13 @@ public class BoardManager : MonoBehaviour
 
     public Vector3 houseCorner = new Vector3(-16f, 0f, 16f);
 
-    GameObject[,] floors;
-    GameObject[,] leftEdge;
-    GameObject[,] upperEdge;
-    GameObject[,] ambulances;
-    GameObject[,] deckguns;
-	ArrayList[,] firemen;
-	ArrayList[,] pois;
+    private GameObject[,] floors;
+    private GameObject[,] leftEdge;
+    private GameObject[,] upperEdge;
+    private GameObject[,] ambulances;
+    private GameObject[,] deckguns;
+    private GameObject[,] hotspots;
+	List<GameObject> hazmats;
 
 	/*
 	 * Waiting on Features:
@@ -55,6 +56,9 @@ public class BoardManager : MonoBehaviour
     //-----------------------------+
     // PUBLIC API				   | : 
     //-----------------------------+
+
+
+
 
 	//Add a space into the BoardManager. Because spaces are stationary, we can also store the space's coordinate in its own object
 	void AddSpace(GameObject space, int x, int y )
@@ -183,17 +187,6 @@ public class BoardManager : MonoBehaviour
 		return GetEdgeObstacle(c[0], c[1], direction);
 	}
 
-	//Return a reference to all the firemen standing on the space
-	public ArrayList GetFiremen(int x, int y)
-	{
-		return firemen[x, y];
-	}
-	public ArrayList GetFiremen(GameObject space)
-	{
-		int[] c = FloorCoordinate(space);
-		return GetFiremen(c[0], c[1]);
-	}
-
 	//Return a reference to all space gameobjects adjacent to the space at coordinates [x,y]
 	public List<GameObject> GetAdjacent(int x, int y)
 	{
@@ -255,11 +248,107 @@ public class BoardManager : MonoBehaviour
 
 		return walls; 
 	}
+	public List<GameObject> GetAdjacentWalls(int x, int y)
+	{
+		return GetAdjacentWalls(floors[x, y]);
+	}
+
+	//Return a List of references to all Hazmat gameobjects on a certain space
+	public List<GameObject> GetHazmats(GameObject space)
+	{
+		int[] c = GetSpaceCoordinates(space);
+		return GetHazmats(c[0], c[1]); 
+	}
+	public List<GameObject> GetHazmats(int x, int y)
+	{
+		List<GameObject> h = new List<GameObject>();
+		foreach(GameObject hazmatObject in hazmats)
+		{
+			Hazmat hazmat = hazmatObject.GetComponent<Hazmat>();
+			if(hazmat.x == x && hazmat.y == y)
+			{
+				h.Add(hazmatObject);
+			}
+		}
+
+		return h;
+	}
+
+	//Remove hazmat from the BoardManager
+	public void RemoveHazmat(GameObject hazmat)
+	{
+		hazmats.Remove(hazmat);
+	}
+
+	//TODO: Generate Hazmat
+
+	//TODO: Generate Hotspot
 
 
 	//-----------------------------+
 	// END TURN LOGIC			   | : Check Win, Contact Server for Dice Roll, Advance Fire, Check Deaths/Knockouts, Check Loss, Extinguish Outside Fires, Contact Server for Dice Rolls Replenish POI
 	//-----------------------------+
+
+
+	//Entire end turn sequence
+	void EndTurn()
+	{
+		CheckWin();
+		bool flareUp = false;
+
+		do //Advance fire at least once, and continue until no flare ups occur. 
+		{
+			int[] r = Roll();
+			if ( hotspots[r[0], r[1]] != null) //Check for flare up
+			{
+				flareUp = true;
+				Destroy(hotspots[r[0], r[1]]); //Destroy the hotspot
+				hotspots[r[0], r[1]] = null;
+			}
+			AdvanceFire(r); //Advance fire at rolled spcae and resolve explosions/shockwaves
+			Flashover(); 
+
+		} while (flareUp);
+
+		ResolveDeaths(); 
+		CheckLoss(); 
+		ExtinguishOutsideFires(); 
+
+		//Roll spaces that don't contain a firefighter or hazard and replenish POI's on those spaces
+		List<int[]> POIRolls = new List<int[]>();
+		int numRolls = POIManager.Instance.NumMissing();
+		for (int i = 0; i < numRolls; i++)
+		{
+			int[] r = Roll();
+			Space s = floors[r[0], r[1]].GetComponent<Space>();
+
+			while (s.status == SpaceStatus.Fire || s.status == SpaceStatus.Smoke ||
+			    Game.Instance.GetFFOnSpace(s.gameObject).Count != 0) //Reroll the space until theres no firefighters, smoke or fire on that space
+			{
+				r = Roll();
+				s = floors[r[0], r[1]].GetComponent<Space>();
+			}
+			
+			POIRolls.Add(r);
+		}
+
+		ReplenishPOI(POIRolls);
+	}
+
+	//Simulate a dice roll and randomly choose a space on the board
+	int[] Roll()
+	{
+		Random r = new Random();
+		int[] roll = new int[2];
+
+		//roll x
+		roll[0] = r.Next(0, columns - 1);
+		//Roll y
+		roll[1] = r.Next(0, rows - 1);
+
+		return roll;
+	}
+
 
 	// (1) - Check Win TODO: Exit current scene to winning scene. 
 	public void CheckWin()
@@ -287,6 +376,9 @@ public class BoardManager : MonoBehaviour
 		{
 			Explode(x, y);				
 		}
+
+		//Resolve flashovers
+		Flashover();
 
 	}
 
@@ -438,9 +530,9 @@ public class BoardManager : MonoBehaviour
 			for(int y = 0; y < rows; y++)
 			{
 				if (floors[x, y].GetComponent<Space>().status != SpaceStatus.Fire) continue; //Ignore non-fire spaces
-				
+
 				//Get objects on x,y via BoardManager
-				ArrayList localFiremen = firemen[x, y];
+				List<GameObject> localFiremen = Game.Instance.GetFFOnSpace(floors[x, y]);
 				List<GameObject> localPOI = POIManager.Instance.GetFromSpace(x, y);
 		
 				//Resolve Knockouts for Firemen
@@ -486,7 +578,8 @@ public class BoardManager : MonoBehaviour
 	{
 		foreach(int[] roll in rolls)
 		{
-
+			//Pick a POI out of the bag and place it on the given rolled space
+			POIManager.Instance.GeneratePOI(roll[0], roll[1], POIManager.Instance.RollVictim());
 		}
 	}
 	
@@ -539,7 +632,6 @@ public class BoardManager : MonoBehaviour
 
         return coordinates;
     }
-	// TODO: Doors were fucked with, update method of getting edge coordinate.
 
     public bool IsOutside(int[] c)
     {
@@ -599,16 +691,16 @@ public class BoardManager : MonoBehaviour
 	// Generate fires on predetermined family mode spaces
 	void GenerateFiresFamily()
 	{
-		GetSpace(2,2).GetComponent<Space>().SetStatus(SpaceStatus.Fire);
-		GetSpace(3,2).GetComponent<Space>().SetStatus(SpaceStatus.Fire);
-		GetSpace(2, 3).GetComponent<Space>().SetStatus(SpaceStatus.Fire);
-		GetSpace(3, 3).GetComponent<Space>().SetStatus(SpaceStatus.Fire);
-		GetSpace(4, 3).GetComponent<Space>().SetStatus(SpaceStatus.Fire);
-		GetSpace(5, 3).GetComponent<Space>().SetStatus(SpaceStatus.Fire);
-		GetSpace(4, 4).GetComponent<Space>().SetStatus(SpaceStatus.Fire);
-		GetSpace(6, 5).GetComponent<Space>().SetStatus(SpaceStatus.Fire);
-		GetSpace(7, 5).GetComponent<Space>().SetStatus(SpaceStatus.Fire);
-		GetSpace(6, 6).GetComponent<Space>().SetStatus(SpaceStatus.Fire);
+		floors[2,2].GetComponent<Space>().SetStatus(SpaceStatus.Fire);
+		floors[3,2].GetComponent<Space>().SetStatus(SpaceStatus.Fire);
+		floors[2,3].GetComponent<Space>().SetStatus(SpaceStatus.Fire);
+		floors[3,3].GetComponent<Space>().SetStatus(SpaceStatus.Fire);
+		floors[4,3].GetComponent<Space>().SetStatus(SpaceStatus.Fire);
+		floors[5,3].GetComponent<Space>().SetStatus(SpaceStatus.Fire);
+		floors[4,4].GetComponent<Space>().SetStatus(SpaceStatus.Fire);
+		floors[6,5].GetComponent<Space>().SetStatus(SpaceStatus.Fire);
+		floors[7,5].GetComponent<Space>().SetStatus(SpaceStatus.Fire);
+		floors[6,6].GetComponent<Space>().SetStatus(SpaceStatus.Fire);
 	}
 
 	// Update board state based on the Vector3 positions of GameObjects already placed via Editor
@@ -707,6 +799,7 @@ public class BoardManager : MonoBehaviour
 			floors[x, y] = outSpaces[i];
 		}
 
+		//Edge Obstacles
 		GameObject[] walls = GameObject.FindGameObjectsWithTag(wallTag);
 		for(int i = 0; i < walls.Length; i++)
 		{
@@ -740,7 +833,13 @@ public class BoardManager : MonoBehaviour
 			else if (direction.ToLowerInvariant().Equals("up")) upperEdge[x, y] = outDoors[i];
 			else throw new InvalidPositionException();
 		}
-		
+
+		//Hazmats
+	//	GameObject[] hazmatObjects = GameObject.FindGameObjectsWithTag(hazmatTag);
+	//	for(int i =0; i < hazmatObjects.Length; i++)
+	//	{
+	//		hazmats.Add(hazmatObjects[i]);
+	//	}
 
 	}
 
@@ -751,19 +850,17 @@ public class BoardManager : MonoBehaviour
 		{
 			Instance = this;
 		}
-		// Instantiate grids
+		// Instantiate grids and lists
 	    floors = new GameObject[columns, rows];
 	    leftEdge = new GameObject[columns, rows];
 		upperEdge = new GameObject[columns, rows];
 	    ambulances = new GameObject[columns, rows];
-		LoadFromScene();
-	    //GenerateFiresFamily();
-		AdvanceFire(new int[] { 1, 1 });
-		AdvanceFire(new int[] { 1, 1 });
-		AdvanceFire(new int[] { 1, 2 });
+		hazmats = new List<GameObject>();
+		hotspots = new GameObject[columns, rows];
 
-		GameObject poi1 = POIManager.Instance.GeneratePOI(1, 4, true);
-		poi1.GetComponent<POI>().Reveal();
+		//Set coordinates and generate fires
+		LoadFromScene();
+	    GenerateFiresFamily();
 
 	}
 	// Use this for initialization

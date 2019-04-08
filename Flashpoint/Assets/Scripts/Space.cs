@@ -12,6 +12,7 @@ public class Space : MonoBehaviour {
 	public int x;
 	public int y;
 
+
 	public Space(SpaceStatus status)
 	{
 		switch (status)
@@ -107,14 +108,12 @@ public class Space : MonoBehaviour {
 	public void SetStatus(SpaceStatus s)
 	{	
 		this.status = s;
-		Debug.Log((int)s);
-		Debug.Log(fireObject[(int) s]);
 		fireInstances[(int) s] = Instantiate(fireObject[(int) s]);
 		fireInstances[(int)s].SetActive(true);
 		fireInstances[(int) s].transform.position = gameObject.transform.position;
 	
 		// Disable irrelevant fire objects
-		for(int i = (int) SpaceStatus.Safe; i < (int) SpaceStatus.Fire; i++)
+		for(int i = (int) SpaceStatus.Safe; i <= (int) SpaceStatus.Fire; i++)
 		{
 			if(i != (int) s)
 			{
@@ -125,6 +124,32 @@ public class Space : MonoBehaviour {
 
 	}
 
+	//Check if another Space or EdgeObstacle is adjacent
+	public bool IsAdjacent(GameObject s)
+	{
+		//Check if s exists in either of the adjacency lists returned by the BoardManager.
+		List<GameObject> adjSpaces = BoardManager.Instance.GetAdjacent(this.x, this.y);
+		List<GameObject> adjWalls = BoardManager.Instance.GetAdjacentWalls(gameObject);
+
+		foreach(GameObject space in adjSpaces)
+		{
+			if(s == space)
+			{
+				return true;
+			}
+		}
+
+		foreach(GameObject wall in adjWalls)
+		{
+			if(s == wall)
+			{
+				return true; 
+			}
+		}
+
+		//s was not found in any adjacent list, not adjacent.
+		return false;
+	}
 
 	void Awake()
 	{

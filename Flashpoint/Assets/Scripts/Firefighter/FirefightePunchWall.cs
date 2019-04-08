@@ -58,9 +58,15 @@ public class FirefightePunchWall : MonoBehaviour
     
     IEnumerator DamageWall()
     {
-        yield return new WaitForSeconds(2.83f);
-        m_TargetWall.HitWall();
-           
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+
+        yield return new WaitForSeconds(1f);
+
+        if (!Cursor.visible) { m_TargetWall.HitWall(); }
+
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
     public bool TargetDamaged()
