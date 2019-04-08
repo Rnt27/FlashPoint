@@ -11,13 +11,13 @@ public class FirefighterMovement : MonoBehaviour
     private Transform m_Transform;          // Reference used to move the firefighter
     private Vector3 m_Target;               // Reference of the target location
     private Animator m_Animator;            // Reference used to change animation
-    private Selectable m_TargetTile;        // Reference of the selected tile
+    private Space m_TargetSpace;            // Reference of the selected tile
 
     // Get methods
     public Transform get_m_Transform() { return this.m_Transform; }
     public Vector3 get_m_Target() { return this.m_Target; }
     public Animator get_m_Animator() { return this.m_Animator; }
-    public Selectable get_m_TargetTile() { return this.m_TargetTile; }
+    public Space get_m_TargetSpace() { return this.m_TargetSpace; }
 
     private void Awake()
     {
@@ -25,28 +25,28 @@ public class FirefighterMovement : MonoBehaviour
         m_Animator = GetComponent<Animator>();
     }
 
-    public void SetTarget(Selectable TargetTile)
+    public void SetTarget(Space TargetSpace)
     {
-        this.m_TargetTile = TargetTile;
-        this.m_Target = m_TargetTile.transform.position + new Vector3(0, 1, 0);
+        this.m_TargetSpace = TargetSpace;
+        this.m_Target = m_TargetSpace.transform.position + new Vector3(0, 1, 0);
     }
 
     public void Move()
     {
         m_Animator.SetBool("Move", true);
-        if (m_TargetTile.gameObject.transform.localPosition.x > m_Transform.localPosition.x)
+        if (m_TargetSpace.gameObject.transform.localPosition.x > m_Transform.localPosition.x)
         {
             Turn(90f);
         }
-        if (m_TargetTile.gameObject.transform.localPosition.x < m_Transform.localPosition.x)
+        if (m_TargetSpace.gameObject.transform.localPosition.x < m_Transform.localPosition.x)
         {
             Turn(-90f);
         }
-        if (m_TargetTile.gameObject.transform.localPosition.z > m_Transform.localPosition.z)
+        if (m_TargetSpace.gameObject.transform.localPosition.z > m_Transform.localPosition.z)
         {
             Turn(0f);
         }
-        if (m_TargetTile.gameObject.transform.localPosition.z < m_Transform.localPosition.z)
+        if (m_TargetSpace.gameObject.transform.localPosition.z < m_Transform.localPosition.z)
         {
             Turn(180f);
         }
