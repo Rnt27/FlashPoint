@@ -56,8 +56,6 @@ public class Game : MonoBehaviour
 	    {
 		    Instance = this;
 	    }
-        m_Firefighters = FindObjectsOfType<FirefighterManager>();
-        //m_Firefighter = m_Firefighters[0];
     }
 
     void Start()
@@ -67,6 +65,7 @@ public class Game : MonoBehaviour
 
     private IEnumerator GameLoop()
     {
+        yield return new WaitForSeconds(5f);
         yield return StartCoroutine(RoundStarting());
         yield return StartCoroutine(RoundPlaying());
         yield return StartCoroutine(RoundEnding());
@@ -74,6 +73,7 @@ public class Game : MonoBehaviour
 
     private IEnumerator RoundStarting()
     {
+        m_Firefighters = FindObjectsOfType<FirefighterManager>();
         DisableFirefighterControl();
         while (!FirefighterAllSpawned())
         {

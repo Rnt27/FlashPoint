@@ -98,6 +98,7 @@ public class WallController : MonoBehaviour
                 m_Renderer1.material.color = m_MouseOverColor;
 
             }*/
+            /*
 
             if (Input.GetMouseButtonDown(1))
             {
@@ -105,6 +106,7 @@ public class WallController : MonoBehaviour
                 myCanvas.GetComponent<CanvasManager>().ShowActionMenu(chop, this.gameObject, "wall");
 
             }
+            */
 
         }
     }

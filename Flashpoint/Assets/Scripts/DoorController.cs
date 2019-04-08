@@ -187,7 +187,7 @@ public class DoorController : MonoBehaviour
 
                 }
             }
-
+            /*
             if (Input.GetMouseButtonDown(1) && gameObject.tag == "DoorInside")
             {
                 //SwitchRendererColor(Color.blue);
@@ -202,7 +202,7 @@ public class DoorController : MonoBehaviour
                 
 
             }
-
+            */
         }
     }
 

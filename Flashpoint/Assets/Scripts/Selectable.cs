@@ -107,7 +107,7 @@ public class Selectable : MonoBehaviour
 
             // Change the color of the GameObject to yellow when the mouse is over GameObject
             m_Renderer.material.color = m_MouseOverColor;
-
+            /*
             if (Input.GetMouseButtonDown(1) && !isConcrete)
             {
                 //m_Renderer.material.color = Color.blue;
@@ -126,6 +126,7 @@ public class Selectable : MonoBehaviour
                     myCanvas.GetComponent<CanvasManager>().ShowActionMenu(ActionSpaceSmoke, this.gameObject, "tile");
                 }                
             }
+            */
         }
     }
     
