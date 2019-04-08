@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using UnityEngine.SceneManagement;
 
 public class CameraView : MonoBehaviour {
     public Transform Player; //Position of the player
@@ -18,7 +20,7 @@ public class CameraView : MonoBehaviour {
     private Vector3 originalPlace;
     private Quaternion originalRotation;
 
-    FirefighterController controlFirefighter;
+    FirefighterController[] controlFirefighter;
 
     //FirefighterController[] firefighters;
 
@@ -28,17 +30,41 @@ public class CameraView : MonoBehaviour {
     bool camera3;
     bool camera4;
 
-   // Use this for initialization
+    private bool setup = false;
+
+    
+
+    public void Setup()
+    {
+
+
+
+        controlFirefighter = FindObjectsOfType<FirefighterController>();
+        Debug.Log("camera= " + controlFirefighter.Length);
+        //Debug.Log(firefighters[1].name);
+        foreach (FirefighterController f in controlFirefighter)
+        {
+            if (f.name == "local")
+            {
+                firefighter = f;
+
+            }
+        }
+        
+    }
+
+    // called third
+    // Use this for initialization
     void Start () {
 
         //target = FindObjectOfType<FirefighterController>().gameObject;
 
-        controlFirefighter = FindObjectOfType<FirefighterController>();
+        //controlFirefighter = FindObjectOfType<FirefighterController>();
 
         //firefighters = controlFirefighter.getFirefighters();
 
         //firefighter = controlFirefighter.firefighter;
-        firefighter = controlFirefighter;
+        //firefighter = controlFirefighter;
 
         //firefighters[0].myTurn = true;
 
@@ -68,14 +94,21 @@ public class CameraView : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (!setup)
+        {
+            Setup();
+        }
+        target = firefighter.gameObject;
+        
+
 
         //turnFirefighter();
 
         //controlFirefighter.turnFirefighter();
 
-        firefighter = controlFirefighter;
+        //firefighter = controlFirefighter;
 
-        target = firefighter.gameObject;
+
         //Debug.Log(target.name);
 
         //Inputs to change the camera movement
