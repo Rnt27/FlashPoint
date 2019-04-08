@@ -11,7 +11,7 @@ using Random = System.Random;
  **/
 public class BoardManager : MonoBehaviour
 {
-	private int SavedWinThreshold = 5; 
+	private int SavedWinThreshold = 7; 
 	public int HouseHP { get; private set; } //House Damage Loss Condition
 	public int RemainingPOI { get; private set; } //POI Death Loss Condition
 	public int SavedPOI { get; private set; } //POI Save Win condition
@@ -314,9 +314,10 @@ public class BoardManager : MonoBehaviour
 		CheckLoss(); 
 		ExtinguishOutsideFires(); 
 
-		//Roll 3 spaces that don't contain a firefighter or hazard and replenish POI's on those spaces
+		//Roll spaces that don't contain a firefighter or hazard and replenish POI's on those spaces
 		List<int[]> POIRolls = new List<int[]>();
-		for (int i = 0; i < 3; i++)
+		int numRolls = POIManager.Instance.NumMissing();
+		for (int i = 0; i < numRolls; i++)
 		{
 			int[] r = Roll();
 			Space s = floors[r[0], r[1]].GetComponent<Space>();
@@ -690,16 +691,16 @@ public class BoardManager : MonoBehaviour
 	// Generate fires on predetermined family mode spaces
 	void GenerateFiresFamily()
 	{
-		GetSpace(2,2).GetComponent<Space>().SetStatus(SpaceStatus.Fire);
-		GetSpace(3,2).GetComponent<Space>().SetStatus(SpaceStatus.Fire);
-		GetSpace(2, 3).GetComponent<Space>().SetStatus(SpaceStatus.Fire);
-		GetSpace(3, 3).GetComponent<Space>().SetStatus(SpaceStatus.Fire);
-		GetSpace(4, 3).GetComponent<Space>().SetStatus(SpaceStatus.Fire);
-		GetSpace(5, 3).GetComponent<Space>().SetStatus(SpaceStatus.Fire);
-		GetSpace(4, 4).GetComponent<Space>().SetStatus(SpaceStatus.Fire);
-		GetSpace(6, 5).GetComponent<Space>().SetStatus(SpaceStatus.Fire);
-		GetSpace(7, 5).GetComponent<Space>().SetStatus(SpaceStatus.Fire);
-		GetSpace(6, 6).GetComponent<Space>().SetStatus(SpaceStatus.Fire);
+		floors[2,2].GetComponent<Space>().SetStatus(SpaceStatus.Fire);
+		floors[3,2].GetComponent<Space>().SetStatus(SpaceStatus.Fire);
+		floors[2,3].GetComponent<Space>().SetStatus(SpaceStatus.Fire);
+		floors[3,3].GetComponent<Space>().SetStatus(SpaceStatus.Fire);
+		floors[4,3].GetComponent<Space>().SetStatus(SpaceStatus.Fire);
+		floors[5,3].GetComponent<Space>().SetStatus(SpaceStatus.Fire);
+		floors[4,4].GetComponent<Space>().SetStatus(SpaceStatus.Fire);
+		floors[6,5].GetComponent<Space>().SetStatus(SpaceStatus.Fire);
+		floors[7,5].GetComponent<Space>().SetStatus(SpaceStatus.Fire);
+		floors[6,6].GetComponent<Space>().SetStatus(SpaceStatus.Fire);
 	}
 
 	// Update board state based on the Vector3 positions of GameObjects already placed via Editor
@@ -834,11 +835,11 @@ public class BoardManager : MonoBehaviour
 		}
 
 		//Hazmats
-		GameObject[] hazmatObjects = GameObject.FindGameObjectsWithTag(hazmatTag);
-		for(int i =0; i < hazmatObjects.Length; i++)
-		{
-			hazmats.Add(hazmatObjects[i]);
-		}
+	//	GameObject[] hazmatObjects = GameObject.FindGameObjectsWithTag(hazmatTag);
+	//	for(int i =0; i < hazmatObjects.Length; i++)
+	//	{
+	//		hazmats.Add(hazmatObjects[i]);
+	//	}
 
 	}
 
@@ -855,13 +856,11 @@ public class BoardManager : MonoBehaviour
 		upperEdge = new GameObject[columns, rows];
 	    ambulances = new GameObject[columns, rows];
 		hazmats = new List<GameObject>();
+		hotspots = new GameObject[columns, rows];
 
 		//Set coordinates and generate fires
 		LoadFromScene();
 	    GenerateFiresFamily();
-		AdvanceFire(new int[] { 1, 1 });
-		AdvanceFire(new int[] { 1, 1 });
-		AdvanceFire(new int[] { 1, 2 });
 
 	}
 	// Use this for initialization
