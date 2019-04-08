@@ -133,7 +133,6 @@ public class Game : MonoBehaviour
 
                 if (Physics.Raycast(ray, out hit) && (hit.transform.gameObject.tag == "InsideTile" || hit.transform.gameObject.tag == "OutsideTile"))
                 {
-                    //firefighter.SetTargetTile(hit.transform.gameObject.GetComponent<Selectable>());
                     firefighter.SetTargetSpace(hit.transform.gameObject.GetComponent<Space>());
                     firefighter.EnableMove();
                 }
@@ -150,7 +149,19 @@ public class Game : MonoBehaviour
                     firefighter.EnableTouchDoor();
                 }
             }
-            Debug.Log("Firefighter No." + firefighter.m_PlayerNumber + " AP: " + firefighter.getAP());
+
+            if (Input.GetMouseButtonDown(1))
+            {
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+
+                if (Physics.Raycast(ray, out hit) && hit.transform.gameObject.tag == "InsideTile" && hit.transform.gameObject.GetComponent<Space>().status != SpaceStatus.Safe)
+                {
+                    firefighter.SetTargetFire(hit.transform.gameObject.GetComponent<Space>());
+                    firefighter.EnableExtinguish();
+                }
+            }
+            //Debug.Log("Firefighter No." + firefighter.m_PlayerNumber + " AP: " + firefighter.getAP());
             yield return null;
         }
     }

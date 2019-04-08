@@ -29,7 +29,7 @@ public class FirefighterManager : MonoBehaviour
     public void EnableMove() { Move = true; }
     public void EnablePunch() { Punch = true; }
     public void EnableTouchDoor() { TouchDoor = true; }
-    public void EnableExitinguish() { Extinguish = true; }
+    public void EnableExtinguish() { Extinguish = true; }
 
     // References to firefighter's action scripts
     private FirefighterMovement m_Movement;
@@ -41,6 +41,7 @@ public class FirefighterManager : MonoBehaviour
     public void SetTargetSpace(Space TargetSpace) { m_Movement.SetTarget(TargetSpace); }
     public void SetTargetWall(WallController TargetWall) { m_PunchWall.SetTarget(TargetWall); }
     public void SetTargetDoor(DoorController TargetDoor) { m_TouchDoor.SetTarget(TargetDoor); }
+    public void SetTargetFire(Space TargetSpace) { m_Extinguish.SetTarget(TargetSpace); }
 
     // Set Methods
     public void setCurrentSpace(Space TargetSpace) { this.m_CurrentSpace = TargetSpace; }
@@ -113,7 +114,7 @@ public class FirefighterManager : MonoBehaviour
             if (Move) { MoveFirefighter(); }
             if (Punch) { PunchWall(); }
             if (TouchDoor) { InteractDoor(); }
-            if (Extinguish) { }
+            if (Extinguish) { ExtinguishFire(); }
         }
     }
 
@@ -192,11 +193,13 @@ public class FirefighterManager : MonoBehaviour
         }
     }
 
-    private void ExitinguishFire()
+    private void ExtinguishFire()
     {
-        m_Extinguish.Extinguish();
-
-        if (m_Extinguish.FireExtinguished())
+        if (!m_Extinguish.FireExtinguished())
+        {
+            m_Extinguish.Extinguish();
+        }
+        else
         {
             Extinguish = false;
             ReduceAP(1);
