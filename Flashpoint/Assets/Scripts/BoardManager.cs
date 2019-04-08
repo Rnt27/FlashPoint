@@ -43,7 +43,7 @@ public class BoardManager : MonoBehaviour
     private GameObject[,] upperEdge;
     private GameObject[,] ambulances;
     private GameObject[,] deckguns;
-    private GameObject hotspots;
+    private GameObject[,] hotspots;
 	List<GameObject> hazmats;
 
 	/*
@@ -56,6 +56,9 @@ public class BoardManager : MonoBehaviour
     //-----------------------------+
     // PUBLIC API				   | : 
     //-----------------------------+
+
+
+
 
 	//Add a space into the BoardManager. Because spaces are stationary, we can also store the space's coordinate in its own object
 	void AddSpace(GameObject space, int x, int y )
@@ -184,17 +187,6 @@ public class BoardManager : MonoBehaviour
 		return GetEdgeObstacle(c[0], c[1], direction);
 	}
 
-	//Return a reference to all the firemen standing on the space
-	public ArrayList GetFiremen(int x, int y)
-	{
-		return firemen[x, y];
-	}
-	public ArrayList GetFiremen(GameObject space)
-	{
-		int[] c = FloorCoordinate(space);
-		return GetFiremen(c[0], c[1]);
-	}
-
 	//Return a reference to all space gameobjects adjacent to the space at coordinates [x,y]
 	public List<GameObject> GetAdjacent(int x, int y)
 	{
@@ -287,7 +279,7 @@ public class BoardManager : MonoBehaviour
 	{
 		hazmats.Remove(hazmat);
 	}
-	
+
 	//TODO: Generate Hazmat
 
 	//TODO: Generate Hotspot
@@ -296,6 +288,66 @@ public class BoardManager : MonoBehaviour
 	//-----------------------------+
 	// END TURN LOGIC			   | : Check Win, Contact Server for Dice Roll, Advance Fire, Check Deaths/Knockouts, Check Loss, Extinguish Outside Fires, Contact Server for Dice Rolls Replenish POI
 	//-----------------------------+
+
+
+	//Entire end turn sequence
+	void EndTurn()
+	{
+		CheckWin();
+		bool flareUp = false;
+
+		do //Advance fire at least once, and continue until no flare ups occur. 
+		{
+			int[] r = Roll();
+			if ( hotspots[r[0], r[1]] != null) //Check for flare up
+			{
+				flareUp = true;
+				Destroy(hotspots[r[0], r[1]]); //Destroy the hotspot
+				hotspots[r[0], r[1]] = null;
+			}
+			AdvanceFire(r); //Advance fire at rolled spcae and resolve explosions/shockwaves
+			Flashover(); 
+
+		} while (flareUp);
+
+		ResolveDeaths(); 
+		CheckLoss(); 
+		ExtinguishOutsideFires(); 
+
+		//Roll 3 spaces that don't contain a firefighter or hazard and replenish POI's on those spaces
+		List<int[]> POIRolls = new List<int[]>();
+		for (int i = 0; i < 3; i++)
+		{
+			int[] r = Roll();
+			Space s = floors[r[0], r[1]].GetComponent<Space>();
+
+			while (s.status == SpaceStatus.Fire || s.status == SpaceStatus.Smoke ||
+			    Game.Instance.GetFirefightersOnSpace(s.gameObject).Count != 0) //Reroll the space until theres no firefighters, smoke or fire on that space
+			{
+				r = Roll();
+				s = floors[r[0], r[1]].GetComponent<Space>();
+			}
+			
+			POIRolls.Add(r);
+		}
+
+		ReplenishPOI(POIRolls);
+	}
+
+	//Simulate a dice roll and randomly choose a space on the board
+	int[] Roll()
+	{
+		Random r = new Random();
+		int[] roll = new int[2];
+
+		//roll x
+		roll[0] = r.Next(0, columns - 1);
+		//Roll y
+		roll[1] = r.Next(0, rows - 1);
+
+		return roll;
+	}
+
 
 	// (1) - Check Win TODO: Exit current scene to winning scene. 
 	public void CheckWin()
@@ -323,6 +375,10 @@ public class BoardManager : MonoBehaviour
 		{
 			Explode(x, y);				
 		}
+
+		//Resolve flashovers
+		Flashover();
+
 	}
 
 	// Explosion logic
@@ -475,7 +531,7 @@ public class BoardManager : MonoBehaviour
 				if (floors[x, y].GetComponent<Space>().status != SpaceStatus.Fire) continue; //Ignore non-fire spaces
 
 				//Get objects on x,y via BoardManager
-				List<GameObject> localFiremen = new List<GameObject>(); //TODO: Get from FirefighterManager
+				List<GameObject> localFiremen = Game.Instance.GetFirefightersOnSpace(floors[x, y]);
 				List<GameObject> localPOI = POIManager.Instance.GetFromSpace(x, y);
 		
 				//Resolve Knockouts for Firemen
@@ -521,7 +577,8 @@ public class BoardManager : MonoBehaviour
 	{
 		foreach(int[] roll in rolls)
 		{
-
+			//Pick a POI out of the bag and place it on the given rolled space
+			POIManager.Instance.GeneratePOI(roll[0], roll[1], POIManager.Instance.RollVictim());
 		}
 	}
 	
