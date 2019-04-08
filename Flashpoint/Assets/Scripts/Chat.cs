@@ -7,7 +7,7 @@ using System;
 
 public class Chat : NetworkBehaviour
 {
-    public string ChatHistory = "Welcome";
+    public string ChatHistory = "Chat Log";
     Vector2 scrollPosition;
     string currentMessage = string.Empty;
 
@@ -57,6 +57,8 @@ public class Chat : NetworkBehaviour
 
 
             {
+                GUILayout.Space(85);
+                //GUILayout.TextArea("", GUILayout.Width(100), GUILayout.Height(85));
                 scrollPosition = GUILayout.BeginScrollView(
                 scrollPosition, GUILayout.Width(300), GUILayout.Height(200));
 
