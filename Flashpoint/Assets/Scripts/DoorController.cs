@@ -10,7 +10,6 @@ public class DoorController : MonoBehaviour
     private string[] OpenDoor = { "Open Door"};
     private string[] CloseDoor = {"Close Door" };
 
-
     public BoxCollider collider;
 
     public bool open;
