@@ -21,13 +21,15 @@ public class Game : MonoBehaviour
     public bool IsGameOver { get { return m_isGameOver; } set { m_isGameOver = value; } }
     public bool HasLevelFinished { get { return m_hasLevelFinished; } set { m_hasLevelFinished = value; } }
 
+    
+
     private WaitForSeconds m_StartWait = new WaitForSeconds(1f);
     private WaitForSeconds m_EndWait = new WaitForSeconds(1f);
 
     void Awake()
     {
         m_Firefighters = FindObjectsOfType<FirefighterManager>();
-        m_Firefighter = m_Firefighters[0];
+        //m_Firefighter = m_Firefighters[0];
     }
 
     void Start()
@@ -77,6 +79,7 @@ public class Game : MonoBehaviour
                 firefighter.EnableControl();
 
                 yield return StartCoroutine(TurnPlaying(firefighter));
+
                 firefighter.Reset();
             }
 
@@ -93,7 +96,7 @@ public class Game : MonoBehaviour
 
     private IEnumerator TurnPlaying(FirefighterManager firefighter)
     {
-        while (firefighter.getAP() != 0 && firefighter.IsMyTurn())
+        while (firefighter.getAP() > 0 && firefighter.IsMyTurn())
         {
             if (Input.GetMouseButtonDown(0))
             {
