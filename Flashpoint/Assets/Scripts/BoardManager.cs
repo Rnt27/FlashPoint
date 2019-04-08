@@ -28,6 +28,7 @@ public class BoardManager : MonoBehaviour
 	static String outDoorTag = "DoorOutside";
 	static String POItag = "POI";
 	static String firemanTag = "Fireman";
+	static String hazmatTag = "Hazmat";
 
 	public static BoardManager Instance = null;
     public int columns = 10;
@@ -37,13 +38,13 @@ public class BoardManager : MonoBehaviour
 
     public Vector3 houseCorner = new Vector3(-16f, 0f, 16f);
 
-    GameObject[,] floors;
-    GameObject[,] leftEdge;
-    GameObject[,] upperEdge;
-    GameObject[,] ambulances;
-    GameObject[,] deckguns;
-	ArrayList[,] firemen;
-	ArrayList[,] pois;
+    private GameObject[,] floors;
+    private GameObject[,] leftEdge;
+    private GameObject[,] upperEdge;
+    private GameObject[,] ambulances;
+    private GameObject[,] deckguns;
+    private GameObject hotspots;
+	List<GameObject> hazmats;
 
 	/*
 	 * Waiting on Features:
@@ -260,6 +261,38 @@ public class BoardManager : MonoBehaviour
 		return GetAdjacentWalls(floors[x, y]);
 	}
 
+	//Return a List of references to all Hazmat gameobjects on a certain space
+	public List<GameObject> GetHazmats(GameObject space)
+	{
+		int[] c = GetSpaceCoordinates(space);
+		return GetHazmats(c[0], c[1]); 
+	}
+	public List<GameObject> GetHazmats(int x, int y)
+	{
+		List<GameObject> h = new List<GameObject>();
+		foreach(GameObject hazmatObject in hazmats)
+		{
+			Hazmat hazmat = hazmatObject.GetComponent<Hazmat>();
+			if(hazmat.x == x && hazmat.y == y)
+			{
+				h.Add(hazmatObject);
+			}
+		}
+
+		return h;
+	}
+
+	//Remove hazmat from the BoardManager
+	public void RemoveHazmat(GameObject hazmat)
+	{
+		hazmats.Remove(hazmat);
+	}
+	
+	//TODO: Generate Hazmat
+
+	//TODO: Generate Hotspot
+
+
 	//-----------------------------+
 	// END TURN LOGIC			   | : Check Win, Contact Server for Dice Roll, Advance Fire, Check Deaths/Knockouts, Check Loss, Extinguish Outside Fires, Contact Server for Dice Rolls Replenish POI
 	//-----------------------------+
@@ -290,7 +323,6 @@ public class BoardManager : MonoBehaviour
 		{
 			Explode(x, y);				
 		}
-
 	}
 
 	// Explosion logic
@@ -441,9 +473,9 @@ public class BoardManager : MonoBehaviour
 			for(int y = 0; y < rows; y++)
 			{
 				if (floors[x, y].GetComponent<Space>().status != SpaceStatus.Fire) continue; //Ignore non-fire spaces
-				
+
 				//Get objects on x,y via BoardManager
-				ArrayList localFiremen = firemen[x, y];
+				List<GameObject> localFiremen = new List<GameObject>(); //TODO: Get from FirefighterManager
 				List<GameObject> localPOI = POIManager.Instance.GetFromSpace(x, y);
 		
 				//Resolve Knockouts for Firemen
@@ -542,7 +574,6 @@ public class BoardManager : MonoBehaviour
 
         return coordinates;
     }
-	// TODO: Doors were fucked with, update method of getting edge coordinate.
 
     public bool IsOutside(int[] c)
     {
@@ -710,6 +741,7 @@ public class BoardManager : MonoBehaviour
 			floors[x, y] = outSpaces[i];
 		}
 
+		//Edge Obstacles
 		GameObject[] walls = GameObject.FindGameObjectsWithTag(wallTag);
 		for(int i = 0; i < walls.Length; i++)
 		{
@@ -743,7 +775,13 @@ public class BoardManager : MonoBehaviour
 			else if (direction.ToLowerInvariant().Equals("up")) upperEdge[x, y] = outDoors[i];
 			else throw new InvalidPositionException();
 		}
-		
+
+		//Hazmats
+		GameObject[] hazmatObjects = GameObject.FindGameObjectsWithTag(hazmatTag);
+		for(int i =0; i < hazmatObjects.Length; i++)
+		{
+			hazmats.Add(hazmatObjects[i]);
+		}
 
 	}
 
@@ -754,19 +792,19 @@ public class BoardManager : MonoBehaviour
 		{
 			Instance = this;
 		}
-		// Instantiate grids
+		// Instantiate grids and lists
 	    floors = new GameObject[columns, rows];
 	    leftEdge = new GameObject[columns, rows];
 		upperEdge = new GameObject[columns, rows];
 	    ambulances = new GameObject[columns, rows];
+		hazmats = new List<GameObject>();
+
+		//Set coordinates and generate fires
 		LoadFromScene();
 	    GenerateFiresFamily();
 		AdvanceFire(new int[] { 1, 1 });
 		AdvanceFire(new int[] { 1, 1 });
 		AdvanceFire(new int[] { 1, 2 });
-
-		GameObject poi1 = POIManager.Instance.GeneratePOI(1, 4, true);
-		poi1.GetComponent<POI>().Reveal();
 
 	}
 	// Use this for initialization
