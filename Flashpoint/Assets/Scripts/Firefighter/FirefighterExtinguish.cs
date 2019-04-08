@@ -30,7 +30,7 @@ public class FirefighterExtinguish : MonoBehaviour
 
     public void Extinguish()
     {
-        m_Animator.SetBool("Magic", true);
+        m_Animator.SetBool("magic", true);
         if (m_TargetSpace.gameObject.transform.localPosition.x > m_Transform.localPosition.x)
         {
             Turn(90f);
@@ -47,7 +47,21 @@ public class FirefighterExtinguish : MonoBehaviour
         {
             Turn(180f);
         }
-        m_TargetSpace.DecrementFire();
+        StartCoroutine(ExtinguishFire());
+        // m_TargetSpace.DecrementFire();
+    }
+
+    IEnumerator ExtinguishFire()
+    {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+
+        yield return new WaitForSeconds(1f);
+
+        if (!Cursor.visible) { m_TargetSpace.DecrementFire(); }
+
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
     public void Turn(float turnInput)
