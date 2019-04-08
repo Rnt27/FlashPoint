@@ -255,7 +255,10 @@ public class BoardManager : MonoBehaviour
 
 		return walls; 
 	}
-
+	public List<GameObject> GetAdjacentWalls(int x, int y)
+	{
+		return GetAdjacentWalls(floors[x, y]);
+	}
 
 	//-----------------------------+
 	// END TURN LOGIC			   | : Check Win, Contact Server for Dice Roll, Advance Fire, Check Deaths/Knockouts, Check Loss, Extinguish Outside Fires, Contact Server for Dice Rolls Replenish POI

@@ -73,7 +73,11 @@ public class POIManager : MonoBehaviour
 
 		return onSpace;
 	}
-	
+	public List<GameObject> GetFromSpace(GameObject space)
+	{
+		int[] c= BoardManager.Instance.GetSpaceCoordinates(space);
+		return GetFromSpace(c[0], c[1]);
+	}
 
 	private void Awake()
 	{

@@ -126,6 +126,32 @@ public class Space : MonoBehaviour {
 
 	}
 
+	//Check if another Space or EdgeObstacle is adjacent
+	public bool IsAdjacent(GameObject s)
+	{
+		//Check if s exists in either of the adjacency lists returned by the BoardManager.
+		List<GameObject> adjSpaces = BoardManager.Instance.GetAdjacent(this.x, this.y);
+		List<GameObject> adjWalls = BoardManager.Instance.GetAdjacentWalls(gameObject);
+
+		foreach(GameObject space in adjSpaces)
+		{
+			if(s == space)
+			{
+				return true;
+			}
+		}
+
+		foreach(GameObject wall in adjWalls)
+		{
+			if(s == wall)
+			{
+				return true; 
+			}
+		}
+
+		//s was not found in any adjacent list, not adjacent.
+		return false;
+	}
 
 	void Awake()
 	{
