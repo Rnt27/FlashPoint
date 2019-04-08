@@ -322,7 +322,7 @@ public class BoardManager : MonoBehaviour
 			Space s = floors[r[0], r[1]].GetComponent<Space>();
 
 			while (s.status == SpaceStatus.Fire || s.status == SpaceStatus.Smoke ||
-			    Game.Instance.GetFirefightersOnSpace(s.gameObject).Count != 0) //Reroll the space until theres no firefighters, smoke or fire on that space
+			    Game.Instance.GetFFOnSpace(s.gameObject).Count != 0) //Reroll the space until theres no firefighters, smoke or fire on that space
 			{
 				r = Roll();
 				s = floors[r[0], r[1]].GetComponent<Space>();
@@ -531,7 +531,7 @@ public class BoardManager : MonoBehaviour
 				if (floors[x, y].GetComponent<Space>().status != SpaceStatus.Fire) continue; //Ignore non-fire spaces
 
 				//Get objects on x,y via BoardManager
-				List<GameObject> localFiremen = Game.Instance.GetFirefightersOnSpace(floors[x, y]);
+				List<GameObject> localFiremen = Game.Instance.GetFFOnSpace(floors[x, y]);
 				List<GameObject> localPOI = POIManager.Instance.GetFromSpace(x, y);
 		
 				//Resolve Knockouts for Firemen

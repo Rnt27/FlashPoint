@@ -8,6 +8,7 @@ using UnityEngine;
 
 public class Game : MonoBehaviour
 {
+	public static Game Instance = null; 
     public FirefighterManager[] m_Firefighters;     // A collection of managers for enabling and disabling different aspects of the Firefighter
     public FirefighterManager m_Firefighter;
 
@@ -36,8 +37,25 @@ public class Game : MonoBehaviour
     private WaitForSeconds m_StartWait = new WaitForSeconds(1f);
     private WaitForSeconds m_EndWait = new WaitForSeconds(1f);
 
+    public List<GameObject> GetFFOnSpace(GameObject target)
+    {
+	    List<GameObject> onSpace = new List<GameObject>();
+	    Space targetSpace = target.GetComponent<Space>();
+	    foreach (FirefighterManager f in m_Firefighters) //Check each firefighter and see if their current space is the space
+	    {
+			if(f.getCurrentSpace() == targetSpace) onSpace.Add(f.gameObject);
+	    }
+
+	    return onSpace;
+    }
+
+
     void Awake()
     {
+	    if (Instance == null)
+	    {
+		    Instance = this;
+	    }
         m_Firefighters = FindObjectsOfType<FirefighterManager>();
         //m_Firefighter = m_Firefighters[0];
     }
