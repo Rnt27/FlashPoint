@@ -20,7 +20,8 @@ public class Door : MonoBehaviour, EdgeObstacle {
 		else
 		{
 			state = 1 - state;
-		}
+            this.GetComponent<DoorController>().InteractDoor();
+        }
 	}
 
 	// Destroy the door

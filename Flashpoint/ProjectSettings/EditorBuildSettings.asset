@@ -8,7 +8,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/StartGame.unity
     guid: e6fb8a1e81d59a549a1c148d9f222226
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/NOT USED/MainMenu.unity
     guid: 848577b357af443a896fbe99be32b2d4
   - enabled: 1
@@ -17,9 +17,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/NOT USED/Menu.unity
     guid: e081d098d98ed0c4498eae564c673c68
-  - enabled: 1
-    path: Assets/Scenes/Main Screen.unity
-    guid: 42742266266b0b34e82e44bf68824422
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/Scenes/NOT USED/LobbyFamily.unity
     guid: cafd0148fc95f0744a4bc1b2d2efa270
@@ -44,6 +44,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Defeat.unity
     guid: 3a78ac57e4964124985fd58e113edb25
+  - enabled: 1
+    path: Assets/Scenes/Main Screen.unity
+    guid: 6ec62a2ab0402f342a9f202c4821be67
   - enabled: 1
     path: Assets/Scenes/Victory.unity
     guid: bde66d71954072047a11902715679313

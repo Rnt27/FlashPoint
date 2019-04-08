@@ -7,7 +7,8 @@ public class DoorController : MonoBehaviour
     // action menu variables
     public Canvas myCanvas;
     private bool activeContextMenu = false;
-    private string[] doorAction = { "Open Door", "Close Door" };
+    private string[] OpenDoor = { "Open Door"};
+    private string[] CloseDoor = {"Close Door" };
 
 
     public BoxCollider collider;
@@ -107,6 +108,7 @@ public class DoorController : MonoBehaviour
         {
             if (child.CompareTag("Door"))
             {
+                
                 child.position = Vector3.Lerp(child.transform.position, doorAnimation.transform.position, 0.01F * Time.time);
                 child.rotation = Quaternion.Lerp(child.transform.rotation, doorAnimation.transform.rotation, 0.01F * Time.time);
             }
@@ -151,9 +153,9 @@ public class DoorController : MonoBehaviour
 
     void OnMouseOver()
     {
-        if (Cursor.visible == true)
-            selected = true;
+        if (Cursor.visible == true && !activeContextMenu && !myCanvas.GetComponent<CanvasManager>().popupOn)      
         {
+            selected = true;
 
             foreach (Transform child in transform)
             {
@@ -175,10 +177,18 @@ public class DoorController : MonoBehaviour
                 }
             }
 
-            if (Input.GetMouseButtonDown(1))
+            if (Input.GetMouseButtonDown(1) && gameObject.tag == "DoorInside")
             {
                 //SwitchRendererColor(Color.blue);
-                myCanvas.GetComponent<CanvasManager>().ShowActionMenu(doorAction, this.gameObject, "door");
+                if (open)
+                {
+                    myCanvas.GetComponent<CanvasManager>().ShowActionMenu(CloseDoor, this.gameObject, "door");
+                }
+                else
+                {
+                    myCanvas.GetComponent<CanvasManager>().ShowActionMenu(OpenDoor, this.gameObject, "door");
+                }
+                
 
             }
 
@@ -265,6 +275,11 @@ public class DoorController : MonoBehaviour
 
         }
 
+    }
+    
+    public bool getDoorState()
+    {
+        return open;
     }
     /*
     public bool containClosed(Selectable tile)

@@ -1,12 +1,15 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class CanvasManager : MonoBehaviour
 {
-    public GameObject objectWithContextMenu;
+    
+    public GameObject gameManager;
     GameObject myCanvas;
+    public GameObject objectWithContextMenu;
     public GameObject actionPrefab;
     Transform actionContainer;
     public bool popupOn = false;
@@ -17,7 +20,7 @@ public class CanvasManager : MonoBehaviour
        
     }
 
-public void ShowActionMenu(string[] actions, GameObject anObject, string type)
+public void ShowActionMenu(string[] actions, GameObject target, string type)
     {
         
         //find the context menu
@@ -34,36 +37,16 @@ public void ShowActionMenu(string[] actions, GameObject anObject, string type)
         contextMenu.transform.position = new Vector3(menuPosition.x + 70, menuPosition.y - 30, 0);
 
         //Debug.Log("actionContainer= " + actionContainer);
-        if (actionContainer.childCount > 0)
+
+        // Change previous selected tile color
+        if (actionContainer.childCount > 0 )
         {
             //Debug.Log(objectWithContextMenu);
             GameObject previousTileWithContextMenu = objectWithContextMenu;
 
-            if (previousTileWithContextMenu.GetComponent<Selectable>() != null)
-            {
-                previousTileWithContextMenu.GetComponent<Selectable>().SetActiveContextMenu(false);
-                previousTileWithContextMenu.GetComponent<Selectable>().SwitchColorToOriginal();
-            }
-
-            else if (previousTileWithContextMenu.GetComponent<WallController>() != null)
-            {
-                previousTileWithContextMenu.GetComponent<WallController>().SetActiveContextMenu(false);
-                previousTileWithContextMenu.GetComponent<WallController>().SwitchRendererColor(Color.white);
-
-
-            }
-
-            else if (previousTileWithContextMenu.GetComponent<DoorController>() != null)
-            {
-                previousTileWithContextMenu.GetComponent<DoorController>().SetActiveContextMenu(false);
-                previousTileWithContextMenu.GetComponent<DoorController>().SwitchRendererColor();
-
-
-            }
-
-
-
+            UnselectObject(previousTileWithContextMenu);
         }
+
         // Destroy previous menu
         foreach (Transform child in actionContainer)
         {
@@ -71,36 +54,17 @@ public void ShowActionMenu(string[] actions, GameObject anObject, string type)
             GameObject.Destroy(child.gameObject);
 
         }
-        string msg = "hello";
-        // set the current object with context menu
-        if (type == "tile")
-        {
-            objectWithContextMenu = anObject;
-            objectWithContextMenu.GetComponent<Selectable>().SetActiveContextMenu(true);
-        }
-
-        else if (type == "wall")
-        {
-            msg = null;
-            objectWithContextMenu = anObject;
-            objectWithContextMenu.GetComponent<WallController>().SetActiveContextMenu(true);
 
 
-        }
+        // set the current object as ObjectWithContextMenu
+        SetObjectWithContextMenu(type, target);
 
-        else if (type == "door")
-        {
-            msg = null;
-            objectWithContextMenu = anObject;
-            objectWithContextMenu.GetComponent<DoorController>().SetActiveContextMenu(true);
-
-
-        }
-
+        
 
 
         foreach (string action in actions)
         {
+            string msg = null;
             //Debug.Log(action);
 
             GameObject go = Instantiate(actionPrefab) as GameObject;
@@ -111,17 +75,118 @@ public void ShowActionMenu(string[] actions, GameObject anObject, string type)
             int ap = 1; //evaluate AP needed
             go.transform.GetChild(0).transform.GetChild(1).GetComponent<Text>().text = ap.ToString() + "AP";
             go.transform.localScale = new Vector3(1, 1, 1);
+
+            Debug.Log(action);
+            if (action == "Carry victim to here")
+            {
+                Debug.Log("msg");
+                msg = "Do you want treated victim to follow?";
+            }
             
             if (msg != null)
             {
                 go.transform.GetChild(0).GetComponentInChildren<Button>().onClick.AddListener(() => showPopupWindow(popupWindow, msg));
             } 
+            else
+            {
+                go.transform.GetChild(0).GetComponentInChildren<Button>().onClick.AddListener(() => ActivateAction(action, target, type));
+            }
             
             
 
         }
 
     }
+
+    void SetObjectWithContextMenu(string type, GameObject target)
+    {
+        if (type == "tile")
+        {
+            objectWithContextMenu = target;
+            objectWithContextMenu.GetComponent<Selectable>().SetActiveContextMenu(true);
+        }
+
+        else if (type == "wall")
+        {
+            
+            objectWithContextMenu = target;
+            objectWithContextMenu.GetComponent<WallController>().SetActiveContextMenu(true);
+
+
+        }
+
+        else if (type == "door")
+        {
+            objectWithContextMenu = target;
+            objectWithContextMenu.GetComponent<DoorController>().SetActiveContextMenu(true);
+
+
+        }
+
+    }
+
+    void UnselectObject(GameObject anObject)
+    {
+        if (anObject.GetComponent<Selectable>() != null)
+        {
+            anObject.GetComponent<Selectable>().SetActiveContextMenu(false);
+            anObject.GetComponent<Selectable>().SwitchColorToOriginal();
+        }
+
+        else if (anObject.GetComponent<WallController>() != null)
+        {
+            anObject.GetComponent<WallController>().SetActiveContextMenu(false);
+            anObject.GetComponent<WallController>().SwitchRendererColor(Color.white);
+
+
+        }
+
+        else if (anObject.GetComponent<DoorController>() != null)
+        {
+            anObject.GetComponent<DoorController>().SetActiveContextMenu(false);
+            anObject.GetComponent<DoorController>().SwitchRendererColor();
+
+
+        }
+
+    }
+
+    private void ActivateAction(string action, GameObject target, string type)
+    {
+        if (type == "door")
+        {
+            target.GetComponent<Door>().ToggleDoor();
+        }
+        else if (action == "Move to here")
+        {
+            gameManager.GetComponent<Game>().Move(target.GetComponent<Selectable>());
+        }
+        else if (action == "Turn Fire to Smoke")
+        {
+            target.GetComponent<Space>().DecrementFire();
+        }
+        else if (action == "Extinguish Fire")
+        {
+            target.GetComponent<Space>().DecrementFire();
+            target.GetComponent<Space>().DecrementFire();
+        }
+        else if (action == "Extinguish Smoke")
+        {
+            target.GetComponent<Space>().DecrementFire();
+        }
+        else if (action == "Chop Wall")
+        {
+            gameManager.GetComponent<Game>().Chop(target.GetComponent<WallController>());
+        }
+        else if (type == "door")
+        {
+            target.GetComponent<Door>().ToggleDoor();
+        }
+        HideActionMenu();
+        UnselectObject(objectWithContextMenu);
+
+    }
+
     void HideActionMenu()
     {
         //no_menu = true;
@@ -130,6 +195,7 @@ public void ShowActionMenu(string[] actions, GameObject anObject, string type)
         GameObject contextMenu = myCanvas.transform.Find("ContextMenu").gameObject;
 
         contextMenu.SetActive(false);
+        
 
 
 
