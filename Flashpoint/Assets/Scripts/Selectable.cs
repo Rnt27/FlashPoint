@@ -124,18 +124,11 @@ public class Selectable : MonoBehaviour
                 else if (gameObject.GetComponent<Space>().status == SpaceStatus.Smoke)
                 {
                     myCanvas.GetComponent<CanvasManager>().ShowActionMenu(ActionSpaceSmoke, this.gameObject, "tile");
-                }
-
-
-                
+                }                
             }
-
-
-
-
         }
     }
-
+    
     void OnMouseExit()
     {
         selected = false;
