@@ -159,7 +159,7 @@ public void ShowActionMenu(string[] actions, GameObject target, string type)
         }
         else if (action == "Move to here")
         {
-            gameManager.GetComponent<Game>().Move(target.GetComponent<Selectable>());
+            gameManager.GetComponent<Game>().setMoveButtonActive();
         }
         else if (action == "Turn Fire to Smoke")
         {
@@ -176,7 +176,7 @@ public void ShowActionMenu(string[] actions, GameObject target, string type)
         }
         else if (action == "Chop Wall")
         {
-            gameManager.GetComponent<Game>().Chop(target.GetComponent<WallController>());
+            gameManager.GetComponent<Game>().setPunchButtonActive();
         }
         else if (type == "door")
         {
