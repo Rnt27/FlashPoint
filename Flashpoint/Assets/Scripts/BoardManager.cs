@@ -757,7 +757,7 @@ public class BoardManager : MonoBehaviour
 		upperEdge = new GameObject[columns, rows];
 	    ambulances = new GameObject[columns, rows];
 		LoadFromScene();
-	    //GenerateFiresFamily();
+	    GenerateFiresFamily();
 		AdvanceFire(new int[] { 1, 1 });
 		AdvanceFire(new int[] { 1, 1 });
 		AdvanceFire(new int[] { 1, 2 });
