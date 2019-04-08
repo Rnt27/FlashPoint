@@ -58,7 +58,7 @@ public class Chat : NetworkBehaviour
 
             {
                 scrollPosition = GUILayout.BeginScrollView(
-                scrollPosition, GUILayout.Width(500), GUILayout.Height(200));
+                scrollPosition, GUILayout.Width(300), GUILayout.Height(200));
 
                 GUILayout.Label(ChatHistory);
 
