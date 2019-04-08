@@ -108,6 +108,7 @@ public class DoorController : MonoBehaviour
         {
             if (child.CompareTag("Door"))
             {
+                
                 child.position = Vector3.Lerp(child.transform.position, doorAnimation.transform.position, 0.01F * Time.time);
                 child.rotation = Quaternion.Lerp(child.transform.rotation, doorAnimation.transform.rotation, 0.01F * Time.time);
             }

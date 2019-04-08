@@ -68,11 +68,11 @@ public class WallController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (life == 0)
+        /*if (life == 0)
         {
 
             this.gameObject.SetActive(false);
-        }
+        }*/
     }
 
     void OnMouseOver()
@@ -80,8 +80,9 @@ public class WallController : MonoBehaviour
         if (Cursor.visible == true && !activeContextMenu && !myCanvas.GetComponent<CanvasManager>().popupOn)
         {
             selected = true;
+            SwitchRendererColor(m_MouseOverColor);
 
-            foreach (Transform child in transform)
+            /*foreach (Transform child in transform)
             {
 
                 if (child.transform.parent != null)
@@ -96,7 +97,7 @@ public class WallController : MonoBehaviour
                 m_Renderer2.material.color = m_MouseOverColor;
                 m_Renderer1.material.color = m_MouseOverColor;
 
-            }
+            }*/
 
             if (Input.GetMouseButtonDown(1))
             {
@@ -192,10 +193,7 @@ public class WallController : MonoBehaviour
         }
 
     }
-
-    public int getLife(){
-        return life; 
-    }
+    
 
     public void HitWall()
     {
