@@ -11,9 +11,11 @@ public class DoorController : MonoBehaviour
     private string[] CloseDoor = {"Close Door" };
 
 
+
     public BoxCollider collider;
 
     public bool open;
+    public bool toggle;
 
     int life;
 
@@ -97,6 +99,7 @@ public class DoorController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        doToggle();
 
         if (life == 0)
         {
@@ -115,6 +118,14 @@ public class DoorController : MonoBehaviour
 
         }
 
+    }
+
+    void doToggle()
+    {
+        if (toggle) {
+            this.InteractDoor();
+        }
+        toggle = false;
     }
 
     void closeD()

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44824654, g: 0.49827242, b: 0.5755816, a: 1}
+  m_IndirectSpecularColor: {r: 0.44824642, g: 0.49827212, b: 0.57558155, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1940,9 +1940,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 137831540}
-  - component: {fileID: 137831539}
   - component: {fileID: 137831541}
-  - component: {fileID: 137831542}
   - component: {fileID: 137831543}
   m_Layer: 0
   m_Name: GameManager
@@ -1951,25 +1949,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &137831539
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 137831538}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 128217d1ad402b849a58de75a9a2de68, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxMessages: 30
-  charPanel: {fileID: 1770184080}
-  textObject: {fileID: 1823392752932774, guid: 87f675e52cfc55944b679a56c69155d4, type: 3}
-  charBox: {fileID: 1308920199}
-  playerMessage: {r: 0.9607844, g: 0.9960785, b: 1, a: 1}
-  systemInfo: {r: 0.5882353, g: 0.7686275, b: 0.90196085, a: 1}
-  messageList: []
 --- !u!4 &137831540
 Transform:
   m_ObjectHideFlags: 0
@@ -1998,23 +1977,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dropdown: {fileID: 979507471}
   selectedAction: {fileID: 200658224}
---- !u!114 &137831542
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 137831538}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c81c6901ed8a24e9795d96b772a501f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  firefighter: {fileID: 0}
-  placeFirefighterPanel: 0
-  mainGamePanel: {fileID: 772632406}
-  keyDelay: 3
-  firefighters: []
 --- !u!114 &137831543
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2768,7 +2730,7 @@ PrefabInstance:
     - target: {fileID: 2648115697053244109, guid: 743fd4b7b795d6041b4e7293db12e876,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 33.604652
+      value: 33.75
       objectReference: {fileID: 0}
     - target: {fileID: 2648115697053244109, guid: 743fd4b7b795d6041b4e7293db12e876,
         type: 3}
@@ -11496,18 +11458,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d48a82b0c379c264fa55bb9d691dc598, type: 3}
---- !u!114 &1308920199 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 114365554498926656, guid: 564ebe706df8c0340ba33c26a41ddaf6,
-    type: 3}
-  m_PrefabInstance: {fileID: 440847196}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 575553740, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1322303652
 GameObject:
   m_ObjectHideFlags: 0
@@ -13830,12 +13780,6 @@ MonoBehaviour:
   fireInstances: []
   x: 0
   y: 0
---- !u!1 &1770184080 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1272065467397376, guid: 564ebe706df8c0340ba33c26a41ddaf6,
-    type: 3}
-  m_PrefabInstance: {fileID: 440847196}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1770626026
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,7 +7,7 @@ using System;
 
 public class Chat : NetworkBehaviour
 {
-    public string ChatHistory = "Welcome";
+    public string ChatHistory = "Chat Log";
     Vector2 scrollPosition;
     string currentMessage = string.Empty;
 
@@ -37,7 +37,7 @@ public class Chat : NetworkBehaviour
     public void RpcUpdateChatLog(string chat)
     {
         callLobbyPlayer.ChatHistory = chat;
-        Debug.Log("server:" + isServer + "client" + isClient + "LOOOOOL + " + ChatHistory);
+        //Debug.Log("server:" + isServer + "client" + isClient + "LOOOOOL + " + ChatHistory);
     }
 
     [Command]
@@ -45,7 +45,8 @@ public class Chat : NetworkBehaviour
     {
         callLobbyPlayer.ChatHistory = chat;
         RpcUpdateChatLog(chat);
-        Debug.Log("server:" + isServer + "client" + isClient + "keeeeeeeeeeeeeeeeeeek");
+
+        //Debug.Log("server:" + isServer + "client" + isClient + "keeeeeeeeeeeeeeeeeeek");
     }
 
     public void OnGUI()
@@ -55,8 +56,8 @@ public class Chat : NetworkBehaviour
             GL.Clear(false, false, Color.black, 0);
             GUILayout.FlexibleSpace();
 
-
             {
+                GUILayout.Space(85);
                 scrollPosition = GUILayout.BeginScrollView(
                 scrollPosition, GUILayout.Width(300), GUILayout.Height(200));
 
@@ -65,13 +66,26 @@ public class Chat : NetworkBehaviour
                 GUILayout.EndScrollView();
             }
 
+
             currentMessage = GUILayout.TextField(currentMessage);
             if (GUILayout.Button("Send"))
             {
-                AddMessage(currentMessage);
-                callLobbyPlayer.CmdUpdateChatLog(callLobbyPlayer.ChatHistory);
-                currentMessage = null;
+                sendMessage();
             };
         }
+    }
+
+    void NewMessageReceived()
+    {
+        scrollPosition = new Vector2(scrollPosition.x, scrollPosition.y + 30);
+    }
+
+    private void sendMessage()
+    {
+        AddMessage(currentMessage);
+        callLobbyPlayer.CmdUpdateChatLog(callLobbyPlayer.ChatHistory);
+        currentMessage = null;
+        NewMessageReceived();
+
     }
 }
