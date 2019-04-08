@@ -13,10 +13,10 @@ public class FirefighterManager : MonoBehaviour
     private Space m_CurrentSpace;
     private Animator m_Animator;
 
-    private int AP;                                           // The action points firefighter has    
-    private int savedAP;                                      // The action points firefighter saved
-    private bool myTurn;                                      // This specifies if it is this firefighter's turn, controlled by FirefighterManager
-    private bool isCarryingVictim;                            // This specifies if the firefighter is carrying a victim
+    protected int AP;                                           // The action points firefighter has    
+    protected int savedAP;                                      // The action points firefighter saved
+    protected bool myTurn;                                      // This specifies if it is this firefighter's turn, controlled by FirefighterManager
+    protected bool isCarryingVictim;                            // This specifies if the firefighter is carrying a victim
 
     // Boolean variables to control access to actions
     private bool Move;
@@ -112,21 +112,8 @@ public class FirefighterManager : MonoBehaviour
         {
             if (Move) { MoveFirefighter(); }
             if (Punch) { PunchWall(); }
-
-            // TouchDoor
-            if (TouchDoor)
-            {
-                m_TouchDoor.TouchDoor();
-
-                // Disable touch door when it is done
-                if (m_TouchDoor.DoorTouched())
-                {
-                    TouchDoor = false;
-                    ReduceAP(1);
-                }
-            }
-
-            // Extinguish
+            if (TouchDoor) { InteractDoor(); }
+            if (Extinguish) { }
         }
     }
 
@@ -193,7 +180,30 @@ public class FirefighterManager : MonoBehaviour
         }
     }
 
-    public void Reset()
+    private void InteractDoor()
+    {
+        m_TouchDoor.TouchDoor();
+
+        // Disable touch door when it is done
+        if (m_TouchDoor.DoorTouched())
+        {
+            TouchDoor = false;
+            ReduceAP(1);
+        }
+    }
+
+    private void ExitinguishFire()
+    {
+        m_Extinguish.Extinguish();
+
+        if (m_Extinguish.FireExtinguished())
+        {
+            Extinguish = false;
+            ReduceAP(1);
+        }
+    }
+
+    public virtual void Reset()
     {
         if(AP != 0)
         {

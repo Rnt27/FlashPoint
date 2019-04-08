@@ -21,7 +21,17 @@ public class Game : MonoBehaviour
     public bool IsGameOver { get { return m_isGameOver; } set { m_isGameOver = value; } }
     public bool HasLevelFinished { get { return m_hasLevelFinished; } set { m_hasLevelFinished = value; } }
 
-    
+    private bool moveButtonActive = false;
+    private bool punchButtonActive = false;
+    private bool touchButtonActive = false;
+    private bool extinguishButtonActive = false;
+    private bool endTurnButtonActive = false;
+
+    public void setMoveButtonActive() { this.moveButtonActive = true; }
+    public void setPunchButtonActive() { this.punchButtonActive = true; }
+    public void setTouchButtonActive() { this.touchButtonActive = true; }
+    public void setExtinguishButtonActive() { this.extinguishButtonActive = true; }
+    public void setEndTurnButtonActive() { this.endTurnButtonActive = true; }
 
     private WaitForSeconds m_StartWait = new WaitForSeconds(1f);
     private WaitForSeconds m_EndWait = new WaitForSeconds(1f);
@@ -154,16 +164,5 @@ public class Game : MonoBehaviour
             }
         }
         return AllSpawned;
-    }
-
-    //Test action menu
-    public void Move(Selectable target)
-    {
-        m_Firefighter.EnableMove();
-    }
-
-    public void Chop(WallController target)
-    {
-        m_Firefighter.EnablePunch();
     }
 }

@@ -14,6 +14,8 @@ public class FirefighterExtinguish : MonoBehaviour
     public Animator get_m_Animator() { return this.m_Animator; }
     public Space get_m_TargetSpace() { return this.m_TargetSpace; }
 
+    private SpaceStatus m_targetSpace_status;
+
     private void Awake()
     {
         m_Transform = GetComponent<Transform>();
@@ -23,6 +25,7 @@ public class FirefighterExtinguish : MonoBehaviour
     public void SetTarget(Space TargetSpace)
     {
         this.m_TargetSpace = TargetSpace;
+        this.m_targetSpace_status = TargetSpace.status;
     }
 
     public void Extinguish()
@@ -51,5 +54,14 @@ public class FirefighterExtinguish : MonoBehaviour
     {
         Quaternion turnRotation = Quaternion.Euler(0f, turnInput, 0f);
         m_Transform.rotation = Quaternion.Lerp(m_Transform.rotation, turnRotation, m_TurnSpeed * Time.deltaTime);
+    }
+
+    public bool FireExtinguished()
+    {
+        if (m_TargetSpace.status != m_targetSpace_status)
+        {
+            return true;
+        }
+        else return false;
     }
 }
