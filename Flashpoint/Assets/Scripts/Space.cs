@@ -108,14 +108,12 @@ public class Space : MonoBehaviour {
 	public void SetStatus(SpaceStatus s)
 	{	
 		this.status = s;
-		Debug.Log((int)s);
-		Debug.Log(fireObject[(int) s]);
 		fireInstances[(int) s] = Instantiate(fireObject[(int) s]);
 		fireInstances[(int)s].SetActive(true);
 		fireInstances[(int) s].transform.position = gameObject.transform.position;
 	
 		// Disable irrelevant fire objects
-		for(int i = (int) SpaceStatus.Safe; i < (int) SpaceStatus.Fire; i++)
+		for(int i = (int) SpaceStatus.Safe; i <= (int) SpaceStatus.Fire; i++)
 		{
 			if(i != (int) s)
 			{
