@@ -147,23 +147,27 @@ public class Game : MonoBehaviour
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
-                if (Physics.Raycast(ray, out hit) && firefighter.getCurrentSpace().IsAdjacent(hit.transform.gameObject))
+               
+                if (Physics.Raycast(ray, out hit))
                 {
+                    Debug.Log("The space is adjacent:" + firefighter.getCurrentSpace().IsAdjacent(hit.transform.gameObject));
                     if ((hit.transform.gameObject.tag == "InsideTile" || hit.transform.gameObject.tag == "OutsideTile"))
                     {
-                        Debug.Log("The space is adjacent:" + firefighter.getCurrentSpace().IsAdjacent(hit.transform.gameObject));
+                        
                         firefighter.SetTargetSpace(hit.transform.gameObject.GetComponent<Space>());
                         firefighter.EnableMove();
                     }
 
                     else if (hit.transform.gameObject.tag == "Wall")
                     {
+                        
                         firefighter.SetTargetWall(hit.transform.gameObject.GetComponent<WallController>());
                         firefighter.EnablePunch();
                     }
 
                     else if ((hit.transform.gameObject.tag == "DoorInside" || hit.transform.gameObject.tag == "DoorOutside"))
                     {
+                        
                         firefighter.SetTargetDoor(hit.transform.gameObject.GetComponent<DoorController>());
                         firefighter.EnableTouchDoor();
                     }
@@ -210,7 +214,7 @@ public class Game : MonoBehaviour
         }
     }
 
-    private bool FirefighterAllSpawned()
+    public bool FirefighterAllSpawned()
     {
         bool AllSpawned = true;
         foreach (FirefighterManager firefighter in m_Firefighters)
