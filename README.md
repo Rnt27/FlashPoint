@@ -13,6 +13,7 @@
 [Renato] Hazmats <br />
 [] Experienced start game: 3 explosions, 3 hazmats, 3 POI (where 1 is False Alarm), 3 additional hotspots, pick ambulance/firetruck placement <br />
 [] Experience: Crew change <br />
+[] Experience: choosing classes including veteran and dog<br /> 
 
 
 
