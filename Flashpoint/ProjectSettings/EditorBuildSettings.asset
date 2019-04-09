@@ -50,4 +50,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Victory.unity
     guid: bde66d71954072047a11902715679313
+  - enabled: 1
+    path: Assets/Scenes/NetVeteranLobby.unity
+    guid: ffb6d3c403cbf499fae96b6d8963a73c
   m_configObjects: {}
