@@ -141,6 +141,7 @@ public class Space : MonoBehaviour {
 
 		foreach(GameObject wall in adjWalls)
 		{
+			Debug.Log(wall.name);
 			if(s == wall && wall != null)
 			{
 				return true; 

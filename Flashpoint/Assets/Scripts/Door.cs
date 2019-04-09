@@ -40,7 +40,6 @@ public class Door : MonoBehaviour, EdgeObstacle {
 		else
 		{
 			state = DoorState.Destroyed;
-			HouseLife.Instance.diminishHealth();
 		}
 	}
 

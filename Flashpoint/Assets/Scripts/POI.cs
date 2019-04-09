@@ -22,7 +22,7 @@ public class POI : MonoBehaviour
 
 		if (victim)
 		{
-			POIUI.Instance.increaseDeath(); 
+			//POIUI.Instance.increaseDeath(); 
 		}
 		//Remove self from POIManager
 		POIManager.Instance.RemovePOI(gameObject);

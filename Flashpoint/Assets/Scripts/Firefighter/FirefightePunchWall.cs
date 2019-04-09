@@ -63,7 +63,7 @@ public class FirefightePunchWall : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
 
-        if (!Cursor.visible) { m_TargetWall.HitWall(); }
+        if (!Cursor.visible) { m_TargetWall.gameObject.GetComponent<Wall>().Damage(); }
 
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;

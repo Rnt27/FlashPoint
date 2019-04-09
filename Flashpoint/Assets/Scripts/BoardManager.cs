@@ -317,8 +317,13 @@ public class BoardManager : MonoBehaviour
 			int[] r = Roll();
 			if ( hotspots[r[0], r[1]] != null) //Check for flare up
 			{
+				Debug.Log("flareUp on " + r[0] + " " + r[1]);
 				flareUp = true;
 				RemoveHotspot(r[0], r[1]);
+			}
+			else
+			{
+				flareUp = false; //Do not advance again if no hotspot
 			}
 			AdvanceFire(r); //Advance fire at rolled spcae and resolve explosions/shockwaves
 			Flashover(); 
@@ -332,6 +337,8 @@ public class BoardManager : MonoBehaviour
 			Space space = floors[hazmat.x, hazmat.y].GetComponent<Space>();
 			if(space.status == SpaceStatus.Fire) //Hazmat explosion if fire
 			{
+				//In case there is already a hotspot there, remove it
+				Debug.Log("Hazmat explosion at " + hazmat.x + " " + hazmat.y);
 				HazmatExplode(hazmat.x, hazmat.y);
 			}
 		}
@@ -341,6 +348,7 @@ public class BoardManager : MonoBehaviour
 		ExtinguishOutsideFires(); 
 		ReplenishPOI();
 	}
+
 
 
 	// (1) - Check Win TODO: Exit current scene to winning scene. 
@@ -652,7 +660,7 @@ public class BoardManager : MonoBehaviour
 	// Generate Hazmats on random spaces such that they aren't placed on Fires
 	void GenerateHazmats(int numRolls)
 	{
-		ArrayList rolls = GetAllCoordinates();
+		ArrayList rolls = GetInsideCoordinates();
 		while (numRolls != 0)
 		{
 			//Get random coordinate
@@ -679,7 +687,7 @@ public class BoardManager : MonoBehaviour
 	// Generate Hotspots on random spaces
 	void GenerateHotspots(int numRolls)
 	{
-		ArrayList rolls = GetAllCoordinates();
+		ArrayList rolls = GetInsideCoordinates();
 		while(numRolls != 0)
 		{
 			//Get random coordinate
@@ -698,6 +706,8 @@ public class BoardManager : MonoBehaviour
 	// Hazmat Explosion (Regular explosion + add Hotspot to the space)
 	void HazmatExplode(int x, int y)
 	{
+		//Try to remove hotspot thats already there to avoid duplicates
+		RemoveHotspot(x, y);
 		Explode(x, y);
 		AddHotspot(x, y);
 		RemoveHazmat(x, y);
@@ -732,7 +742,7 @@ public class BoardManager : MonoBehaviour
 	//-----------------------------+
 
 	//Returns an ArrayList of all possible coordinates on the board. Primarily used for non-replacement random space generation
-	ArrayList GetAllCoordinates()
+	ArrayList GetInsideCoordinates()
 	{
 		ArrayList coordinates = new ArrayList();
 		for(int x = 1; x < columns-1; x++)
@@ -882,7 +892,15 @@ public class BoardManager : MonoBehaviour
 		ReplenishPOI();
 		
 		//Adjacent debug
-		Debug.Log("Adjacent: "+floors[0, 0].GetComponent<Space>().IsAdjacent(floors[0, 1]));
+		Debug.Log("Adjacent: "+floors[2, 7].GetComponent<Space>().IsAdjacent(upperEdge[2, 7]));
+
+		GenerateHazmats(4);
+		GenerateHotspots(4);
+
+		for(int i = 0; i < 15; i++)
+		{
+			EndTurn();
+		} 
     }
 	// Use this for initialization
 	void Start()

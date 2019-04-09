@@ -31,7 +31,6 @@ public class Wall : MonoBehaviour, EdgeObstacle {
 		Debug.Log(gameObject.GetComponent<WallController>().name);
 
 		//Update HouseLife UI
-		HouseLife.Instance.diminishHealth(); 
 
 	}
 
