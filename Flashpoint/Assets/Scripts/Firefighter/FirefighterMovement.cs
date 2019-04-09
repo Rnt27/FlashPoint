@@ -52,8 +52,22 @@ public class FirefighterMovement : MonoBehaviour
         }
 
         m_Transform.position = Vector3.MoveTowards(m_Transform.position, m_Target, m_Speed * Time.deltaTime);
+
+		RevealPOIs(); 
     }
 
+	//Check if the target space has any POI's and reveal them
+	void RevealPOIs()
+	{
+		List<GameObject> pois = POIManager.Instance.GetFromSpace(m_TargetSpace.gameObject);
+		foreach(GameObject poi in pois)
+		{
+			if(poi.GetComponent<POI>() != null)
+			{
+				poi.GetComponent<POI>().Reveal(); 
+			}
+		}
+	}
   
 
     public void Turn(float turnInput)
