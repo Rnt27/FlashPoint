@@ -4,43 +4,65 @@ using UnityEngine;
 
 public class CameraControl : MonoBehaviour
 {
-    public FirefighterManager m_Firefighter; //Position of the player
-    //private FirefighterManager[] m_Firefighters;
+    public List<GameObject> targets;
+    public GameObject gameBoard;
+    public FirefighterManager[] m_Firefighters;
+
+    public Vector3 offset;
     private Vector3 deltaPos;
 
     // Use this for initialization
     void Start()
     {
-        deltaPos = new Vector3(2, 30, -12);
-       // m_Firefighters = Game.Instance.m_Firefighters;
-        // m_Firefighter = m_Firefighters[0];
-        Vector3 m_FirefighterPos = m_Firefighter.transform.TransformDirection(deltaPos);
-        transform.position = m_Firefighter.transform.position + m_FirefighterPos;
-        Vector3 playerPos = m_Firefighter.transform.position + new Vector3(2, 2, 0);
-        transform.LookAt(playerPos);
-
+        deltaPos = new Vector3(2, 30, -10);
+        StartCoroutine(findTargets());
+        StartCoroutine(LateUpdate());
     }
-
-    void Update()
+    
+    private IEnumerator LateUpdate()
     {
-
-    }
-    /*
-    // Update is called once per frame
-    void LateUpdate()
-    {
-        if (m_Firefighters == null)
+        //Debug.Log("Game over: " + Game.Instance.IsGameOver);
+        while (!Game.Instance.IsGameOver)
         {
-            m_Firefighters = Game.Instance.m_Firefighters;
-        }
-        foreach(FirefighterManager firefighter in m_Firefighters)
-        {
-            if (firefighter.IsMyTurn())
+            if (Game.Instance.IsTurnPlaying)
             {
-                m_Firefighter = firefighter;
-                
+                foreach (GameObject firefighter in targets)
+                {
+                    if (firefighter.GetComponent<FirefighterManager>().IsMyTurn())
+                    {
+                        Debug.Log("Targets found!");
+                        Vector3 pos = firefighter.transform.TransformDirection(deltaPos);
+                        transform.position = firefighter.transform.position + pos;
+                        Vector3 playerPos = firefighter.transform.position + new Vector3(2, 2, 0);
+                        transform.LookAt(playerPos);
+
+
+                        // Vector3 centerPoint = firefighter.transform.position;
+                        // Vector3 newPosition = centerPoint + offset;
+                        // transform.position = newPosition;
+                    }
+                }
             }
+            else
+            {
+                Vector3 pos = gameBoard.transform.TransformDirection(deltaPos);
+                transform.position = gameBoard.transform.position + pos;
+                Vector3 playerPos = gameBoard.transform.position + new Vector3(2, 2, 0);
+                transform.LookAt(playerPos);
+            }
+            yield return null;
         }
     }
-    */
+    
+    private IEnumerator findTargets()
+    {
+
+        yield return new WaitForSeconds(2f);
+        m_Firefighters = FindObjectsOfType<FirefighterManager>();
+        foreach (FirefighterManager firefighter in m_Firefighters)
+        {
+            targets.Add(firefighter.gameObject);
+            Debug.Log("Target Added!");
+        }
+    }
 }
