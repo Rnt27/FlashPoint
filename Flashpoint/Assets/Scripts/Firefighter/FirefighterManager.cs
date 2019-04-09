@@ -45,6 +45,7 @@ public class FirefighterManager : MonoBehaviour
 
     // Set Methods
     public void setCurrentSpace(Space TargetSpace) { this.m_CurrentSpace = TargetSpace; }
+    public void setAP(int a) { this.AP = a; }
     public void ReduceAP(int reducedAP) { AP -= reducedAP; }
     public void setIsCarryingVictim(bool b) { isCarryingVictim = b; }
 

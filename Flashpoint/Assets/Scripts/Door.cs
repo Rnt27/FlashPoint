@@ -8,9 +8,14 @@ public class Door : MonoBehaviour, EdgeObstacle {
 	public int y;
 	public string direction;
 
+    public void SetState(DoorState s)
+    {
+        state = s;
+        ToggleDoor();
+    }
 
-	// Open/Close the door 
-	public void ToggleDoor()
+    // Open/Close the door 
+    public void ToggleDoor()
 	{
 		if (state == DoorState.Destroyed)
 		{
