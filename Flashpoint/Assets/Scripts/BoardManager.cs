@@ -291,7 +291,7 @@ public class BoardManager : MonoBehaviour
 
 
 	//Entire end turn sequence
-	void EndTurn()
+	public void EndTurn()
 	{
 		CheckWin();
 		bool flareUp = false;
