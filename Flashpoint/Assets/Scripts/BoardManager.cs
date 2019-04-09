@@ -339,27 +339,7 @@ public class BoardManager : MonoBehaviour
 		ResolveDeaths(); 
 		CheckLoss(); 
 		ExtinguishOutsideFires(); 
-
-		//Roll spaces that don't contain a firefighter or hazard and replenish POI's on those spaces
-		List<int[]> POIRolls = new List<int[]>();
-		int numRolls = POIManager.Instance.NumMissing();
-		for (int i = 0; i < numRolls; i++)
-		{
-			int[] r = Roll();
-			Debug.Log("POI Rolled: " + r[0] + " " + r[1]);
-			Space s = floors[r[0], r[1]].GetComponent<Space>();
-
-			while (s.status == SpaceStatus.Fire || s.status == SpaceStatus.Smoke ||
-			    Game.Instance.GetFFOnSpace(s.gameObject).Count != 0 || POIManager.Instance.GetFromSpace(s.gameObject).Count != 0) //Reroll the space until theres no firefighters, smoke or fire on that space
-			{
-				r = Roll();
-				s = floors[r[0], r[1]].GetComponent<Space>();
-			}
-			
-			POIRolls.Add(r);
-		}
-
-		ReplenishPOI(POIRolls);
+		ReplenishPOI();
 	}
 
 
@@ -584,9 +564,26 @@ public class BoardManager : MonoBehaviour
 		}
 	}
 
-	// (6) - Replenish POI a given amount onto the board. 
-	public void ReplenishPOI(List<int[]> rolls)
+	// (6) - Replenish POI's back to 3.
+	public void ReplenishPOI()
 	{
+		List<int[]> rolls = new List<int[]>();
+		int numRolls = POIManager.Instance.NumMissing();
+		for (int i = 0; i < numRolls; i++)
+		{
+			int[] r = Roll();
+			Debug.Log("POI Rolled: " + r[0] + " " + r[1]);
+			Space s = floors[r[0], r[1]].GetComponent<Space>();
+
+			while (s.status == SpaceStatus.Fire || s.status == SpaceStatus.Smoke ||
+			    Game.Instance.GetFFOnSpace(s.gameObject).Count != 0 || POIManager.Instance.GetFromSpace(s.gameObject).Count != 0) //Reroll the space until theres no firefighters, smoke or fire on that space
+			{
+				r = Roll();
+				s = floors[r[0], r[1]].GetComponent<Space>();
+			}
+			
+			rolls.Add(r);
+		}
 		foreach(int[] roll in rolls)
 		{
 			Debug.Log("There are " + rolls.Count +" missing POI's. Generating POI at: " + roll[0] + " " + roll[1]);
@@ -882,7 +879,7 @@ public class BoardManager : MonoBehaviour
 		//Set coordinates and generate fires
 		LoadFromScene();
 	    GenerateFiresFamily();
-	    EndTurn();
+		ReplenishPOI();
 		
 		//Adjacent debug
 		Debug.Log(floors[0, 0].GetComponent<Space>().IsAdjacent(leftEdge[0, 0]));
