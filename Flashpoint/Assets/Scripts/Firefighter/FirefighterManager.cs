@@ -1,11 +1,59 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.Networking;
 
 [System.Serializable]
-public class FirefighterManager : MonoBehaviour
+public class FirefighterManager : NetworkBehaviour
 {
+    private static FirefighterManager callLobbyPlayer;
+    void Start()
+    {
+        if (isLocalPlayer)
+        {
+            callLobbyPlayer = this;
+            SetupLocalPlayer localPlayer = callLobbyPlayer.GetComponentInParent<SetupLocalPlayer>();
+            Debug.Log("NETWORK SPEAKING HERE: "+localPlayer.pname);
+        }
+    }
+
+    [ClientRpc]
+    public void RpcUpdateDoor(string name)
+    {
+        GameObject obj = GameObject.Find(name);
+        DoorController d = obj.GetComponent<DoorController>();
+        //DoorController d = callLobbyPlayer.GetComponentInParent<DoorController>();
+        if (d == null)
+        {
+            Debug.Log("HOOOODOOOOOR");
+        }
+        callLobbyPlayer.SetTargetDoor(d);
+        callLobbyPlayer.InteractDoor();
+    }
+
+    [Command]
+    public void CmdUpdateDoor(string name)
+    {
+        RpcUpdateDoor(name);
+    }
+
+    public void OnGUI()
+    {
+        if (isClient)
+        {
+
+            {
+                GUILayout.Space(400);
+
+            }
+
+            if (GUILayout.Button("Send"))
+            {
+                callLobbyPlayer.CmdUpdateDoor("InsideDoor (1)");
+            };
+        }
+    }
+
     [HideInInspector] public int m_PlayerNumber;              // This specifies which player this firefighter belongs to
     [HideInInspector] public GameObject m_Instance;           // A reference to the instance of the firefighter when it is created
     [HideInInspector] public bool isSpawned;
