@@ -69,13 +69,16 @@ public class POI : MonoBehaviour
 
 		if (!victim)
 		{
-			//TODO: Animation/Message to indicate that the POI is a victim
+			//TODO: Animation/Message to indicate that the POI is a false alarm 
+			POIManager.Instance.RemovePOI(gameObject);
+			POIManager.Instance.numFalseAlarms--;
 			Destroy(gameObject);
 			return null;
 		}
 		else
 		{
 			GameObject newVictim = POIManager.Instance.PlaceVictim(x, y);
+			POIManager.Instance.RemovePOI(gameObject);
 			Destroy(gameObject);
 			return newVictim;
 		}

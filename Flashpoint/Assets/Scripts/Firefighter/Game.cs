@@ -8,6 +8,7 @@ using UnityEngine;
 
 public class Game : MonoBehaviour
 {
+	public static Game Instance = null; 
     public FirefighterManager[] m_Firefighters;     // A collection of managers for enabling and disabling different aspects of the Firefighter
     public FirefighterManager m_Firefighter;
 
@@ -36,10 +37,25 @@ public class Game : MonoBehaviour
     private WaitForSeconds m_StartWait = new WaitForSeconds(1f);
     private WaitForSeconds m_EndWait = new WaitForSeconds(1f);
 
+    public List<GameObject> GetFFOnSpace(GameObject target)
+    {
+	    List<GameObject> onSpace = new List<GameObject>();
+	    Space targetSpace = target.GetComponent<Space>();
+	    foreach (FirefighterManager f in m_Firefighters) //Check each firefighter and see if their current space is the space
+	    {
+			if(f.getCurrentSpace() == targetSpace) onSpace.Add(f.gameObject);
+	    }
+
+	    return onSpace;
+    }
+
+
     void Awake()
     {
-        m_Firefighters = FindObjectsOfType<FirefighterManager>();
-        //m_Firefighter = m_Firefighters[0];
+	    if (Instance == null)
+	    {
+		    Instance = this;
+	    }
     }
 
     void Start()
@@ -49,6 +65,7 @@ public class Game : MonoBehaviour
 
     private IEnumerator GameLoop()
     {
+        yield return new WaitForSeconds(5f);
         yield return StartCoroutine(RoundStarting());
         yield return StartCoroutine(RoundPlaying());
         yield return StartCoroutine(RoundEnding());
@@ -56,6 +73,7 @@ public class Game : MonoBehaviour
 
     private IEnumerator RoundStarting()
     {
+        m_Firefighters = FindObjectsOfType<FirefighterManager>();
         DisableFirefighterControl();
         while (!FirefighterAllSpawned())
         {
@@ -115,7 +133,6 @@ public class Game : MonoBehaviour
 
                 if (Physics.Raycast(ray, out hit) && (hit.transform.gameObject.tag == "InsideTile" || hit.transform.gameObject.tag == "OutsideTile"))
                 {
-                    //firefighter.SetTargetTile(hit.transform.gameObject.GetComponent<Selectable>());
                     firefighter.SetTargetSpace(hit.transform.gameObject.GetComponent<Space>());
                     firefighter.EnableMove();
                 }
@@ -132,7 +149,19 @@ public class Game : MonoBehaviour
                     firefighter.EnableTouchDoor();
                 }
             }
-            Debug.Log("Firefighter No." + firefighter.m_PlayerNumber + " AP: " + firefighter.getAP());
+
+            if (Input.GetMouseButtonDown(1))
+            {
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+
+                if (Physics.Raycast(ray, out hit) && hit.transform.gameObject.tag == "InsideTile" && hit.transform.gameObject.GetComponent<Space>().status != SpaceStatus.Safe)
+                {
+                    firefighter.SetTargetFire(hit.transform.gameObject.GetComponent<Space>());
+                    firefighter.EnableExtinguish();
+                }
+            }
+            //Debug.Log("Firefighter No." + firefighter.m_PlayerNumber + " AP: " + firefighter.getAP());
             yield return null;
         }
     }

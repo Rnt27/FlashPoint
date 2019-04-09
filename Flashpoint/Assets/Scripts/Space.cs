@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
 public class Space : MonoBehaviour {
 	public SpaceStatus status;
 
@@ -107,28 +106,20 @@ public class Space : MonoBehaviour {
 
 	// Set the status of the space to s
 	public void SetStatus(SpaceStatus s)
-	{
-        
-        this.status = s;
-		//Debug.Log((int)s);
-		//Debug.Log(fireObject[(int) s]);
-        fireInstances[(int) s] = Instantiate(fireObject[(int) s]);
+	{	
+		this.status = s;
+		fireInstances[(int) s] = Instantiate(fireObject[(int) s]);
 		fireInstances[(int)s].SetActive(true);
 		fireInstances[(int) s].transform.position = gameObject.transform.position;
-
-        
 	
 		// Disable irrelevant fire objects
 		for(int i = (int) SpaceStatus.Safe; i <= (int) SpaceStatus.Fire; i++)
 		{
-            
-            if (i != (int) s)
+			if(i != (int) s)
 			{
-                
-
-                Destroy(fireInstances[i]);
-
-            }
+				Destroy(fireInstances[i]);
+				
+			}
 		}
 
 	}
