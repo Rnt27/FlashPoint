@@ -32,6 +32,7 @@ public class Door : MonoBehaviour, EdgeObstacle {
 	// Destroy the door
 	public void Damage()
 	{
+		gameObject.GetComponent<DoorController>().damageDoor(); 
 		if(state == DoorState.Destroyed)
 		{
 			throw new InvalidDoorOperationException();
