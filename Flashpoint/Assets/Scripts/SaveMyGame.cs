@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 using BayatGames.SaveGameFree.Serializers;
 using BayatGames.SaveGameFree.Types;
+using System;
 
 namespace BayatGames.SaveGameFree.Examples
 {
@@ -21,10 +22,11 @@ namespace BayatGames.SaveGameFree.Examples
 
 
         //public BoardData b;
-        public Transform target;
+        //public Transform target;
         public bool loadOnStart = true;
         public GameObject board;
-        public BoardManager BoardManager;
+        FirefighterController[] controlFirefighter;
+        //public BoardManager BoardManager;
 
         //public BoardData myData;
         public string identifier = "mySave";
@@ -41,15 +43,20 @@ namespace BayatGames.SaveGameFree.Examples
         {
             Save();
         }
-        
-        
+
+        private void Update()
+        {
+            controlFirefighter = FindObjectsOfType<FirefighterController>();
+        }
+
+
         public void Save()
         {
             
             
             
             SaveBoard(board);
-            //SaveGame.Save<Vector3Save>(identifier, target.position, serializer);
+            //
             //SaveGame.Save<QuaternionSave>(identifier, target.rotation, SerializerDropdown.Singleton.ActiveSerializer);
             //SaveGame.Save<Vector3Save>(identifier, target.localScale, SerializerDropdown.Singleton.ActiveSerializer);
         }
@@ -65,7 +72,8 @@ namespace BayatGames.SaveGameFree.Examples
 
         public void SaveBoard(GameObject Board)
         {
-            Debug.Log("in save");
+            Debug.Log("data Path " + Application.dataPath);
+            Debug.Log("persistent data Path " + Application.persistentDataPath);
             foreach (Transform child in Board.GetComponentsInChildren<Transform>())
             {
                // Debug.Log(child);
@@ -163,6 +171,39 @@ namespace BayatGames.SaveGameFree.Examples
 
         }
 
+
+        public void saveFF(GameObject[] allFF)
+        {
+            foreach (FirefighterController f in controlFirefighter)
+            {
+                Transform target = f.gameObject.transform;
+                SavePosition(target, f.name);
+            }
+            
+        }
+
+        private void SavePosition(Transform target, string name)
+        {
+            SaveGame.Save<Vector3Save>(name, target.position, serializer);
+        }
+
+        public void LoadFF(GameObject[] allFF)
+        {
+            foreach (FirefighterController f in controlFirefighter)
+            {
+                GameObject target = f.gameObject;
+                LoadPosition(target, f.name);
+            }
+
+        }
+
+        private void LoadPosition(GameObject target, string name)
+        {
+            target.transform.position = SaveGame.Load<Vector3Save>(
+                name,
+                Vector3.zero,
+                serializer); 
+        }
     }
 
 }

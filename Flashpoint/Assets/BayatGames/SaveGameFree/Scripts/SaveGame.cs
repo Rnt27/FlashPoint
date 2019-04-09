@@ -283,6 +283,19 @@ namespace BayatGames.SaveGameFree
         }
 
         /// <summary>
+        /// Save the specified identifier, obj, serializer and savePath.
+        /// </summary>
+        /// <param name="identifier">Identifier.</param>
+        /// <param name="obj">Object.</param>
+        /// /// <param name="serializer">Serializer.</param>
+        /// <param name="savePath">Save path.</param>
+        /// <typeparam name="T">The 1st type parameter.</typeparam>
+        public static void Save<T>(string identifier, T obj, ISaveGameSerializer serializer, SaveGamePath savePath)
+        {
+            Save<T>(identifier, obj, Encode, EncodePassword, serializer, Encoder, DefaultEncoding, savePath);
+        }
+
+        /// <summary>
         /// Saves data using the identifier.
         /// </summary>
         /// <param name="identifier">Identifier.</param>

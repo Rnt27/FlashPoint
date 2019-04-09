@@ -43,7 +43,7 @@ public class CameraView : MonoBehaviour {
         //Debug.Log(firefighters[1].name);
         foreach (FirefighterController f in controlFirefighter)
         {
-            firefighter = f;
+            ///firefighter = f;
             if (f.name == "local")
             {
                 firefighter = f;
@@ -96,6 +96,7 @@ public class CameraView : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        Setup();
         if (!setup)
         {
             Setup();
