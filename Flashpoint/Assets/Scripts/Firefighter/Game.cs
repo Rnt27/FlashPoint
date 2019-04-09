@@ -146,6 +146,7 @@ public class Game : MonoBehaviour
                 else if (Physics.Raycast(ray, out hit) && (hit.transform.gameObject.tag == "DoorInside" || hit.transform.gameObject.tag == "DoorOutside"))
                 {
                     firefighter.SetTargetDoor(hit.transform.gameObject.GetComponent<DoorController>());
+                    firefighter.GetDoorName(hit.transform.gameObject.GetComponent<DoorController>().name);
                     firefighter.EnableTouchDoor();
                 }
             }

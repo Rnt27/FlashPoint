@@ -7,6 +7,7 @@ using UnityEngine.Networking;
 public class FirefighterManager : NetworkBehaviour
 {
     private static FirefighterManager callLobbyPlayer;
+
     void Start()
     {
         if (isLocalPlayer)
@@ -34,25 +35,32 @@ public class FirefighterManager : NetworkBehaviour
     [Command]
     public void CmdUpdateDoor(string name)
     {
+        //name = callLobbyPlayer.m_TouchDoor.get_m_TargetDoor().GetDoorName();
         RpcUpdateDoor(name);
     }
 
-    public void OnGUI()
+    public void GetDoorName(string doorName)
     {
-        if (isClient)
-        {
 
-            {
-                GUILayout.Space(400);
-
-            }
-
-            if (GUILayout.Button("Send"))
-            {
-                callLobbyPlayer.CmdUpdateDoor("InsideDoor (1)");
-            };
-        }
+        callLobbyPlayer.CmdUpdateDoor(doorName);
     }
+
+    //public void OnGUI()
+    //{
+    //    if (isClient)
+    //    {
+
+    //        {s
+    //            GUILayout.Space(400);
+
+    //        }
+
+    //        if (GUILayout.Button("Send"))
+    //        {
+    //            callLobbyPlayer.CmdUpdateDoor("InsideDoor (1)");
+    //        };
+    //    }
+    //}
 
     [HideInInspector] public int m_PlayerNumber;              // This specifies which player this firefighter belongs to
     [HideInInspector] public GameObject m_Instance;           // A reference to the instance of the firefighter when it is created
@@ -232,6 +240,7 @@ public class FirefighterManager : NetworkBehaviour
     private void InteractDoor()
     {
         m_TouchDoor.TouchDoor();
+
 
         // Disable touch door when it is done
         if (m_TouchDoor.DoorTouched())

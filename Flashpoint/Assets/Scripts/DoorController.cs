@@ -10,8 +10,6 @@ public class DoorController : MonoBehaviour
     private string[] OpenDoor = { "Open Door"};
     private string[] CloseDoor = {"Close Door" };
 
-
-
     public BoxCollider collider;
 
     public bool open;
@@ -45,6 +43,11 @@ public class DoorController : MonoBehaviour
     FirefighterController firefighter;
 
     Transform doorAnimation;
+
+    //get name
+    public string GetDoorName() { return selectedName; }
+
+
 
     // Start is called before the first frame update
     void Start()

@@ -22,6 +22,7 @@ public class FirefighterTouchDoor : MonoBehaviour
 
     // Get Method
     public Animator get_m_Animator() { return this.m_Animator; }
+    public DoorController get_m_TargetDoor() { return this.m_TargetDoor; }
 
     void Awake()
     {
