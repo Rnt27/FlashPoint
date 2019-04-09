@@ -180,7 +180,6 @@ public class BoardManager : MonoBehaviour
 			{
 				return null;
 			}
-
 			return leftEdge[x + 1, y];
 		}
 		else
@@ -229,8 +228,9 @@ public class BoardManager : MonoBehaviour
 				adj.Add(floors[x, y - 1 ]);
 			}
 		}
-		if(IsOnBoard(x, y - 1)) //Down
+		if(IsOnBoard(x, y + 1)) //Down
 		{
+
 			if(GetEdgeObstacle(x, y, "down") == null || GetEdgeObstacle(x, y, "down").GetComponent<EdgeObstacle>().IsPassable())
 			{
 				adj.Add(floors[x, y + 1]);
@@ -715,7 +715,7 @@ public class BoardManager : MonoBehaviour
     }
     public bool IsOnBoard(int[] c)
     {
-        return (c[0] > 0 && c[0] < columns - 1 && c[1] > 0 && c[1] < rows - 1);
+        return (c[0] >= 0 && c[0] <= columns - 1 && c[1] >= 0 && c[1] <= rows - 1);
     }
     public bool IsOutside(int x, int y)
     {
@@ -882,7 +882,7 @@ public class BoardManager : MonoBehaviour
 		ReplenishPOI();
 		
 		//Adjacent debug
-		Debug.Log(floors[0, 0].GetComponent<Space>().IsAdjacent(leftEdge[0, 0]));
+		Debug.Log("Adjacent: "+floors[0, 0].GetComponent<Space>().IsAdjacent(floors[0, 1]));
     }
 	// Use this for initialization
 	void Start()
