@@ -25,7 +25,7 @@ namespace BayatGames.SaveGameFree.Examples
         //public Transform target;
         public bool loadOnStart = true;
         public GameObject board;
-        FirefighterController[] controlFirefighter;
+        FirefighterController[] controlFirefighters;
         //public BoardManager BoardManager;
 
         //public BoardData myData;
@@ -44,9 +44,9 @@ namespace BayatGames.SaveGameFree.Examples
             Save();
         }
 
-        private void Update()
+        void Update()
         {
-            controlFirefighter = FindObjectsOfType<FirefighterController>();
+            controlFirefighters = FindObjectsOfType<FirefighterController>();
         }
 
 
@@ -56,6 +56,7 @@ namespace BayatGames.SaveGameFree.Examples
             
             
             SaveBoard(board);
+            SaveFF(controlFirefighters);
             //
             //SaveGame.Save<QuaternionSave>(identifier, target.rotation, SerializerDropdown.Singleton.ActiveSerializer);
             //SaveGame.Save<Vector3Save>(identifier, target.localScale, SerializerDropdown.Singleton.ActiveSerializer);
@@ -68,6 +69,7 @@ namespace BayatGames.SaveGameFree.Examples
                 Vector3.zero,
                 serializer);*/
             LoadBoard(board);
+            LoadFF(controlFirefighters);
         }
 
         public void SaveBoard(GameObject Board)
@@ -144,9 +146,9 @@ namespace BayatGames.SaveGameFree.Examples
                         if (mychild.gameObject.GetComponent<Wall>() != null)
                         {
                             WallState status = SaveGame.Load<WallState>(mychild.name, new WallState(), serializer);
-                            if (mychild.GetComponent<Wall>().state != status)
+                            if (mychild.gameObject.GetComponent<Wall>().state != status)
                             {
-                                mychild.GetComponent<Wall>().SetState(status);
+                                mychild.gameObject.GetComponent<Wall>().SetState(status);
                             }
                     
                             //SaveGame.Save<int>(child.name + "x", child.GetComponent<Space>().x, serializer);
@@ -156,11 +158,11 @@ namespace BayatGames.SaveGameFree.Examples
                         else if (mychild.gameObject.GetComponent<Door>() != null)
                         {
                             DoorState status = SaveGame.Load<DoorState>(mychild.name, new DoorState(), serializer);
-                            if (mychild.GetComponent<Door>().state != status)
+                            if (mychild.gameObject.GetComponent<Door>().state != status)
                             {
-                                mychild.GetComponent<Door>().SetState(status);
+                                mychild.gameObject.GetComponent<Door>().SetState(status);
                             }
-                            SaveGame.Save<DoorState>(mychild.name, child.GetComponent<Door>().state, serializer);
+                            SaveGame.Save<DoorState>(mychild.name, mychild.GetComponent<Door>().state, serializer);
                             //SaveGame.Save<int>(child.name + "x", child.GetComponent<Space>().x, serializer);
                             //SaveGame.Save<int>(child.name+"y", child.GetComponent<Space>().y, serializer);
 
@@ -172,12 +174,13 @@ namespace BayatGames.SaveGameFree.Examples
         }
 
 
-        public void saveFF(GameObject[] allFF)
+        public void SaveFF(FirefighterController[] allFF)
         {
-            foreach (FirefighterController f in controlFirefighter)
+            foreach (FirefighterController f in allFF)
             {
                 Transform target = f.gameObject.transform;
                 SavePosition(target, f.name);
+                SaveGame.Save<int>(f.gameObject.name + "AP", f.gameObject.GetComponent<FirefighterManager>().getAP(), serializer);
             }
             
         }
@@ -187,12 +190,15 @@ namespace BayatGames.SaveGameFree.Examples
             SaveGame.Save<Vector3Save>(name, target.position, serializer);
         }
 
-        public void LoadFF(GameObject[] allFF)
+        public void LoadFF(FirefighterController[] allFF)
         {
-            foreach (FirefighterController f in controlFirefighter)
+            foreach (FirefighterController f in allFF)
             {
+                
                 GameObject target = f.gameObject;
                 LoadPosition(target, f.name);
+                int a = SaveGame.Load<int>(target.name + "AP", new int(), serializer);
+                f.gameObject.GetComponent<FirefighterManager>().setAP(a);
             }
 
         }
