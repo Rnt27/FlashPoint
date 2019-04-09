@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44824666, g: 0.49827272, b: 0.57558244, a: 1}
+  m_IndirectSpecularColor: {r: 0.44824654, g: 0.49827242, b: 0.5755816, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3098,7 +3098,7 @@ PrefabInstance:
     - target: {fileID: 2648115697053244109, guid: 743fd4b7b795d6041b4e7293db12e876,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 35.071686
       objectReference: {fileID: 0}
     - target: {fileID: 2648115697053244109, guid: 743fd4b7b795d6041b4e7293db12e876,
         type: 3}
@@ -15118,7 +15118,7 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 578823619}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1878683563
+--- !u!114 &1878683560
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -15126,6 +15126,22 @@ MonoBehaviour:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1878683559}
   m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 021e9cae5e45f174db27e027c4adea89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targets: []
+  gameBoard: {fileID: 1675156867}
+  m_Firefighters: []
+  offset: {x: 0, y: 0, z: 0}
+--- !u!114 &1878683563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1878683559}
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1ce1b20f706fa6649a462163655f599a, type: 3}
   m_Name: 
@@ -16748,6 +16764,8 @@ MonoBehaviour:
   rows: 8
   tileSize: 4
   houseCorner: {x: -16, y: 0, z: 16}
+  hotspotPrefab: {fileID: 0}
+  hazmatPrefab: {fileID: 0}
 --- !u!4 &2074167225
 Transform:
   m_ObjectHideFlags: 0

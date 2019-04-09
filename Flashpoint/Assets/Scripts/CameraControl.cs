@@ -16,21 +16,22 @@ public class CameraControl : MonoBehaviour
     {
         deltaPos = new Vector3(2, 30, -10);
         StartCoroutine(findTargets());
-        StartCoroutine(LateUpdate());
+        StartCoroutine(UpdateCamera());
     }
     
-    private IEnumerator LateUpdate()
+    private IEnumerator UpdateCamera()
     {
         //Debug.Log("Game over: " + Game.Instance.IsGameOver);
         while (!Game.Instance.IsGameOver)
         {
-            if (Game.Instance.IsTurnPlaying)
+            if (Game.Instance.IsTurnPlaying && Game.Instance.FirefighterAllSpawned())
             {
                 foreach (GameObject firefighter in targets)
                 {
                     if (firefighter.GetComponent<FirefighterManager>().IsMyTurn())
                     {
-                        Debug.Log("Targets found!");
+                        // Debug.Log("Targets found!");
+                        deltaPos = new Vector3(2, 15, -5);
                         Vector3 pos = firefighter.transform.TransformDirection(deltaPos);
                         transform.position = firefighter.transform.position + pos;
                         Vector3 playerPos = firefighter.transform.position + new Vector3(2, 2, 0);
