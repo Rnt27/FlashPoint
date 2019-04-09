@@ -484,7 +484,7 @@ public class BoardManager : MonoBehaviour
 	// (2.2) DFS to increment smoke from an origin fire
 	private void FlashoverDFS(int x, int y)
 	{
-		
+		Debug.Log("Flashover DFS on " + x + " " + y);
 		Space origin = floors[x, y].GetComponent<Space>();
 		Stack<Space> dfsStack = new Stack<Space>();
 		if (origin.status != SpaceStatus.Fire) return;

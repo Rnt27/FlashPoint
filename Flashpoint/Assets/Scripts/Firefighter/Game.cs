@@ -16,11 +16,14 @@ public class Game : MonoBehaviour
     private bool m_isGamePlaying = false;
     private bool m_isGameOver = false;
     private bool m_hasLevelFinished = false;
+    private bool m_isTurnPlaying = false;
 
     public bool HasLevelStarted { get { return m_hasLevelStarted; } set { m_hasLevelStarted = value; } }
     public bool IsGamePlaying { get { return m_isGamePlaying; } set { m_isGamePlaying = value; } }
     public bool IsGameOver { get { return m_isGameOver; } set { m_isGameOver = value; } }
     public bool HasLevelFinished { get { return m_hasLevelFinished; } set { m_hasLevelFinished = value; } }
+
+    public bool IsTurnPlaying { get { return m_isTurnPlaying; } set { m_isTurnPlaying = value; } }
 
     private bool moveButtonActive = false;
     private bool punchButtonActive = false;
@@ -80,22 +83,12 @@ public class Game : MonoBehaviour
             foreach (FirefighterManager firefighter in m_Firefighters)
             {
                 firefighter.EnableAction();
-                if (Input.GetMouseButtonDown(0))
-                {
-                    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                    RaycastHit hit;
-
-                    if (Physics.Raycast(ray, out hit) && hit.transform.gameObject.tag == "OutsideTile")
-                    {
-                        firefighter.Spawn(hit.transform.gameObject.GetComponent<Space>());
-                        firefighter.isSpawned = true;
-                        firefighter.DisableAction();
-                    }
-                }
+                yield return StartCoroutine(SpawnFirefighter(firefighter));
+                firefighter.DisableAction();
             }
             yield return null;
         }
-        yield return m_StartWait;
+        // yield return m_StartWait;
     }
 
     private IEnumerator RoundPlaying()
@@ -110,6 +103,7 @@ public class Game : MonoBehaviour
 
                 yield return StartCoroutine(TurnPlaying(firefighter));
                 firefighter.Reset();
+                m_isTurnPlaying = false;
                 yield return StartCoroutine(AdvanceFire());
                 
             }
@@ -124,19 +118,40 @@ public class Game : MonoBehaviour
         yield return m_EndWait;
     }
 
+    private IEnumerator SpawnFirefighter(FirefighterManager firefighter)
+    {
+        while (!firefighter.isSpawned)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+
+                if (Physics.Raycast(ray, out hit) && hit.transform.gameObject.tag == "OutsideTile")
+                {
+                    firefighter.Spawn(hit.transform.gameObject.GetComponent<Space>());
+                    firefighter.isSpawned = true;
+                }
+            }
+            yield return null;
+        }
+        yield return new WaitForSeconds(1f);
+    }
+
     private IEnumerator TurnPlaying(FirefighterManager firefighter)
     {
+        m_isTurnPlaying = true; 
         while (firefighter.getAP() > 0 && firefighter.IsMyTurn())
         {
             if (Input.GetMouseButtonDown(0))
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
-                if (Physics.Raycast(ray, out hit))
+                if (Physics.Raycast(ray, out hit) && firefighter.getCurrentSpace().IsAdjacent(hit.transform.gameObject))
                 {
-                    if ((hit.transform.gameObject.tag == "InsideTile" || hit.transform.gameObject.tag == "OutsideTile") )
+                    if ((hit.transform.gameObject.tag == "InsideTile" || hit.transform.gameObject.tag == "OutsideTile"))
                     {
-                        //Debug.Log("The space is adjacent:" + firefighter.getCurrentSpace().IsAdjacent(hit.transform.gameObject));
+                        Debug.Log("The space is adjacent:" + firefighter.getCurrentSpace().IsAdjacent(hit.transform.gameObject));
                         firefighter.SetTargetSpace(hit.transform.gameObject.GetComponent<Space>());
                         firefighter.EnableMove();
                     }
@@ -166,7 +181,7 @@ public class Game : MonoBehaviour
                     firefighter.EnableExtinguish();
                 }
             }
-            Debug.Log("Firefighter No." + firefighter.m_PlayerNumber + " AP: " + firefighter.getAP());
+            // Debug.Log("Firefighter No." + firefighter.m_PlayerNumber + " AP: " + firefighter.getAP());
             yield return null;
         }
     }

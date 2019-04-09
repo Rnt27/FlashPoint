@@ -63,7 +63,7 @@ public class CameraView : MonoBehaviour {
         //controlFirefighter = FindObjectOfType<FirefighterController>();
 
 
-        firefighter = controlFirefighter[0];
+        // firefighter = controlFirefighter;
         //firefighters = controlFirefighter.getFirefighters();
 
         //firefighter = controlFirefighter.firefighter;
