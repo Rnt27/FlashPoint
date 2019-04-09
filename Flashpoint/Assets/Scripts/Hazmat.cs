@@ -17,7 +17,7 @@ public class Hazmat : MonoBehaviour
 		//Delete the hazmat if its been moved outside
 		if (IsOutside())
 		{
-			BoardManager.Instance.RemoveHazmat(gameObject);
+			//BoardManager.Instance.RemoveHazmat(gameObject);
 			Destroy(gameObject);
 		}
 	}
