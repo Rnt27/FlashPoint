@@ -325,6 +325,17 @@ public class BoardManager : MonoBehaviour
 
 		} while (flareUp);
 
+		//Resolve hazmat explosions
+		foreach(GameObject h in hazmats)
+		{
+			Hazmat hazmat = h.GetComponent<Hazmat>();
+			Space space = floors[hazmat.x, hazmat.y].GetComponent<Space>();
+			if(space.status == SpaceStatus.Fire) //Hazmat explosion if fire
+			{
+				HazmatExplode(hazmat.x, hazmat.y);
+			}
+		}
+
 		ResolveDeaths(); 
 		CheckLoss(); 
 		ExtinguishOutsideFires(); 
@@ -601,8 +612,6 @@ public class BoardManager : MonoBehaviour
 		hotspots[x, y] = hotspotPrefab;
 		return newHotSpot; 
 	}
-
-	//Destroy the hotspot GameObject and remove it from the array
 	bool RemoveHotspot(int x, int y)
 	{
 		if(hotspots[x,y] ==null || !IsOnBoard(x, y) )
@@ -627,6 +636,20 @@ public class BoardManager : MonoBehaviour
 		newHazmat.AddComponent<Hazmat>().InitHazmat(x, y);
 		hazmats.Add(newHazmat);
 		return newHazmat; 
+	}
+	bool RemoveHazmat(int x, int y)
+	{
+		foreach(GameObject h in hazmats)
+		{
+			Hazmat hazmat = h.GetComponent<Hazmat>();
+			if(hazmat.x == x && hazmat.y == y)
+			{
+				hazmats.Remove(h);
+				Destroy(h);
+				return true;
+			}
+		}
+		return false;
 	}
 
 	// Generate Hazmats on random spaces such that they aren't placed on Fires
@@ -680,9 +703,10 @@ public class BoardManager : MonoBehaviour
 	{
 		Explode(x, y);
 		AddHotspot(x, y);
+		RemoveHazmat(x, y);
 	}
 
-
+	
 
 	//-----------------------------+
 	// LOCATORS - BASED ON VECTOR3 | : These methods translate Vector3 positions of game objects into coordinates
@@ -827,11 +851,16 @@ public class BoardManager : MonoBehaviour
 		}
 
 		//Hazmats
-	//	GameObject[] hazmatObjects = GameObject.FindGameObjectsWithTag(hazmatTag);
-	//	for(int i =0; i < hazmatObjects.Length; i++)
-	//	{
-	//		hazmats.Add(hazmatObjects[i]);
-	//	}
+		GameObject[] hazmatObjects;
+		try
+		{
+			hazmatObjects = GameObject.FindGameObjectsWithTag(hazmatTag);
+			for(int i = 0; i < hazmatObjects.Length; i++)
+			{
+				hazmats.Add(hazmatObjects[i]);
+			}
+		}
+		catch { } //Do nothing if there aren't any hazmats
 
 	}
 
