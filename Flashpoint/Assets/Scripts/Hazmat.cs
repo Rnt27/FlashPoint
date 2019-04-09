@@ -27,6 +27,13 @@ public class Hazmat : MonoBehaviour
 		return BoardManager.Instance.IsOutside(new int[] { x, y });
 	}
 
+	public void InitHazmat(int x, int y)
+	{
+		this.x = x;
+		this.y = y;
+		MoveTo(x, y);
+	}
+
 
 
 

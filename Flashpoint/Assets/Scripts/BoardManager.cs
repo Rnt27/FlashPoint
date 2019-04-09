@@ -48,8 +48,7 @@ public class BoardManager : MonoBehaviour
 	List<GameObject> hazmats;
 
 	private static Random r = new Random();
-	//Simulate a dice roll and randomly choose a space on the board
-	int[] Roll()
+	int[] Roll()    //Simulate a dice roll and randomly choose a space on the board
 	{
 		int[] roll = new int[2];
 
@@ -61,6 +60,10 @@ public class BoardManager : MonoBehaviour
 		return roll;
 	}
 	
+	//Prefabs for Hazmat and Hotspot generation
+	public GameObject hotspotPrefab;
+	public GameObject hazmatPrefab; 
+
 	/*
 	 * Waiting on Features:
 	 *	1 - Firefighter knockout
@@ -581,56 +584,44 @@ public class BoardManager : MonoBehaviour
 			POIManager.Instance.GeneratePOI(roll[0], roll[1], POIManager.Instance.RollVictim());
 		}
 	}
-	
+
+	//-----------------------------+
+	// EXPERIENCED END TURN		   | : Flare ups and hazmat explosions
+	//-----------------------------+
+
+	//Add a new hotspot to the space x,y 
+	GameObject AddHotspot(int x, int y)
+	{
+		if (!IsOnBoard(x, y))
+		{
+			throw new InvalidPositionException();
+		}
+
+		GameObject newHotSpot = Instantiate(hotspotPrefab);
+		newHotSpot.transform.position = floors[x, y].transform.position;
+		hotspots[x, y] = hotspotPrefab;
+		return newHotSpot; 
+	}
+
+	//Add a new hazmat to the space x,y and assign it the Hazmat script
+	GameObject AddHazmat(int x, int y)
+	{
+		if (!IsOnBoard(x, y))
+		{
+			throw new InvalidPositionException();
+		}
+
+		GameObject newHazmat = Instantiate(hazmatPrefab);
+		newHazmat.AddComponent<Hazmat>().InitHazmat(x, y);
+		hazmats.Add(newHazmat);
+		return newHazmat; 
+	}
 
 
 
 	//-----------------------------+
 	// LOCATORS - BASED ON VECTOR3 | : These methods translate Vector3 positions of game objects into coordinates
 	//-----------------------------+
-
-	// Use the corner of the board and the Vector3 of the floor GameObject to determine its 2D coordinate
-	public int[] FloorCoordinate(GameObject floorObject)
-    {
-        int[] coordinates = new int[2];
-        Vector3 position = floorObject.transform.position;
-		//TODO: 4 and 1 are hardcoded for the family board
-		if (floorObject.tag.Equals(inFloorTag))
-		{
-			coordinates[0] = (int)(Math.Abs((position.x - (houseCorner.x + 4)) / tileSize)) + 1; //x coordinate
-			coordinates[1] = (int)(Math.Abs((position.z - (houseCorner.z - 4)) / tileSize)) + 1; //z coordinate
-		}
-		else
-		{
-			coordinates[0] = (int)(Math.Abs((position.x - (houseCorner.x)) / tileSize)); //x coordinate
-			coordinates[1] = (int)(Math.Abs((position.z - (houseCorner.z)) / tileSize)); //z coordinate
-		}
-
-        return coordinates;
-    }
-    // Use the corner of the board and the Vector3 of the wall GameObject to determine its 2D coordinate
-    public int[] EdgeCoordinate(GameObject edgeObject)
-    {
-        double wallOffset = 2;
-        int[] coordinates = new int[2];
-        Vector3 position = edgeObject.transform.position;
-        bool vertical = (edgeObject.transform.rotation.y != 0); //Different calculation based on wall rotation.
-
-        if (vertical) //Vertical Calculation
-        {
-            coordinates[0] = (int)Math.Abs((position.x + wallOffset - houseCorner.x) / tileSize);
-            coordinates[1] = (int)Math.Abs((position.z - houseCorner.z) / tileSize);
-
-        }
-        else //Horizontal Calculation
-        {
-            coordinates[0] = (int)Math.Abs((position.x - houseCorner.x) / tileSize);
-            coordinates[1] = (int)Math.Abs((position.z - wallOffset - houseCorner.z) / tileSize);
-        }
-
-
-        return coordinates;
-    }
 
     public bool IsOutside(int[] c)
     {
@@ -655,7 +646,7 @@ public class BoardManager : MonoBehaviour
 	//-----------------------------+
 
 	// Generate fires on 6 random spaces
-	void GenerateFiresRandom()
+	void GenerateFiresRandom(int numRolls)
 	{
 		ArrayList rolls = new ArrayList();
 		int index = 0;
@@ -668,21 +659,18 @@ public class BoardManager : MonoBehaviour
 		}
 		
 		// Randomly pick 6 possible rolls and set their spaces to fire
-		int possibleRolls = rolls.Count;
-		int remainingRolls = 6;
-		while (remainingRolls != 0)
+		while (numRolls != 0)
 		{
 			// Get random coordinate
 			
-			int rInt = r.Next(0, possibleRolls);
+			int rInt = r.Next(0, rolls.Count);
 			int[] roll = (int[]) rolls[rInt];
 			rolls.RemoveAt(rInt);
 			// Set space at coordinate to fire 
 			floors[roll[0], roll[1]].GetComponent<Space>().SetStatus(SpaceStatus.Fire);
 			Debug.Log("Chosen for fire: " + floors[roll[0], roll[1]].name);
 
-			possibleRolls--;
-			remainingRolls--;
+			numRolls--;
 		}
 
 	}
@@ -700,83 +688,6 @@ public class BoardManager : MonoBehaviour
 		floors[6,5].GetComponent<Space>().SetStatus(SpaceStatus.Fire);
 		floors[7,5].GetComponent<Space>().SetStatus(SpaceStatus.Fire);
 		floors[6,6].GetComponent<Space>().SetStatus(SpaceStatus.Fire);
-	}
-
-	// Update board state based on the Vector3 positions of GameObjects already placed via Editor
-	void LoadFromEnvironment()
-	{
-
-		//Setup all Inside Floors
-		GameObject[] inFloorObj = GameObject.FindGameObjectsWithTag(inFloorTag);
-		for (int i = 0; i < inFloorObj.Length; i++)  //Loop through inside floors and put them into the correct coordinate
-		{
-			int[] c = FloorCoordinate(inFloorObj[i]);
-
-			if (IsOutside(c) || !IsOnBoard(c)) //Check if floorObj is at an invalid position
-			{
-				throw new InvalidPositionException();
-			}
-
-			floors[c[0], c[1]] = inFloorObj[i]; //Set the space at x,y to the floor object
-	
-		}
-
-
-		//Setup all Outside Floors
-		GameObject[] outFloorObj = GameObject.FindGameObjectsWithTag(outFloorTag);
-		for (int i = 0; i < outFloorObj.Length; i++)
-		{
-			int[] c = FloorCoordinate(outFloorObj[i]);
-			if (!IsOutside(c))
-			{
-				throw new InvalidPositionException();
-			}
-			floors[c[0], c[1]] = outFloorObj[i];
-		}
-
-		//Setup all Walls
-		GameObject[] wallObj = GameObject.FindGameObjectsWithTag(wallTag);
-		for (int i = 0; i < wallObj.Length; i++)
-		{
-			int[] c = EdgeCoordinate(wallObj[i]);
-			if (!IsOnBoard(c))
-			{
-				throw new InvalidPositionException();
-			}
-
-			if (wallObj[i].transform.rotation.y != 0) // Left edge
-			{
-				leftEdge[c[0], c[1]] = wallObj[i];
-
-			}
-			else //Upper edge										
-			{
-
-				upperEdge[c[0], c[1]] = wallObj[i];
-			}
-		}
-
-		//Setup all Doors TODO
-		GameObject[] doorObj = GameObject.FindGameObjectsWithTag(inDoorTag);
-		Debug.Log("Number of Doors: " + doorObj.Length);
-		for (int i = 0; i < doorObj.Length; i++)
-		{
-		
-			int[] c = EdgeCoordinate(doorObj[i]);
-			if (!IsOnBoard(c))
-			{
-				throw new InvalidPositionException();
-			}
-		
-			if (doorObj[i].transform.rotation.y != 0) // Left edge
-			{
-				leftEdge[c[0], c[1]] = doorObj[i];
-			}
-			else //Upper edge										
-			{
-				upperEdge[c[0], c[1]] = doorObj[i];
-			}
-		}
 	}
 
 	// Update board state based on GameObjects placed in the Scene
