@@ -141,14 +141,16 @@ public class Space : MonoBehaviour {
 
 		foreach(GameObject wall in adjWalls)
 		{
-			Debug.Log(wall.name);
+			Debug.Log("This wall is adjacent: "+wall.name);
 			if(s == wall && wall != null)
 			{
+				Debug.Log("Returning true.");
 				return true; 
 			}
 		}
 
 		//s was not found in any adjacent list, not adjacent.
+		Debug.Log("Returning false.");
 		return false;
 	}
 
