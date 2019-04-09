@@ -133,7 +133,7 @@ public class Space : MonoBehaviour {
 
 		foreach(GameObject space in adjSpaces)
 		{
-			if(s == space)
+			if(s == space && space != null)
 			{
 				return true;
 			}
@@ -141,7 +141,7 @@ public class Space : MonoBehaviour {
 
 		foreach(GameObject wall in adjWalls)
 		{
-			if(s == wall)
+			if(s == wall && wall != null)
 			{
 				return true; 
 			}

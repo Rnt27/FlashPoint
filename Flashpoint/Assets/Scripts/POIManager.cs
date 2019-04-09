@@ -27,7 +27,7 @@ public class POIManager : MonoBehaviour
 	//Get the number of missing POI's
 	public int NumMissing()
 	{
-		return 3 - pois.Count;
+		return maxOnBoard - pois.Count;
 	}
 
 	//Roll based on the pieces left in the bag if the next piece will be a victim or false alarm

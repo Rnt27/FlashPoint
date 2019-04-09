@@ -18,7 +18,7 @@ public class CameraView : MonoBehaviour {
     private Vector3 originalPlace;
     private Quaternion originalRotation;
 
-    FirefighterController controlFirefighter;
+    FirefighterController[] controlFirefighter;
 
     //FirefighterController[] firefighters;
 
@@ -28,14 +28,46 @@ public class CameraView : MonoBehaviour {
     bool camera3;
     bool camera4;
 
-   // Use this for initialization
-    void Start () {
+
+    private bool setup = false;
+
+
+
+    public void Setup()
+    {
+
+
+
+        controlFirefighter = FindObjectsOfType<FirefighterController>();
+        //Debug.Log("camera= " + controlFirefighter.Length);
+        //Debug.Log(firefighters[1].name);
+        foreach (FirefighterController f in controlFirefighter)
+        {
+            ///firefighter = f;
+            if (f.name == "local")
+            {
+                firefighter = f;
+
+            }
+        }
+
+    }
+
+    // called third
+    // Use this for initialization
+    void Start()
+    {
 
        
 
-        controlFirefighter = FindObjectOfType<FirefighterController>();
+        //controlFirefighter = FindObjectOfType<FirefighterController>();
+
 
         firefighter = controlFirefighter;
+        //firefighters = controlFirefighter.getFirefighters();
+
+        //firefighter = controlFirefighter.firefighter;
+        //firefighter = controlFirefighter;
 
         
         originalPlace = transform.position;
@@ -52,17 +84,17 @@ public class CameraView : MonoBehaviour {
 
         camera4 = false;
     }
-	
-	// Update is called once per frame
-	void Update () {
 
-        //turnFirefighter();
-
-        //controlFirefighter.turnFirefighter();
-
-        firefighter = controlFirefighter;
-
+    // Update is called once per frame
+    void Update()
+    {
+        Setup();
+        if (!setup)
+        {
+            Setup();
+        }
         target = firefighter.gameObject;
+
         //Debug.Log(target.name);
 
         //Inputs to change the camera movement
