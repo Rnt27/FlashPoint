@@ -22,8 +22,7 @@ public class POI : MonoBehaviour
 
 		if (victim)
 		{
-			BoardManager.Instance.PoiDeath();
-			BoardManager.Instance.CheckLoss();
+			POIUI.Instance.increaseDeath(); 
 		}
 		//Remove self from POIManager
 		POIManager.Instance.RemovePOI(gameObject);
@@ -51,8 +50,7 @@ public class POI : MonoBehaviour
 		if (space.gameObject.tag.Equals("OutsideTile")) //The POI collided with an outside tile
 		{
 			//Update Game State and Check for a win
-			BoardManager.Instance.PoiSaved();
-			BoardManager.Instance.CheckWin();
+			POIUI.Instance.increaseVictory(); 
 
 			//Remove self from game and POIManager
 			POIManager.Instance.RemovePOI(gameObject);

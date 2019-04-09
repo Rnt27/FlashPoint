@@ -44,6 +44,12 @@ public class Victim : POI
 		victim = true; 
 	}
 
+	//Disable inherited Reavel function
+	new void Reveal()
+	{
+		return;
+	}
+
 	// Start is called before the first frame update
 	void Start()
     {

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -122,6 +122,18 @@ PrefabInstance:
     - target: {fileID: 1411788632101824, guid: 3e5255d3f8e7671448d4b276e36ab914, type: 3}
       propertyPath: m_Name
       value: Board
+      objectReference: {fileID: 0}
+    - target: {fileID: 1501334151967788, guid: 3e5255d3f8e7671448d4b276e36ab914, type: 3}
+      propertyPath: m_TagString
+      value: InsideTile
+      objectReference: {fileID: 0}
+    - target: {fileID: 1569528888822812, guid: 3e5255d3f8e7671448d4b276e36ab914, type: 3}
+      propertyPath: m_TagString
+      value: InsideTile
+      objectReference: {fileID: 0}
+    - target: {fileID: 1390189161414928, guid: 3e5255d3f8e7671448d4b276e36ab914, type: 3}
+      propertyPath: m_TagString
+      value: InsideTile
       objectReference: {fileID: 0}
     - target: {fileID: 1365023606816064, guid: 3e5255d3f8e7671448d4b276e36ab914, type: 3}
       propertyPath: m_TagString
@@ -255,14 +267,6 @@ PrefabInstance:
       propertyPath: m_TagString
       value: InsideTile
       objectReference: {fileID: 0}
-    - target: {fileID: 1501334151967788, guid: 3e5255d3f8e7671448d4b276e36ab914, type: 3}
-      propertyPath: m_TagString
-      value: InsideTile
-      objectReference: {fileID: 0}
-    - target: {fileID: 1569528888822812, guid: 3e5255d3f8e7671448d4b276e36ab914, type: 3}
-      propertyPath: m_TagString
-      value: InsideTile
-      objectReference: {fileID: 0}
     - target: {fileID: 1226624191013270, guid: 3e5255d3f8e7671448d4b276e36ab914, type: 3}
       propertyPath: m_TagString
       value: InsideTile
@@ -272,10 +276,6 @@ PrefabInstance:
       value: InsideTile
       objectReference: {fileID: 0}
     - target: {fileID: 1181600545822784, guid: 3e5255d3f8e7671448d4b276e36ab914, type: 3}
-      propertyPath: m_TagString
-      value: InsideTile
-      objectReference: {fileID: 0}
-    - target: {fileID: 1390189161414928, guid: 3e5255d3f8e7671448d4b276e36ab914, type: 3}
       propertyPath: m_TagString
       value: InsideTile
       objectReference: {fileID: 0}
@@ -5353,6 +5353,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1ac0a8ff365e7040913b351ed2e9d05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  numVictims: 12
+  numFalseAlarms: 6
+  maxOnBoard: 3
+  victimPrefabs:
+  - {fileID: 100144, guid: 89cd8db613012584aa88d7f346a38cf9, type: 3}
+  - {fileID: 100142, guid: db8388af0257aab4eb2899da6e382faa, type: 3}
+  - {fileID: 100000, guid: dd6d2b9919ea33c44bb39e70bf44ecf3, type: 3}
+  poiPrefab: {fileID: 6985164205015790326, guid: f834c510df7533f46a4a548b096a097b,
+    type: 3}
 --- !u!4 &480614625
 Transform:
   m_ObjectHideFlags: 0
@@ -6476,6 +6485,8 @@ MonoBehaviour:
   rows: 8
   tileSize: 4
   houseCorner: {x: -16, y: 0, z: 16}
+  hotspotPrefab: {fileID: 0}
+  hazmatPrefab: {fileID: 0}
 --- !u!4 &1200030602
 Transform:
   m_ObjectHideFlags: 0

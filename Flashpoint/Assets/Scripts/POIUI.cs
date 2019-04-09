@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class POIUI : MonoBehaviour
 {
+	public static POIUI Instance = null;
     public Text victimsSaved;
     public Text victimsDead;
 
@@ -27,6 +28,10 @@ public class POIUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+		if(Instance == null)
+		{
+			Instance = this;
+		}
         currentVictory = 0;
         handleVictory();
         deathCount = 0;

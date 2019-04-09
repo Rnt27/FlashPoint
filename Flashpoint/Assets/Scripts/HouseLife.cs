@@ -6,7 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class HouseLife : MonoBehaviour
 {
-   public RectTransform healthTransform;
+	public static HouseLife Instance = null;
+	public RectTransform healthTransform;
     private float cachedY;
 
     private float minX;
@@ -22,6 +23,10 @@ public class HouseLife : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+		if(Instance == null)
+		{
+			Instance = this; 
+		}
         cachedY = healthTransform.position.y;
 
         maxX = healthTransform.position.x;
