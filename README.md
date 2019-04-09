@@ -1,34 +1,30 @@
 # f2018-group8
 
 ## Tasks:
-[] Make board prefab (this includes parking spots)(Vehicles not necessary for now)
-
-[] Make firefighter prefab
-
-[] Implement chat
-
-[] Complete menu's UI 
-
-[] Create network manager
-
-
-
-## Minimum requirements
-- Networking done
-- 3 players
-- Take turns
-- Move fireman
-- Open/close doors
-- Rescuing victims by carrying them outside
-- Chopping down walls
-- Fire advances
-- Potential explosions
-- Flashover
+[Isabelle] Completely synchronize game
+[Isabelle] Connect experienced specialists to firefighters in game
+[Steven] Debug camera view
+[Steven] Write specialists scripts
+[Alex] Fix adjacency bug
+[Alex] Connect UI to game logic
+[] Firefighter knocked down during end turn fire spread
+[] Hotspots *
+[] End turn * 
+[] Hazmats
+[] Experienced start game: 3 explosions, 3 hazmats, 3 POI (where 1 is False Alarm), 3 additional hotspots, pick ambulance/firetruck placement
+[] Experience: Crew change
 
 
-Movement limited for firefighter
-Placing firefighter works well
-Camera movement
-Improvement in firefighter model and animations
-Animations and Textures shared separately/too big for github
-Materials shared here.
+
+
+* Tasks masked with asterix means the game logic (code) is there, but not fully implemented in game. 
+
+
+
+## Requirements
+4 different games to show all roles; 3 games must include (each):
+- Lose game to structural damage
+- Lost game to too many victims lost
+- Win game condition
+
+
