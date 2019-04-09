@@ -14,7 +14,7 @@ public class CameraControl : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        deltaPos = new Vector3(2, 30, -10);
+        deltaPos = new Vector3(2, 30, 5);
         StartCoroutine(findTargets());
         StartCoroutine(UpdateCamera());
     }

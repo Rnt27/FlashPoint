@@ -17,13 +17,14 @@ public class Game : MonoBehaviour
     private bool m_isGameOver = false;
     private bool m_hasLevelFinished = false;
     private bool m_isTurnPlaying = false;
+    private bool m_isEndTurnPlaying = false;
 
     public bool HasLevelStarted { get { return m_hasLevelStarted; } set { m_hasLevelStarted = value; } }
     public bool IsGamePlaying { get { return m_isGamePlaying; } set { m_isGamePlaying = value; } }
     public bool IsGameOver { get { return m_isGameOver; } set { m_isGameOver = value; } }
     public bool HasLevelFinished { get { return m_hasLevelFinished; } set { m_hasLevelFinished = value; } }
-
     public bool IsTurnPlaying { get { return m_isTurnPlaying; } set { m_isTurnPlaying = value; } }
+    public bool IsEndTurnPlaying { get { return m_isEndTurnPlaying; } set { m_isEndTurnPlaying = value; } }
 
     private bool moveButtonActive = false;
     private bool punchButtonActive = false;
@@ -105,6 +106,7 @@ public class Game : MonoBehaviour
                 firefighter.Reset();
                 m_isTurnPlaying = false;
                 yield return StartCoroutine(AdvanceFire());
+                m_isEndTurnPlaying = false;
                 
             }
             yield return null;
@@ -193,8 +195,9 @@ public class Game : MonoBehaviour
 
     IEnumerator AdvanceFire()
     {
+        m_isEndTurnPlaying = true;
         BoardManager.Instance.EndTurn();
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(20f);
     }
 
 
