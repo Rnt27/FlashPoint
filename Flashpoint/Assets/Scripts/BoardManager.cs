@@ -11,6 +11,7 @@ using Random = System.Random;
  **/
 public class BoardManager : MonoBehaviour
 {
+	
 	private int SavedWinThreshold = 7; 
 	public int HouseHP { get; private set; } //House Damage Loss Condition
 	public int RemainingPOI { get; private set; } //POI Death Loss Condition
@@ -46,16 +47,28 @@ public class BoardManager : MonoBehaviour
     private GameObject[,] hotspots;
 	List<GameObject> hazmats;
 
+	private static Random r = new Random();
+	//Simulate a dice roll and randomly choose a space on the board
+	int[] Roll()
+	{
+		int[] roll = new int[2];
+
+		//roll x
+		roll[0] = r.Next(1, columns - 2);
+		//Roll y
+		roll[1] = r.Next(1, rows - 2);
+
+		return roll;
+	}
+	
 	/*
 	 * Waiting on Features:
 	 *	1 - Firefighter knockout
-	 *	2 - POI death
-	 *	3 - Server End Game
 	 * */
 
-    //-----------------------------+
-    // PUBLIC API				   | : 
-    //-----------------------------+
+	//-----------------------------+
+	// PUBLIC API				   | : 
+	//-----------------------------+
 
 
 
@@ -183,7 +196,7 @@ public class BoardManager : MonoBehaviour
 			throw new ArgumentException("GameObject space must have tag "+inFloorTag+" or "+outFloorTag);
 		}
 
-		int[] c = FloorCoordinate(space);
+		int[] c = GetSpaceCoordinates(space);
 		return GetEdgeObstacle(c[0], c[1], direction);
 	}
 
@@ -196,28 +209,28 @@ public class BoardManager : MonoBehaviour
 		{
 			if (GetEdgeObstacle(x, y, "right") == null || GetEdgeObstacle(x, y, "right").GetComponent<EdgeObstacle>().IsPassable())
 			{
-				adj.Add(GetSpace(x + 1, y));
+				adj.Add(floors[x + 1, y]);
 			}
 		}
 		if(IsOnBoard(x-1, y)) //Left
 		{
 			if(GetEdgeObstacle(x, y, "left") == null || GetEdgeObstacle(x, y, "left").GetComponent<EdgeObstacle>().IsPassable())
 			{
-				adj.Add(GetSpace(x - 1, y));
+				adj.Add(floors[x - 1, y]);
 			}
 		}
 		if (IsOnBoard(x, y - 1)) //Up
 		{
 			if(GetEdgeObstacle(x, y, "up") == null || GetEdgeObstacle(x, y, "up").GetComponent<EdgeObstacle>().IsPassable())
 			{
-				adj.Add(GetSpace(x, y - 1 ));
+				adj.Add(floors[x, y - 1 ]);
 			}
 		}
 		if(IsOnBoard(x, y - 1)) //Down
 		{
 			if(GetEdgeObstacle(x, y, "down") == null || GetEdgeObstacle(x, y, "down").GetComponent<EdgeObstacle>().IsPassable())
 			{
-				adj.Add(GetSpace(x, y + 1));
+				adj.Add(floors[x, y + 1]);
 			}
 		}
 
@@ -240,7 +253,7 @@ public class BoardManager : MonoBehaviour
 		foreach(String direction in directions)
 		{
 			GameObject edge = GetEdgeObstacle(c[0], c[1], direction);
-			if(edge != null && edge.tag == wallTag)
+			if(edge != null)
 			{
 				walls.Add(edge);
 			}
@@ -291,7 +304,7 @@ public class BoardManager : MonoBehaviour
 
 
 	//Entire end turn sequence
-	void EndTurn()
+	public void EndTurn()
 	{
 		CheckWin();
 		bool flareUp = false;
@@ -320,10 +333,11 @@ public class BoardManager : MonoBehaviour
 		for (int i = 0; i < numRolls; i++)
 		{
 			int[] r = Roll();
+			Debug.Log("POI Rolled: " + r[0] + " " + r[1]);
 			Space s = floors[r[0], r[1]].GetComponent<Space>();
 
 			while (s.status == SpaceStatus.Fire || s.status == SpaceStatus.Smoke ||
-			    Game.Instance.GetFFOnSpace(s.gameObject).Count != 0) //Reroll the space until theres no firefighters, smoke or fire on that space
+			    Game.Instance.GetFFOnSpace(s.gameObject).Count != 0 || POIManager.Instance.GetFromSpace(s.gameObject).Count != 0) //Reroll the space until theres no firefighters, smoke or fire on that space
 			{
 				r = Roll();
 				s = floors[r[0], r[1]].GetComponent<Space>();
@@ -333,20 +347,6 @@ public class BoardManager : MonoBehaviour
 		}
 
 		ReplenishPOI(POIRolls);
-	}
-
-	//Simulate a dice roll and randomly choose a space on the board
-	int[] Roll()
-	{
-		Random r = new Random();
-		int[] roll = new int[2];
-
-		//roll x
-		roll[0] = r.Next(0, columns - 1);
-		//Roll y
-		roll[1] = r.Next(0, rows - 1);
-
-		return roll;
 	}
 
 
@@ -483,10 +483,10 @@ public class BoardManager : MonoBehaviour
 	// (2.2) DFS to increment smoke from an origin fire
 	private void FlashoverDFS(int x, int y)
 	{
+		
 		Space origin = floors[x, y].GetComponent<Space>();
 		Stack<Space> dfsStack = new Stack<Space>();
 		if (origin.status != SpaceStatus.Fire) return;
-		Debug.Log("Flashover starting on " + x+ " "+ y);
 
 		//Stack origin and loop until stack empties
 		dfsStack.Push(origin);
@@ -494,7 +494,6 @@ public class BoardManager : MonoBehaviour
 		{
 			Space curr = dfsStack.Peek(); //Always work with top of the stack
 			int[] c = { curr.x, curr.y };
-			Debug.Log("DFS Visiting: " + curr.x + " " + curr.y);
 
 			//Check each adjacent space
 			List<GameObject> adj = GetAdjacent(c[0], c[1]);
@@ -502,7 +501,6 @@ public class BoardManager : MonoBehaviour
 			foreach(GameObject s in adj)
 			{
 				Space adjSpace = s.GetComponent<Space>();
-				Debug.Log("Checking " + adjSpace.x + " " + adjSpace.y + "Status: " +adjSpace.status);
 
 				if (adjSpace.status == SpaceStatus.Smoke) //Fire spreads i.e. an edge exists
 				{
@@ -578,6 +576,7 @@ public class BoardManager : MonoBehaviour
 	{
 		foreach(int[] roll in rolls)
 		{
+			Debug.Log("There are " + rolls.Count +" missing POI's. Generating POI at: " + roll[0] + " " + roll[1]);
 			//Pick a POI out of the bag and place it on the given rolled space
 			POIManager.Instance.GeneratePOI(roll[0], roll[1], POIManager.Instance.RollVictim());
 		}
@@ -639,7 +638,7 @@ public class BoardManager : MonoBehaviour
     }
     public bool IsOnBoard(int[] c)
     {
-        return (c[0] > 0 || c[0] < columns - 1 || c[1] > 0 || c[1] < rows - 1);
+        return (c[0] > 0 && c[0] < columns - 1 && c[1] > 0 && c[1] < rows - 1);
     }
     public bool IsOutside(int x, int y)
     {
@@ -674,7 +673,7 @@ public class BoardManager : MonoBehaviour
 		while (remainingRolls != 0)
 		{
 			// Get random coordinate
-			Random r = new Random();
+			
 			int rInt = r.Next(0, possibleRolls);
 			int[] roll = (int[]) rolls[rInt];
 			rolls.RemoveAt(rInt);
@@ -861,13 +860,15 @@ public class BoardManager : MonoBehaviour
 		//Set coordinates and generate fires
 		LoadFromScene();
 	    GenerateFiresFamily();
-
-	}
+	    EndTurn();
+		
+		//Adjacent debug
+		Debug.Log(floors[0, 0].GetComponent<Space>().IsAdjacent(leftEdge[0, 0]));
+    }
 	// Use this for initialization
 	void Start()
-    {
-
-    }
+	{
+	}
     // Update is called once per frame
     void Update() {
 
