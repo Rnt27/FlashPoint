@@ -19,10 +19,10 @@ public class FirefighterManager : MonoBehaviour
     protected bool isCarryingVictim;                            // This specifies if the firefighter is carrying a victim
 
     // Boolean variables to control access to actions
-    private bool Move;
-    private bool Punch;
-    private bool TouchDoor;
-    private bool Extinguish;
+    protected bool Move;
+    protected bool Punch;
+    protected bool TouchDoor;
+    protected bool Extinguish;
 
     // Methods enable actions, called by GameManager
     public void EnableAction() { myTurn = true; }
@@ -35,10 +35,10 @@ public class FirefighterManager : MonoBehaviour
     public void DisableAction() { myTurn = false; }
 
     // References to firefighter's action scripts
-    private FirefighterMovement m_Movement;
-    private FirefightePunchWall m_PunchWall;
-    private FirefighterTouchDoor m_TouchDoor;
-    private FirefighterExtinguish m_Extinguish;
+    protected FirefighterMovement m_Movement;
+    protected FirefightePunchWall m_PunchWall;
+    protected FirefighterTouchDoor m_TouchDoor;
+    protected FirefighterExtinguish m_Extinguish;
 
     // Methods set action target
     public void SetTargetSpace(Space TargetSpace) { m_Movement.SetTarget(TargetSpace); }
@@ -123,7 +123,7 @@ public class FirefighterManager : MonoBehaviour
         }
     }
 
-    private void MoveFirefighter()
+    protected virtual void MoveFirefighter()
     {
         if (m_Movement.get_m_TargetSpace().status == SpaceStatus.Fire && isCarryingVictim)
         {
@@ -146,14 +146,21 @@ public class FirefighterManager : MonoBehaviour
             {
                 if (AP > 1)
                 {
-                    m_Movement.Move();
-                    if (Vector3.Distance(m_Movement.get_m_Transform().position, m_Movement.get_m_Target()) == 0)
+                    if (AP - 2 == 0 && m_Movement.get_m_TargetSpace().status == SpaceStatus.Fire)
                     {
-                        Move = false;
-                        ReduceAP(2);
-                        m_Movement.get_m_Animator().SetBool("Move", false);
-                        m_CurrentSpace = m_Movement.get_m_TargetSpace();
+                        Debug.Log("Cannot move to a space on fire at the end of the turn!");
                     }
+                    else
+                    {
+                        m_Movement.Move();
+                        if (Vector3.Distance(m_Movement.get_m_Transform().position, m_Movement.get_m_Target()) == 0)
+                        {
+                            Move = false;
+                            ReduceAP(2);
+                            m_Movement.get_m_Animator().SetBool("Move", false);
+                            m_CurrentSpace = m_Movement.get_m_TargetSpace();
+                        }
+                    }   
                 }
                 else
                 {
@@ -163,7 +170,7 @@ public class FirefighterManager : MonoBehaviour
         }
     }
 
-    private void PunchWall()
+    protected virtual void PunchWall()
     {
         if (AP > 1)
         {
@@ -186,7 +193,7 @@ public class FirefighterManager : MonoBehaviour
         }
     }
 
-    private void InteractDoor()
+    protected virtual void InteractDoor()
     {
         m_TouchDoor.TouchDoor();
 
@@ -198,7 +205,7 @@ public class FirefighterManager : MonoBehaviour
         }
     }
 
-    private void ExtinguishFire()
+    protected virtual void ExtinguishFire()
     {
         if (!m_Extinguish.FireExtinguished())
         {
@@ -207,6 +214,7 @@ public class FirefighterManager : MonoBehaviour
         else
         {
             Extinguish = false;
+            m_Extinguish.get_m_Animator().SetBool("Magic", false);
             ReduceAP(1);
         }
     }

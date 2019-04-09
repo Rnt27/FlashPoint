@@ -14,7 +14,7 @@ public class CameraControl : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        deltaPos = new Vector3(2, 30, 5);
+        deltaPos = new Vector3(2, 30, -5);
         StartCoroutine(findTargets());
         StartCoroutine(UpdateCamera());
     }
@@ -46,6 +46,7 @@ public class CameraControl : MonoBehaviour
             }
             else
             {
+                deltaPos = new Vector3(2, 30, -5);
                 Vector3 pos = gameBoard.transform.TransformDirection(deltaPos);
                 transform.position = gameBoard.transform.position + pos;
                 Vector3 playerPos = gameBoard.transform.position + new Vector3(2, 2, 0);

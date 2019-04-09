@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44824702, g: 0.49827307, b: 0.575583, a: 1}
+  m_IndirectSpecularColor: {r: 0.44824654, g: 0.49827242, b: 0.5755816, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3098,7 +3098,7 @@ PrefabInstance:
     - target: {fileID: 2648115697053244109, guid: 743fd4b7b795d6041b4e7293db12e876,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 34.30745
+      value: 32.77778
       objectReference: {fileID: 0}
     - target: {fileID: 2648115697053244109, guid: 743fd4b7b795d6041b4e7293db12e876,
         type: 3}
@@ -5612,25 +5612,6 @@ PrefabInstance:
       propertyPath: m_TagString
       value: InsideTile
       objectReference: {fileID: 0}
-    - target: {fileID: 8196989531587408510, guid: 3e5255d3f8e7671448d4b276e36ab914,
-        type: 3}
-      propertyPath: m_TagString
-      value: OutsideTile
-      objectReference: {fileID: 0}
-    - target: {fileID: 8426930869562657063, guid: 3e5255d3f8e7671448d4b276e36ab914,
-        type: 3}
-      propertyPath: m_TagString
-      value: OutsideTile
-      objectReference: {fileID: 0}
-    - target: {fileID: 1586171524857292, guid: 3e5255d3f8e7671448d4b276e36ab914, type: 3}
-      propertyPath: m_TagString
-      value: InsideTile
-      objectReference: {fileID: 0}
-    - target: {fileID: 5518925444238799516, guid: 3e5255d3f8e7671448d4b276e36ab914,
-        type: 3}
-      propertyPath: m_TagString
-      value: OutsideTile
-      objectReference: {fileID: 0}
     - target: {fileID: 1607851030675292, guid: 3e5255d3f8e7671448d4b276e36ab914, type: 3}
       propertyPath: m_TagString
       value: InsideTile
@@ -6448,131 +6429,10 @@ PrefabInstance:
       propertyPath: myCanvas
       value: 
       objectReference: {fileID: 1881656465}
-    - target: {fileID: 537588958132227760, guid: 3e5255d3f8e7671448d4b276e36ab914,
-        type: 3}
-      propertyPath: m_TagString
-      value: DoorInside
-      objectReference: {fileID: 0}
-    - target: {fileID: 1266803470470136, guid: 3e5255d3f8e7671448d4b276e36ab914, type: 3}
-      propertyPath: m_TagString
-      value: InsideTile
-      objectReference: {fileID: 0}
-    - target: {fileID: 1723576213213586, guid: 3e5255d3f8e7671448d4b276e36ab914, type: 3}
-      propertyPath: m_TagString
-      value: InsideTile
-      objectReference: {fileID: 0}
-    - target: {fileID: 4915696374337142316, guid: 3e5255d3f8e7671448d4b276e36ab914,
-        type: 3}
-      propertyPath: m_TagString
-      value: OutsideTile
-      objectReference: {fileID: 0}
-    - target: {fileID: 537588958813170070, guid: 3e5255d3f8e7671448d4b276e36ab914,
-        type: 3}
-      propertyPath: m_TagString
-      value: DoorInside
-      objectReference: {fileID: 0}
     - target: {fileID: 3561869707940248537, guid: 3e5255d3f8e7671448d4b276e36ab914,
         type: 3}
       propertyPath: m_TagString
       value: OutsideTile
-      objectReference: {fileID: 0}
-    - target: {fileID: 1212158147545104, guid: 3e5255d3f8e7671448d4b276e36ab914, type: 3}
-      propertyPath: m_TagString
-      value: InsideTile
-      objectReference: {fileID: 0}
-    - target: {fileID: 5084750839449285817, guid: 3e5255d3f8e7671448d4b276e36ab914,
-        type: 3}
-      propertyPath: m_TagString
-      value: OutsideTile
-      objectReference: {fileID: 0}
-    - target: {fileID: 1522272940708301042, guid: 3e5255d3f8e7671448d4b276e36ab914,
-        type: 3}
-      propertyPath: m_TagString
-      value: OutsideTile
-      objectReference: {fileID: 0}
-    - target: {fileID: 537588958458626025, guid: 3e5255d3f8e7671448d4b276e36ab914,
-        type: 3}
-      propertyPath: m_TagString
-      value: DoorInside
-      objectReference: {fileID: 0}
-    - target: {fileID: 1733899809935112, guid: 3e5255d3f8e7671448d4b276e36ab914, type: 3}
-      propertyPath: m_TagString
-      value: InsideTile
-      objectReference: {fileID: 0}
-    - target: {fileID: 537588957518425458, guid: 3e5255d3f8e7671448d4b276e36ab914,
-        type: 3}
-      propertyPath: m_TagString
-      value: DoorOutside
-      objectReference: {fileID: 0}
-    - target: {fileID: 537588958243253142, guid: 3e5255d3f8e7671448d4b276e36ab914,
-        type: 3}
-      propertyPath: m_TagString
-      value: DoorOutside
-      objectReference: {fileID: 0}
-    - target: {fileID: 8487036035121058481, guid: 3e5255d3f8e7671448d4b276e36ab914,
-        type: 3}
-      propertyPath: m_TagString
-      value: OutsideTile
-      objectReference: {fileID: 0}
-    - target: {fileID: 5428678719431239177, guid: 3e5255d3f8e7671448d4b276e36ab914,
-        type: 3}
-      propertyPath: m_TagString
-      value: OutsideTile
-      objectReference: {fileID: 0}
-    - target: {fileID: 3886763298124849782, guid: 3e5255d3f8e7671448d4b276e36ab914,
-        type: 3}
-      propertyPath: m_TagString
-      value: OutsideTile
-      objectReference: {fileID: 0}
-    - target: {fileID: 4319353880153558005, guid: 3e5255d3f8e7671448d4b276e36ab914,
-        type: 3}
-      propertyPath: m_TagString
-      value: OutsideTile
-      objectReference: {fileID: 0}
-    - target: {fileID: 537588958734292284, guid: 3e5255d3f8e7671448d4b276e36ab914,
-        type: 3}
-      propertyPath: m_TagString
-      value: DoorOutside
-      objectReference: {fileID: 0}
-    - target: {fileID: 8463776497706618625, guid: 3e5255d3f8e7671448d4b276e36ab914,
-        type: 3}
-      propertyPath: m_TagString
-      value: OutsideTile
-      objectReference: {fileID: 0}
-    - target: {fileID: 1113579831896388, guid: 3e5255d3f8e7671448d4b276e36ab914, type: 3}
-      propertyPath: m_TagString
-      value: InsideTile
-      objectReference: {fileID: 0}
-    - target: {fileID: 1018248873942418, guid: 3e5255d3f8e7671448d4b276e36ab914, type: 3}
-      propertyPath: m_TagString
-      value: InsideTile
-      objectReference: {fileID: 0}
-    - target: {fileID: 1524324664867594, guid: 3e5255d3f8e7671448d4b276e36ab914, type: 3}
-      propertyPath: m_TagString
-      value: InsideTile
-      objectReference: {fileID: 0}
-    - target: {fileID: 1869525347696424, guid: 3e5255d3f8e7671448d4b276e36ab914, type: 3}
-      propertyPath: m_TagString
-      value: InsideTile
-      objectReference: {fileID: 0}
-    - target: {fileID: 3962265413781041565, guid: 3e5255d3f8e7671448d4b276e36ab914,
-        type: 3}
-      propertyPath: m_TagString
-      value: OutsideTile
-      objectReference: {fileID: 0}
-    - target: {fileID: 7568483153048076011, guid: 3e5255d3f8e7671448d4b276e36ab914,
-        type: 3}
-      propertyPath: m_TagString
-      value: OutsideTile
-      objectReference: {fileID: 0}
-    - target: {fileID: 537588959444407945, guid: 3e5255d3f8e7671448d4b276e36ab914,
-        type: 3}
-      propertyPath: m_TagString
-      value: DoorInside
-      objectReference: {fileID: 0}
-    - target: {fileID: 1728511784336848, guid: 3e5255d3f8e7671448d4b276e36ab914, type: 3}
-      propertyPath: m_TagString
-      value: InsideTile
       objectReference: {fileID: 0}
     - target: {fileID: 4019556828805851153, guid: 3e5255d3f8e7671448d4b276e36ab914,
         type: 3}
@@ -6584,12 +6444,37 @@ PrefabInstance:
       propertyPath: m_TagString
       value: OutsideTile
       objectReference: {fileID: 0}
+    - target: {fileID: 3886763298124849782, guid: 3e5255d3f8e7671448d4b276e36ab914,
+        type: 3}
+      propertyPath: m_TagString
+      value: OutsideTile
+      objectReference: {fileID: 0}
+    - target: {fileID: 8196989531587408510, guid: 3e5255d3f8e7671448d4b276e36ab914,
+        type: 3}
+      propertyPath: m_TagString
+      value: OutsideTile
+      objectReference: {fileID: 0}
+    - target: {fileID: 5518925444238799516, guid: 3e5255d3f8e7671448d4b276e36ab914,
+        type: 3}
+      propertyPath: m_TagString
+      value: OutsideTile
+      objectReference: {fileID: 0}
     - target: {fileID: 7646047642578635140, guid: 3e5255d3f8e7671448d4b276e36ab914,
         type: 3}
       propertyPath: m_TagString
       value: OutsideTile
       objectReference: {fileID: 0}
+    - target: {fileID: 5084750839449285817, guid: 3e5255d3f8e7671448d4b276e36ab914,
+        type: 3}
+      propertyPath: m_TagString
+      value: OutsideTile
+      objectReference: {fileID: 0}
     - target: {fileID: 6987768096046635276, guid: 3e5255d3f8e7671448d4b276e36ab914,
+        type: 3}
+      propertyPath: m_TagString
+      value: OutsideTile
+      objectReference: {fileID: 0}
+    - target: {fileID: 4319353880153558005, guid: 3e5255d3f8e7671448d4b276e36ab914,
         type: 3}
       propertyPath: m_TagString
       value: OutsideTile
@@ -6634,7 +6519,22 @@ PrefabInstance:
       propertyPath: m_TagString
       value: OutsideTile
       objectReference: {fileID: 0}
+    - target: {fileID: 8426930869562657063, guid: 3e5255d3f8e7671448d4b276e36ab914,
+        type: 3}
+      propertyPath: m_TagString
+      value: OutsideTile
+      objectReference: {fileID: 0}
     - target: {fileID: 6637949965764359298, guid: 3e5255d3f8e7671448d4b276e36ab914,
+        type: 3}
+      propertyPath: m_TagString
+      value: OutsideTile
+      objectReference: {fileID: 0}
+    - target: {fileID: 8463776497706618625, guid: 3e5255d3f8e7671448d4b276e36ab914,
+        type: 3}
+      propertyPath: m_TagString
+      value: OutsideTile
+      objectReference: {fileID: 0}
+    - target: {fileID: 4915696374337142316, guid: 3e5255d3f8e7671448d4b276e36ab914,
         type: 3}
       propertyPath: m_TagString
       value: OutsideTile
@@ -6644,7 +6544,22 @@ PrefabInstance:
       propertyPath: m_TagString
       value: OutsideTile
       objectReference: {fileID: 0}
+    - target: {fileID: 5428678719431239177, guid: 3e5255d3f8e7671448d4b276e36ab914,
+        type: 3}
+      propertyPath: m_TagString
+      value: OutsideTile
+      objectReference: {fileID: 0}
+    - target: {fileID: 7568483153048076011, guid: 3e5255d3f8e7671448d4b276e36ab914,
+        type: 3}
+      propertyPath: m_TagString
+      value: OutsideTile
+      objectReference: {fileID: 0}
     - target: {fileID: 1046807668650451460, guid: 3e5255d3f8e7671448d4b276e36ab914,
+        type: 3}
+      propertyPath: m_TagString
+      value: OutsideTile
+      objectReference: {fileID: 0}
+    - target: {fileID: 3962265413781041565, guid: 3e5255d3f8e7671448d4b276e36ab914,
         type: 3}
       propertyPath: m_TagString
       value: OutsideTile
@@ -6654,7 +6569,17 @@ PrefabInstance:
       propertyPath: m_TagString
       value: OutsideTile
       objectReference: {fileID: 0}
+    - target: {fileID: 8487036035121058481, guid: 3e5255d3f8e7671448d4b276e36ab914,
+        type: 3}
+      propertyPath: m_TagString
+      value: OutsideTile
+      objectReference: {fileID: 0}
     - target: {fileID: 3029422347920053121, guid: 3e5255d3f8e7671448d4b276e36ab914,
+        type: 3}
+      propertyPath: m_TagString
+      value: OutsideTile
+      objectReference: {fileID: 0}
+    - target: {fileID: 1522272940708301042, guid: 3e5255d3f8e7671448d4b276e36ab914,
         type: 3}
       propertyPath: m_TagString
       value: OutsideTile
@@ -6665,6 +6590,26 @@ PrefabInstance:
       value: OutsideTile
       objectReference: {fileID: 0}
     - target: {fileID: 1955573274778226, guid: 3e5255d3f8e7671448d4b276e36ab914, type: 3}
+      propertyPath: m_TagString
+      value: InsideTile
+      objectReference: {fileID: 0}
+    - target: {fileID: 1266803470470136, guid: 3e5255d3f8e7671448d4b276e36ab914, type: 3}
+      propertyPath: m_TagString
+      value: InsideTile
+      objectReference: {fileID: 0}
+    - target: {fileID: 1113579831896388, guid: 3e5255d3f8e7671448d4b276e36ab914, type: 3}
+      propertyPath: m_TagString
+      value: InsideTile
+      objectReference: {fileID: 0}
+    - target: {fileID: 1733899809935112, guid: 3e5255d3f8e7671448d4b276e36ab914, type: 3}
+      propertyPath: m_TagString
+      value: InsideTile
+      objectReference: {fileID: 0}
+    - target: {fileID: 1869525347696424, guid: 3e5255d3f8e7671448d4b276e36ab914, type: 3}
+      propertyPath: m_TagString
+      value: InsideTile
+      objectReference: {fileID: 0}
+    - target: {fileID: 1723576213213586, guid: 3e5255d3f8e7671448d4b276e36ab914, type: 3}
       propertyPath: m_TagString
       value: InsideTile
       objectReference: {fileID: 0}
@@ -6680,11 +6625,36 @@ PrefabInstance:
       propertyPath: m_TagString
       value: InsideTile
       objectReference: {fileID: 0}
+    - target: {fileID: 1728511784336848, guid: 3e5255d3f8e7671448d4b276e36ab914, type: 3}
+      propertyPath: m_TagString
+      value: InsideTile
+      objectReference: {fileID: 0}
+    - target: {fileID: 1212158147545104, guid: 3e5255d3f8e7671448d4b276e36ab914, type: 3}
+      propertyPath: m_TagString
+      value: InsideTile
+      objectReference: {fileID: 0}
+    - target: {fileID: 1524324664867594, guid: 3e5255d3f8e7671448d4b276e36ab914, type: 3}
+      propertyPath: m_TagString
+      value: InsideTile
+      objectReference: {fileID: 0}
+    - target: {fileID: 1018248873942418, guid: 3e5255d3f8e7671448d4b276e36ab914, type: 3}
+      propertyPath: m_TagString
+      value: InsideTile
+      objectReference: {fileID: 0}
+    - target: {fileID: 1586171524857292, guid: 3e5255d3f8e7671448d4b276e36ab914, type: 3}
+      propertyPath: m_TagString
+      value: InsideTile
+      objectReference: {fileID: 0}
     - target: {fileID: 1057359068242058, guid: 3e5255d3f8e7671448d4b276e36ab914, type: 3}
       propertyPath: m_TagString
       value: InsideTile
       objectReference: {fileID: 0}
     - target: {fileID: 537588959509996137, guid: 3e5255d3f8e7671448d4b276e36ab914,
+        type: 3}
+      propertyPath: m_TagString
+      value: DoorInside
+      objectReference: {fileID: 0}
+    - target: {fileID: 537588959444407945, guid: 3e5255d3f8e7671448d4b276e36ab914,
         type: 3}
       propertyPath: m_TagString
       value: DoorInside
@@ -6699,12 +6669,42 @@ PrefabInstance:
       propertyPath: m_TagString
       value: DoorInside
       objectReference: {fileID: 0}
+    - target: {fileID: 537588958813170070, guid: 3e5255d3f8e7671448d4b276e36ab914,
+        type: 3}
+      propertyPath: m_TagString
+      value: DoorInside
+      objectReference: {fileID: 0}
+    - target: {fileID: 537588958458626025, guid: 3e5255d3f8e7671448d4b276e36ab914,
+        type: 3}
+      propertyPath: m_TagString
+      value: DoorInside
+      objectReference: {fileID: 0}
     - target: {fileID: 537588959266382569, guid: 3e5255d3f8e7671448d4b276e36ab914,
         type: 3}
       propertyPath: m_TagString
       value: DoorInside
       objectReference: {fileID: 0}
+    - target: {fileID: 537588958132227760, guid: 3e5255d3f8e7671448d4b276e36ab914,
+        type: 3}
+      propertyPath: m_TagString
+      value: DoorInside
+      objectReference: {fileID: 0}
     - target: {fileID: 537588958649948764, guid: 3e5255d3f8e7671448d4b276e36ab914,
+        type: 3}
+      propertyPath: m_TagString
+      value: DoorOutside
+      objectReference: {fileID: 0}
+    - target: {fileID: 537588958243253142, guid: 3e5255d3f8e7671448d4b276e36ab914,
+        type: 3}
+      propertyPath: m_TagString
+      value: DoorOutside
+      objectReference: {fileID: 0}
+    - target: {fileID: 537588958734292284, guid: 3e5255d3f8e7671448d4b276e36ab914,
+        type: 3}
+      propertyPath: m_TagString
+      value: DoorOutside
+      objectReference: {fileID: 0}
+    - target: {fileID: 537588957518425458, guid: 3e5255d3f8e7671448d4b276e36ab914,
         type: 3}
       propertyPath: m_TagString
       value: DoorOutside
@@ -11077,7 +11077,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1204437378}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 137831543}
+        m_MethodName: setEndTurnButtonActive
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1204437378

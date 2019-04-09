@@ -30,7 +30,7 @@ public class FirefighterExtinguish : MonoBehaviour
 
     public void Extinguish()
     {
-        m_Animator.SetBool("magic", true);
+        m_Animator.SetBool("Magic", true);
         if (m_TargetSpace.gameObject.transform.localPosition.x > m_Transform.localPosition.x)
         {
             Turn(90f);

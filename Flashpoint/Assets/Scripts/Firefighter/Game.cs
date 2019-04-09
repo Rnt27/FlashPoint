@@ -105,6 +105,8 @@ public class Game : MonoBehaviour
                 yield return StartCoroutine(TurnPlaying(firefighter));
                 firefighter.Reset();
                 m_isTurnPlaying = false;
+                endTurnButtonActive = false;
+
                 yield return StartCoroutine(AdvanceFire());
                 m_isEndTurnPlaying = false;
                 
@@ -143,14 +145,14 @@ public class Game : MonoBehaviour
     private IEnumerator TurnPlaying(FirefighterManager firefighter)
     {
         m_isTurnPlaying = true; 
-        while (firefighter.getAP() > 0 && firefighter.IsMyTurn())
+        while (firefighter.getAP() > 0 && firefighter.IsMyTurn() && !endTurnButtonActive)
         {
             if (Input.GetMouseButtonDown(0))
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
                
-                if (Physics.Raycast(ray, out hit))
+                if (Physics.Raycast(ray, out hit)) //&& firefighter.getCurrentSpace().IsAdjacent(hit.transform.gameObject))
                 {
                     Debug.Log("The space is adjacent:" + firefighter.getCurrentSpace().IsAdjacent(hit.transform.gameObject));
                     if ((hit.transform.gameObject.tag == "InsideTile" || hit.transform.gameObject.tag == "OutsideTile"))
@@ -187,7 +189,7 @@ public class Game : MonoBehaviour
                     firefighter.EnableExtinguish();
                 }
             }
-            // Debug.Log("Firefighter No." + firefighter.m_PlayerNumber + " AP: " + firefighter.getAP());
+            Debug.Log("Firefighter No." + firefighter.m_PlayerNumber + " AP: " + firefighter.getAP());
             yield return null;
         }
     }
@@ -197,7 +199,7 @@ public class Game : MonoBehaviour
     {
         m_isEndTurnPlaying = true;
         BoardManager.Instance.EndTurn();
-        yield return new WaitForSeconds(20f);
+        yield return new WaitForSeconds(5f);
     }
 
 
