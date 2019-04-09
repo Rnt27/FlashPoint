@@ -34,8 +34,8 @@ public class Game : MonoBehaviour
     public void setExtinguishButtonActive() { this.extinguishButtonActive = true; }
     public void setEndTurnButtonActive() { this.endTurnButtonActive = true; }
 
-    private WaitForSeconds m_StartWait = new WaitForSeconds(1f);
-    private WaitForSeconds m_EndWait = new WaitForSeconds(1f);
+    private WaitForSeconds m_StartWait = new WaitForSeconds(5f);
+    private WaitForSeconds m_EndWait = new WaitForSeconds(5f);
 
     public List<GameObject> GetFFOnSpace(GameObject target)
     {
@@ -65,7 +65,6 @@ public class Game : MonoBehaviour
 
     private IEnumerator GameLoop()
     {
-        yield return new WaitForSeconds(5f);
         yield return StartCoroutine(RoundStarting());
         yield return StartCoroutine(RoundPlaying());
         yield return StartCoroutine(RoundEnding());
@@ -73,12 +72,14 @@ public class Game : MonoBehaviour
 
     private IEnumerator RoundStarting()
     {
+        yield return m_StartWait;
         m_Firefighters = FindObjectsOfType<FirefighterManager>();
         DisableFirefighterControl();
         while (!FirefighterAllSpawned())
         {
             foreach (FirefighterManager firefighter in m_Firefighters)
             {
+                firefighter.EnableAction();
                 if (Input.GetMouseButtonDown(0))
                 {
                     Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -86,8 +87,9 @@ public class Game : MonoBehaviour
 
                     if (Physics.Raycast(ray, out hit) && hit.transform.gameObject.tag == "OutsideTile")
                     {
-                        firefighter.Spawn(hit.transform.gameObject.transform.position);
+                        firefighter.Spawn(hit.transform.gameObject.GetComponent<Space>());
                         firefighter.isSpawned = true;
+                        firefighter.DisableAction();
                     }
                 }
             }
@@ -107,10 +109,10 @@ public class Game : MonoBehaviour
                 firefighter.EnableControl();
 
                 yield return StartCoroutine(TurnPlaying(firefighter));
-
                 firefighter.Reset();
+                yield return StartCoroutine(AdvanceFire());
+                
             }
-
             yield return null;
         }
     }
@@ -130,23 +132,26 @@ public class Game : MonoBehaviour
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
-
-                if (Physics.Raycast(ray, out hit) && (hit.transform.gameObject.tag == "InsideTile" || hit.transform.gameObject.tag == "OutsideTile"))
+                if (Physics.Raycast(ray, out hit))
                 {
-                    firefighter.SetTargetSpace(hit.transform.gameObject.GetComponent<Space>());
-                    firefighter.EnableMove();
-                }
+                    if ((hit.transform.gameObject.tag == "InsideTile" || hit.transform.gameObject.tag == "OutsideTile") )
+                    {
+                        //Debug.Log("The space is adjacent:" + firefighter.getCurrentSpace().IsAdjacent(hit.transform.gameObject));
+                        firefighter.SetTargetSpace(hit.transform.gameObject.GetComponent<Space>());
+                        firefighter.EnableMove();
+                    }
 
-                else if (Physics.Raycast(ray, out hit) && hit.transform.gameObject.tag == "Wall")
-                {
-                    firefighter.SetTargetWall(hit.transform.gameObject.GetComponent<WallController>());
-                    firefighter.EnablePunch();
-                }
+                    else if (hit.transform.gameObject.tag == "Wall")
+                    {
+                        firefighter.SetTargetWall(hit.transform.gameObject.GetComponent<WallController>());
+                        firefighter.EnablePunch();
+                    }
 
-                else if (Physics.Raycast(ray, out hit) && (hit.transform.gameObject.tag == "DoorInside" || hit.transform.gameObject.tag == "DoorOutside"))
-                {
-                    firefighter.SetTargetDoor(hit.transform.gameObject.GetComponent<DoorController>());
-                    firefighter.EnableTouchDoor();
+                    else if ((hit.transform.gameObject.tag == "DoorInside" || hit.transform.gameObject.tag == "DoorOutside"))
+                    {
+                        firefighter.SetTargetDoor(hit.transform.gameObject.GetComponent<DoorController>());
+                        firefighter.EnableTouchDoor();
+                    }
                 }
             }
 
@@ -161,10 +166,18 @@ public class Game : MonoBehaviour
                     firefighter.EnableExtinguish();
                 }
             }
-            //Debug.Log("Firefighter No." + firefighter.m_PlayerNumber + " AP: " + firefighter.getAP());
+            Debug.Log("Firefighter No." + firefighter.m_PlayerNumber + " AP: " + firefighter.getAP());
             yield return null;
         }
     }
+
+
+    IEnumerator AdvanceFire()
+    {
+        BoardManager.Instance.EndTurn();
+        yield return new WaitForSeconds(5f);
+    }
+
 
     private void DisableFirefighterControl()
     {

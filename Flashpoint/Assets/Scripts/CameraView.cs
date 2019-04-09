@@ -58,26 +58,18 @@ public class CameraView : MonoBehaviour {
     void Start()
     {
 
-        //target = FindObjectOfType<FirefighterController>().gameObject;
+       
 
         //controlFirefighter = FindObjectOfType<FirefighterController>();
 
+
+        firefighter = controlFirefighter;
         //firefighters = controlFirefighter.getFirefighters();
 
         //firefighter = controlFirefighter.firefighter;
         //firefighter = controlFirefighter;
 
-        //firefighters[0].myTurn = true;
-
-        //turnFirefighter();
-
-        //firefighter = FindObjectOfType<FirefighterController>();
-        /*        deltaPos = new Vector3(2, 30, -12);
-                    Vector3 pos = Player.TransformDirection(deltaPos);
-                    transform.position = Player.position + pos;
-                    Vector3 playerPos = Player.position + new Vector3(2, 2, 0);
-                    transform.LookAt(playerPos);
-                    */
+        
         originalPlace = transform.position;
 
         originalRotation = transform.rotation;

@@ -31,6 +31,9 @@ public class FirefighterManager : MonoBehaviour
     public void EnableTouchDoor() { TouchDoor = true; }
     public void EnableExtinguish() { Extinguish = true; }
 
+    // Methods disable turn
+    public void DisableAction() { myTurn = false; }
+
     // References to firefighter's action scripts
     private FirefighterMovement m_Movement;
     private FirefightePunchWall m_PunchWall;
@@ -101,10 +104,11 @@ public class FirefighterManager : MonoBehaviour
 
     
 
-    public void Spawn(Vector3 SpawnPos)
+    public void Spawn(Space SpawnSpace)
     {
-        transform.position = SpawnPos + new Vector3(0,1,0);
+        transform.position = SpawnSpace.transform.position + new Vector3(0,1,0);
         m_Animator.SetTrigger("Spawn");
+        m_CurrentSpace = SpawnSpace;
     }
 
     // Update
