@@ -199,6 +199,7 @@ public class WallController : MonoBehaviour
 
     public void HitWall()
     {
+		gameObject.GetComponent<Wall>().Damage(); 
         life = life - 1;
 
         if (life == 1)

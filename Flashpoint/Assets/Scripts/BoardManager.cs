@@ -28,7 +28,7 @@ public class BoardManager : MonoBehaviour
 	static String inDoorTag = "DoorInside";
 	static String outDoorTag = "DoorOutside";
 	static String POItag = "POI";
-	static String firemanTag = "Fireman";
+	static String firemanTag = "Fireman"; 
 	static String hazmatTag = "Hazmat";
 
 	public static BoardManager Instance = null;
@@ -318,8 +318,7 @@ public class BoardManager : MonoBehaviour
 			if ( hotspots[r[0], r[1]] != null) //Check for flare up
 			{
 				flareUp = true;
-				Destroy(hotspots[r[0], r[1]]); //Destroy the hotspot
-				hotspots[r[0], r[1]] = null;
+				RemoveHotspot(r[0], r[1]);
 			}
 			AdvanceFire(r); //Advance fire at rolled spcae and resolve explosions/shockwaves
 			Flashover(); 
@@ -586,7 +585,7 @@ public class BoardManager : MonoBehaviour
 	}
 
 	//-----------------------------+
-	// EXPERIENCED END TURN		   | : Flare ups and hazmat explosions
+	// EXPERIENCED FEATURES		   | : Flare ups and hazmat explosions
 	//-----------------------------+
 
 	//Add a new hotspot to the space x,y 
@@ -603,6 +602,19 @@ public class BoardManager : MonoBehaviour
 		return newHotSpot; 
 	}
 
+	//Destroy the hotspot GameObject and remove it from the array
+	bool RemoveHotspot(int x, int y)
+	{
+		if(hotspots[x,y] ==null || !IsOnBoard(x, y) )
+		{
+			return false;
+		}
+
+		Destroy(hotspots[x, y]);
+		hotspots[x, y] = null;
+		return true; 
+	}
+
 	//Add a new hazmat to the space x,y and assign it the Hazmat script
 	GameObject AddHazmat(int x, int y)
 	{
@@ -617,13 +629,66 @@ public class BoardManager : MonoBehaviour
 		return newHazmat; 
 	}
 
+	// Generate Hazmats on random spaces such that they aren't placed on Fires
+	void GenerateHazmats(int numRolls)
+	{
+		ArrayList rolls = GetAllCoordinates();
+		while (numRolls != 0)
+		{
+			//Get random coordinate
+			int randomIndex = r.Next(0, rolls.Count);
+			int[] roll = (int[])rolls[randomIndex];
+			rolls.RemoveAt(randomIndex);
+
+			//Check space if fire already exists
+			Space target = floors[roll[0], roll[1]].GetComponent<Space>();
+			if (target.status == SpaceStatus.Fire) //Fire exists, roll again without decreasing numRolls. 
+			{
+				continue;
+			}
+
+			//No fire, place hazmat
+			AddHazmat(roll[0], roll[1]);
+			Debug.Log("Randomly generated Hazmat on " + roll[0] + " " + roll[1]);
+
+			numRolls--;
+		}
+
+	}
+
+	// Generate Hotspots on random spaces
+	void GenerateHotspots(int numRolls)
+	{
+		ArrayList rolls = GetAllCoordinates();
+		while(numRolls != 0)
+		{
+			//Get random coordinate
+			int randomIndex = r.Next(0, rolls.Count);
+			int[] roll = (int[])rolls[randomIndex];
+			rolls.RemoveAt(randomIndex);
+
+			//Add hotspot
+			AddHotspot(roll[0], roll[1]);
+			Debug.Log("Randomly generated Hotspot on " + roll[0] + " " + roll[1]);
+
+			numRolls--;
+		}
+	}
+
+	// Hazmat Explosion (Regular explosion + add Hotspot to the space)
+	void HazmatExplode(int x, int y)
+	{
+		Explode(x, y);
+		AddHotspot(x, y);
+	}
+
 
 
 	//-----------------------------+
 	// LOCATORS - BASED ON VECTOR3 | : These methods translate Vector3 positions of game objects into coordinates
 	//-----------------------------+
 
-    public bool IsOutside(int[] c)
+	public bool IsOutside(int[] c)
     {
         return (c[0] == 0 || c[0] == columns - 1 || c[1] == 0 || c[1] == rows - 1);
     }
@@ -644,6 +709,21 @@ public class BoardManager : MonoBehaviour
 	//-----------------------------+
 	// UNITY INIT				   | :
 	//-----------------------------+
+
+	//Returns an ArrayList of all possible coordinates on the board. Primarily used for non-replacement random space generation
+	ArrayList GetAllCoordinates()
+	{
+		ArrayList coordinates = new ArrayList();
+		for(int x = 1; x < columns-1; x++)
+		{
+			for(int y=1; y<rows-1; y++)
+			{
+				coordinates.Add(new int[2] { x, y });
+			}
+		}
+
+		return coordinates;
+	}
 
 	// Generate fires on 6 random spaces
 	void GenerateFiresRandom(int numRolls)
@@ -690,6 +770,8 @@ public class BoardManager : MonoBehaviour
 		floors[6,6].GetComponent<Space>().SetStatus(SpaceStatus.Fire);
 	}
 
+
+	
 	// Update board state based on GameObjects placed in the Scene
 	void LoadFromScene()
 	{
