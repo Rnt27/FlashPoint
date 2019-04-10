@@ -2109,6 +2109,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Firefighters: []
   m_Firefighter: {fileID: 0}
+  nTurn: 0
 --- !u!4 &152561861 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 02df6613ce36445449b174963f177e6a,
@@ -7002,6 +7003,11 @@ PrefabInstance:
       propertyPath: m_TagString
       value: OutsideTile
       objectReference: {fileID: 0}
+    - target: {fileID: 1427421480173525173, guid: 3e5255d3f8e7671448d4b276e36ab914,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 68
+      objectReference: {fileID: 0}
     - target: {fileID: 537588958813170070, guid: 3e5255d3f8e7671448d4b276e36ab914,
         type: 3}
       propertyPath: m_TagString
@@ -7020,6 +7026,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: OutsideTile
+      objectReference: {fileID: 0}
+    - target: {fileID: 3215114945614415029, guid: 3e5255d3f8e7671448d4b276e36ab914,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 58
       objectReference: {fileID: 0}
     - target: {fileID: 1522272940708301042, guid: 3e5255d3f8e7671448d4b276e36ab914,
         type: 3}
@@ -7050,10 +7061,20 @@ PrefabInstance:
       propertyPath: m_TagString
       value: OutsideTile
       objectReference: {fileID: 0}
+    - target: {fileID: 7980114745969634579, guid: 3e5255d3f8e7671448d4b276e36ab914,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 60
+      objectReference: {fileID: 0}
     - target: {fileID: 5428678719431239177, guid: 3e5255d3f8e7671448d4b276e36ab914,
         type: 3}
       propertyPath: m_TagString
       value: OutsideTile
+      objectReference: {fileID: 0}
+    - target: {fileID: 4418989873636734135, guid: 3e5255d3f8e7671448d4b276e36ab914,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 55
       objectReference: {fileID: 0}
     - target: {fileID: 3886763298124849782, guid: 3e5255d3f8e7671448d4b276e36ab914,
         type: 3}
@@ -7285,20 +7306,10 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 54
       objectReference: {fileID: 0}
-    - target: {fileID: 4418989873636734135, guid: 3e5255d3f8e7671448d4b276e36ab914,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 55
-      objectReference: {fileID: 0}
     - target: {fileID: 1937393207198770156, guid: 3e5255d3f8e7671448d4b276e36ab914,
         type: 3}
       propertyPath: m_RootOrder
       value: 65
-      objectReference: {fileID: 0}
-    - target: {fileID: 1427421480173525173, guid: 3e5255d3f8e7671448d4b276e36ab914,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 68
       objectReference: {fileID: 0}
     - target: {fileID: 3212019395292059143, guid: 3e5255d3f8e7671448d4b276e36ab914,
         type: 3}
@@ -7365,20 +7376,10 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 57
       objectReference: {fileID: 0}
-    - target: {fileID: 3215114945614415029, guid: 3e5255d3f8e7671448d4b276e36ab914,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 58
-      objectReference: {fileID: 0}
     - target: {fileID: 5047503206751312579, guid: 3e5255d3f8e7671448d4b276e36ab914,
         type: 3}
       propertyPath: m_RootOrder
       value: 59
-      objectReference: {fileID: 0}
-    - target: {fileID: 7980114745969634579, guid: 3e5255d3f8e7671448d4b276e36ab914,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 7235465782505856113, guid: 3e5255d3f8e7671448d4b276e36ab914,
         type: 3}
@@ -14304,8 +14305,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f60287e3c01f204f953ff00c0a61240, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameManager: {fileID: 0}
   loadOnStart: 0
   board: {fileID: 1675156867}
+  controlFirefighters: []
+  loaded: 0
   identifier: mySave
 --- !u!4 &1465164929
 Transform:
@@ -18118,7 +18122,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: -86.8, y: 103.06921}
-  m_SizeDelta: {x: 195.75, y: 36.6}
+  m_SizeDelta: {x: 198.51, y: 36.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1989493957
 MonoBehaviour:
