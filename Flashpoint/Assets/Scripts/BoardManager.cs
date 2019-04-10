@@ -52,7 +52,10 @@ public class BoardManager : MonoBehaviour
 	// Get lobby-wide seed from the server
 	int GetSeed()
 	{
-		GameObject.Find("F@Spawn");
+		int seed; 
+		GameObject firefighter = GameObject.Find("F@Spawn");
+		firefighter.GetComponent<FirefighterManager>();
+		return seed; 
 	}
 	void SetSeed(int seed)
 	{
