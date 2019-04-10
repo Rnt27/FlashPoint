@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44824666, g: 0.49827272, b: 0.57558244, a: 1}
+  m_IndirectSpecularColor: {r: 0.44824702, g: 0.49827307, b: 0.575583, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2109,7 +2109,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Firefighters: []
   m_Firefighter: {fileID: 0}
-  nTurn: 0
 --- !u!4 &152561861 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 02df6613ce36445449b174963f177e6a,
@@ -2512,7 +2511,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1465164928}
         m_MethodName: Load
         m_Mode: 1
         m_Arguments:
@@ -3247,47 +3246,38 @@ PrefabInstance:
     - target: {fileID: 2647457305266786187, guid: 743fd4b7b795d6041b4e7293db12e876,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 65.462845
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2648115697053244109, guid: 743fd4b7b795d6041b4e7293db12e876,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-<<<<<<< HEAD
-      value: 32.731422
-=======
       value: 34.91342
->>>>>>> vehiclesAndHazmat
       objectReference: {fileID: 0}
     - target: {fileID: 2648115697053244109, guid: 743fd4b7b795d6041b4e7293db12e876,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2648115697053244109, guid: 743fd4b7b795d6041b4e7293db12e876,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2648115697053244109, guid: 743fd4b7b795d6041b4e7293db12e876,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -20
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2648115697053244109, guid: 743fd4b7b795d6041b4e7293db12e876,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 35.46284
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2754886147462034453, guid: 743fd4b7b795d6041b4e7293db12e876,
         type: 3}
       propertyPath: m_FontData.m_Font
       value: 
       objectReference: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    - target: {fileID: 2856848028818378161, guid: 743fd4b7b795d6041b4e7293db12e876,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 743fd4b7b795d6041b4e7293db12e876, type: 3}
 --- !u!224 &295203940 stripped
@@ -10779,7 +10769,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 60.30005, y: 50.80005}
+  m_AnchoredPosition: {x: 60.299988, y: 50.80005}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1020072598
@@ -12047,18 +12037,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1204437378}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 137831543}
-        m_MethodName: setEndTurnButtonActive
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1204437378
@@ -12695,7 +12674,7 @@ PrefabInstance:
     - target: {fileID: 6413776580237158679, guid: d48a82b0c379c264fa55bb9d691dc598,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 2.8000488
+      value: 2.7999878
       objectReference: {fileID: 0}
     - target: {fileID: 6413776580237158679, guid: d48a82b0c379c264fa55bb9d691dc598,
         type: 3}
@@ -12996,26 +12975,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
       value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6594553091220444465, guid: d48a82b0c379c264fa55bb9d691dc598,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1878683561}
-    - target: {fileID: 6594553091220444465, guid: d48a82b0c379c264fa55bb9d691dc598,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ChangeScene
-      objectReference: {fileID: 0}
-    - target: {fileID: 6594553091220444465, guid: d48a82b0c379c264fa55bb9d691dc598,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6594553091220444465, guid: d48a82b0c379c264fa55bb9d691dc598,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
-      value: StartGame
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d48a82b0c379c264fa55bb9d691dc598, type: 3}
@@ -13909,7 +13868,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1465164928}
         m_MethodName: Save
         m_Mode: 1
         m_Arguments:
@@ -14345,11 +14304,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f60287e3c01f204f953ff00c0a61240, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameManager: {fileID: 0}
   loadOnStart: 0
-  board: {fileID: 0}
-  controlFirefighters: []
-  loaded: 0
+  board: {fileID: 1675156867}
   identifier: mySave
 --- !u!4 &1465164929
 Transform:
@@ -16900,18 +16856,6 @@ MonoBehaviour:
   gameBoard: {fileID: 1675156867}
   m_Firefighters: []
   offset: {x: 0, y: 0, z: 0}
---- !u!114 &1878683561
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1878683559}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c26217677a78264bb45361e4d141b28, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1878683563
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17686,7 +17630,7 @@ MonoBehaviour:
   - {fileID: 1000012560919920, guid: 85a8865d1bf4a63478038fae23776de8, type: 3}
   - {fileID: 7136642002437757206, guid: ff280432a968d3e40bf924396e19e370, type: 3}
   fireInstances: []
-  x: 9
+  x: 4
   y: 3
 --- !u!1 &1946088549 stripped
 GameObject:
@@ -18139,57 +18083,6 @@ MonoBehaviour:
   fireInstances: []
   x: 1
   y: 3
---- !u!1 &1986790049
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1986790051}
-  - component: {fileID: 1986790050}
-  m_Layer: 0
-  m_Name: POIManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1986790050
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1986790049}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1ac0a8ff365e7040913b351ed2e9d05, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  numVictims: 12
-  numFalseAlarms: 6
-  maxOnBoard: 3
-  victimPrefabs:
-  - {fileID: 100000, guid: dd6d2b9919ea33c44bb39e70bf44ecf3, type: 3}
-  - {fileID: 100142, guid: e083427efb6cab94ebf5a16d6c81f0ad, type: 3}
-  poiPrefab: {fileID: 6985164205015790326, guid: f834c510df7533f46a4a548b096a097b,
-    type: 3}
---- !u!4 &1986790051
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1986790049}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.07497907, y: -0.625, z: 2.8297346}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 13
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1989493955
 GameObject:
   m_ObjectHideFlags: 0
@@ -18782,10 +18675,8 @@ MonoBehaviour:
   rows: 8
   tileSize: 4
   houseCorner: {x: -16, y: 0, z: 16}
-  hotspotPrefab: {fileID: 6985164205015790326, guid: 3c60b8e15cb6163478ce036bef9bdf46,
-    type: 3}
-  hazmatPrefab: {fileID: 6985164205015790326, guid: 0d6ed3776c6ff8f4e9689a6f6098e06a,
-    type: 3}
+  hotspotPrefab: {fileID: 0}
+  hazmatPrefab: {fileID: 0}
 --- !u!4 &2074167225
 Transform:
   m_ObjectHideFlags: 0
