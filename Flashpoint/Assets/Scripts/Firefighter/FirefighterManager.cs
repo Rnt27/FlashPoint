@@ -81,6 +81,7 @@ public class FirefighterManager : MonoBehaviour
     // Enable all action control at the beginning of player's turn, called in GamaManager
     public void EnableControl()
     {
+		StopAllCoroutines();
         m_Movement.enabled = true;
         m_PunchWall.enabled = true;
         m_TouchDoor.enabled = true;
@@ -252,4 +253,6 @@ public class FirefighterManager : MonoBehaviour
         this.myTurn = false;
         setAP(4);
     }
+
+	
 }

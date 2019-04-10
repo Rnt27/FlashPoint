@@ -68,6 +68,7 @@ public class FirefightePunchWall : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+		m_Animator.SetBool("Punch", false);
     }
 
     public bool TargetDamaged()
