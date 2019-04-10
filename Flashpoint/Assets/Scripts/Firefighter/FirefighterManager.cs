@@ -62,7 +62,6 @@ public class FirefighterManager : MonoBehaviour
 	{
 		this.AP = a;
 		APManager.Instance.setAP(AP);
-		Debug.Log("New AP: " + AP);
 	}
     public void ReduceAP(int reducedAP)
 	{
@@ -96,6 +95,7 @@ public class FirefighterManager : MonoBehaviour
         m_TouchDoor.enabled = true;
         m_Extinguish.enabled = true;
 
+		APManager.Instance.setMaxSavedAP(savedAP);
         setAP(AP + savedAP);
         savedAP = 0;
     }
