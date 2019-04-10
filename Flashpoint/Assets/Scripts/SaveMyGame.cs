@@ -123,9 +123,15 @@ namespace BayatGames.SaveGameFree.Examples
             setIdentifier(n);
             if (CanSave())
             {
-                SaveBoard(board);
-                SaveFF(controlFirefighters);
-                SaveGameManager(gameManager);
+                for (int i = 0; i <2; i++)
+                {
+                    setIdentifier(i + 1);
+                    SaveBoard(board);
+                    SaveFF(controlFirefighters);
+                    SaveGameManager(gameManager);
+
+                }
+                
             }
             
             
