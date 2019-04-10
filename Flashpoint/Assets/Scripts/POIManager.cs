@@ -33,8 +33,8 @@ public class POIManager : MonoBehaviour
 	//Roll based on the pieces left in the bag if the next piece will be a victim or false alarm
 	public bool RollVictim()
 	{
-		Random r = new Random();
-		int roll = r.Next(1, numVictims + numFalseAlarms);
+		Random rand = new Random();
+		int roll = rand.Next(1, numVictims + numFalseAlarms);
 		if (roll >= 1 && roll <= numVictims) return true;
 		else return false;
 	}

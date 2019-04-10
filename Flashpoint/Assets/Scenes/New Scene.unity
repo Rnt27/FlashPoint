@@ -6079,7 +6079,7 @@ PrefabInstance:
     - target: {fileID: 2648115697053244109, guid: 743fd4b7b795d6041b4e7293db12e876,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 35.253166
+      value: 35.143883
       objectReference: {fileID: 0}
     - target: {fileID: 2648115697053244109, guid: 743fd4b7b795d6041b4e7293db12e876,
         type: 3}
@@ -10536,7 +10536,7 @@ PrefabInstance:
     - target: {fileID: 6413776580237158679, guid: d48a82b0c379c264fa55bb9d691dc598,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 2.7999878
+      value: 2.8000488
       objectReference: {fileID: 0}
     - target: {fileID: 6413776580237158679, guid: d48a82b0c379c264fa55bb9d691dc598,
         type: 3}
@@ -10871,6 +10871,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Firefighters: []
   m_Firefighter: {fileID: 0}
+  nTurn: 0
 --- !u!4 &2105995182
 Transform:
   m_ObjectHideFlags: 0
@@ -11020,7 +11021,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 60.299988, y: 50.80005}
+  m_AnchoredPosition: {x: 60.30005, y: 50.80005}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2116864670

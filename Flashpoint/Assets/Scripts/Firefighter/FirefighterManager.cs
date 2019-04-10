@@ -48,9 +48,19 @@ public class FirefighterManager : MonoBehaviour
 
     // Set Methods
     public void setCurrentSpace(Space TargetSpace) { this.m_CurrentSpace = TargetSpace; }
-    public void setAP(int a) { this.AP = a; }
-    public void ReduceAP(int reducedAP) { AP -= reducedAP; }
+    public void setAP(int a)
+	{
+		APManager.Instance.setAP(AP);
+		this.AP = a;
+	}
+    public void ReduceAP(int reducedAP)
+	{
+		setAP(AP - reducedAP);
+	}
+
+
     public void setIsCarryingVictim(bool b) { isCarryingVictim = b; }
+
 
     // Get Methods
     public int getAP() { return this.AP; }
@@ -75,7 +85,7 @@ public class FirefighterManager : MonoBehaviour
         m_TouchDoor.enabled = true;
         m_Extinguish.enabled = true;
 
-        AP = AP + savedAP;
+        setAP(AP + savedAP);
         savedAP = 0;
     }
 
@@ -90,7 +100,7 @@ public class FirefighterManager : MonoBehaviour
 
         isSpawned = false;
 
-        AP = 4;
+        setAP(4);
         savedAP = 0;
         myTurn = false;
 
@@ -233,6 +243,6 @@ public class FirefighterManager : MonoBehaviour
             }
         }
         this.myTurn = false;
-        this.AP = 4;
+        setAP(4);
     }
 }

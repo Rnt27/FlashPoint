@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 using BayatGames.SaveGameFree.Serializers;
 using BayatGames.SaveGameFree.Types;
@@ -23,20 +24,35 @@ namespace BayatGames.SaveGameFree.Examples
 
         //public BoardData b;
         //public Transform target;
-        public bool loadOnStart = true;
+        public static SaveMyGame saveObject;
+        public GameObject gameManager;
+        public bool loadOnStart;
         public GameObject board;
-        FirefighterController[] controlFirefighters;
+        public FirefighterController[] controlFirefighters;
+        public bool loaded = false;
         //public BoardManager BoardManager;
 
         //public BoardData myData;
         public string identifier = "mySave";
 
+        private void Awake()
+        {
+            if (saveObject == null)
+            {
+                DontDestroyOnLoad(this.gameObject);
+                saveObject = this;
+
+            } else if (saveObject != this)
+            {
+                Destroy(gameObject);
+
+            }
+            
+        }
+
         void Start()
         {
-            if (loadOnStart)
-            {
-                Load();
-            }
+            
         }
 
         void OnApplicationQuit()
@@ -46,17 +62,46 @@ namespace BayatGames.SaveGameFree.Examples
 
         void Update()
         {
-            controlFirefighters = FindObjectsOfType<FirefighterController>();
+            if (SceneManager.GetActiveScene().name == "Main Screen" && !CanSave())
+            {
+                board = GameObject.Find("Board");
+                gameManager = GameObject.Find("GameManager");
+                controlFirefighters = FindObjectsOfType<FirefighterController>();
+
+            }
+
+            
+            if (loadOnStart && SceneManager.GetActiveScene().name == "Main Screen" && !loaded)
+            {
+                Debug.Log("On start load");
+                Load();
+                loaded = true;
+                loadOnStart = false;
+            }
+
         }
 
+        public void SetLoadOnStartToTrue()
+        {
+            loadOnStart = true;
+        }
+
+        bool CanSave()
+        {
+            return board != null && gameManager != null && controlFirefighters != null;
+        }
 
         public void Save()
         {
             
+            if (CanSave())
+            {
+                SaveBoard(board);
+                SaveFF(controlFirefighters);
+                SaveGameManager(gameManager);
+            }
             
             
-            SaveBoard(board);
-            SaveFF(controlFirefighters);
             //
             //SaveGame.Save<QuaternionSave>(identifier, target.rotation, SerializerDropdown.Singleton.ActiveSerializer);
             //SaveGame.Save<Vector3Save>(identifier, target.localScale, SerializerDropdown.Singleton.ActiveSerializer);
@@ -64,14 +109,47 @@ namespace BayatGames.SaveGameFree.Examples
 
         public void Load()
         {
+            //
             /*target.transform.position = SaveGame.Load<Vector3Save>(
                 identifier,
                 Vector3.zero,
                 serializer);*/
+            LoadGameManager(gameManager);
             LoadBoard(board);
             LoadFF(controlFirefighters);
         }
 
+        public void SaveGameManager (GameObject gameManager)
+        {
+            SaveGame.Save<bool>(gameManager.name + "HasLevelStarted", gameManager.GetComponent<Game>().HasLevelStarted, serializer);
+            SaveGame.Save<bool>(gameManager.name + "IsGamePlaying", gameManager.GetComponent<Game>().IsGamePlaying, serializer);
+            SaveGame.Save<bool>(gameManager.name + "IsGameOver", gameManager.GetComponent<Game>().IsGameOver, serializer);
+            SaveGame.Save<bool>(gameManager.name + "asLevelFinished", gameManager.GetComponent<Game>().HasLevelFinished, serializer);
+            SaveGame.Save<bool>(gameManager.name + "IsEndTurnPlaying", gameManager.GetComponent<Game>().IsEndTurnPlaying, serializer);
+
+            SaveGame.Save<bool>(gameManager.name + "MoveButton", gameManager.GetComponent<Game>().GetMoveButtonState(), serializer);
+            SaveGame.Save<bool>(gameManager.name + "PunchButton", gameManager.GetComponent<Game>().GetPunchButtonState(), serializer);
+            SaveGame.Save<bool>(gameManager.name + "TouchButton", gameManager.GetComponent<Game>().GetTouchButtonState(), serializer);
+            SaveGame.Save<bool>(gameManager.name + "ExtinguishButton", gameManager.GetComponent<Game>().GetExtinguishButtonState(), serializer);
+            SaveGame.Save<bool>(gameManager.name + "EndTurnButton", gameManager.GetComponent<Game>().GetEndTurnButtonState(), serializer);
+
+        }
+
+        public void LoadGameManager(GameObject gameManager)
+        {
+            gameManager.GetComponent<Game>().HasLevelStarted = SaveGame.Load<bool>(gameManager.name + "HasLevelStarted", new bool(), serializer);
+            gameManager.GetComponent<Game>().IsGamePlaying = SaveGame.Load<bool>(gameManager.name + "IsGamePlaying", new bool(), serializer);
+            SaveGame.Load<bool>(gameManager.name + "IsGameOver", gameManager.GetComponent<Game>().IsGameOver, serializer);
+            gameManager.GetComponent<Game>().HasLevelFinished = SaveGame.Load<bool>(gameManager.name + "asLevelFinished",  new bool(), serializer);
+            gameManager.GetComponent<Game>().IsEndTurnPlaying = SaveGame.Load<bool>(gameManager.name + "IsEndTurnPlaying",  new bool(), serializer);
+
+            gameManager.GetComponent<Game>().SetMoveButtonState( SaveGame.Load<bool>(gameManager.name + "MoveButton",  new bool(), serializer));
+            gameManager.GetComponent<Game>().SetMoveButtonState(SaveGame.Load<bool>(gameManager.name + "PunchButton",  new bool(), serializer));
+            gameManager.GetComponent<Game>().SetMoveButtonState(SaveGame.Load<bool>(gameManager.name + "TouchButton",  new bool(), serializer));
+            gameManager.GetComponent<Game>().SetMoveButtonState(SaveGame.Load<bool>(gameManager.name + "ExtinguishButton",  new bool(), serializer));
+            gameManager.GetComponent<Game>().SetMoveButtonState(SaveGame.Load<bool>(gameManager.name + "EndTurnButton", new bool(), serializer));
+
+        }
         public void SaveBoard(GameObject Board)
         {
             Debug.Log("data Path " + Application.dataPath);
@@ -181,6 +259,7 @@ namespace BayatGames.SaveGameFree.Examples
                 Transform target = f.gameObject.transform;
                 SavePosition(target, f.name);
                 SaveGame.Save<int>(f.gameObject.name + "AP", f.gameObject.GetComponent<FirefighterManager>().getAP(), serializer);
+                //SaveGame.Save<Color>(f.gameObject.name + "color", f.gameObject.GetComponent<SetupLocalPlayer>().playerColor, serializer);
             }
             
         }
@@ -199,6 +278,7 @@ namespace BayatGames.SaveGameFree.Examples
                 LoadPosition(target, f.name);
                 int a = SaveGame.Load<int>(target.name + "AP", new int(), serializer);
                 f.gameObject.GetComponent<FirefighterManager>().setAP(a);
+                //f.gameObject.GetComponent<SetupLocalPlayer>().playerColor = SaveGame.Load<Color>(f.gameObject.name + "color", new Color(), serializer);
             }
 
         }

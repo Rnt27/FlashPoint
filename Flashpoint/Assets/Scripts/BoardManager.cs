@@ -11,7 +11,7 @@ using Random = System.Random;
  **/
 public class BoardManager : MonoBehaviour
 {
-	
+
 	private int SavedWinThreshold = 7; 
 	public int HouseHP { get; private set; } //House Damage Loss Condition
 	public int RemainingPOI { get; private set; } //POI Death Loss Condition
@@ -39,15 +39,28 @@ public class BoardManager : MonoBehaviour
 
     public Vector3 houseCorner = new Vector3(-16f, 0f, 16f);
 
-    private GameObject[,] floors;
-    private GameObject[,] leftEdge;
-    private GameObject[,] upperEdge;
-    private GameObject[,] ambulances;
-    private GameObject[,] deckguns;
-    private GameObject[,] hotspots;
+    public GameObject[,] floors;
+    public GameObject[,] leftEdge;
+    public GameObject[,] upperEdge;
+    public GameObject[,] ambulances;
+    public GameObject[,] deckguns;
+    public GameObject[,] hotspots;
 	List<GameObject> hazmats;
 
+	
 	private static Random r = new Random();
+	// Get lobby-wide seed from the server
+	int GetSeed()
+	{
+		int seed = 0; 
+		GameObject firefighter = GameObject.Find("F@Spawn");
+		firefighter.GetComponent<FirefighterManager>();
+		return seed; 
+	}
+	void SetSeed(int seed)
+	{
+		r = new Random(seed);
+	}
 	int[] Roll()    //Simulate a dice roll and randomly choose a space on the board
 	{
 		int[] roll = new int[2];
@@ -309,7 +322,6 @@ public class BoardManager : MonoBehaviour
 	//Entire end turn sequence
 	public void EndTurn()
 	{
-		CheckWin();
 		bool flareUp = false;
 
 		do //Advance fire at least once, and continue until no flare ups occur. 
@@ -325,7 +337,8 @@ public class BoardManager : MonoBehaviour
 			{
 				flareUp = false; //Do not advance again if no hotspot
 			}
-			AdvanceFire(r); //Advance fire at rolled spcae and resolve explosions/shockwaves
+
+			AdvanceFire(r); //Advance fire at rolled space and resolve explosions/shockwaves
 			Flashover(); 
 
 		} while (flareUp);
@@ -344,7 +357,6 @@ public class BoardManager : MonoBehaviour
 		}
 
 		ResolveDeaths(); 
-		CheckLoss(); 
 		ExtinguishOutsideFires(); 
 		ReplenishPOI();
 	}
@@ -614,7 +626,7 @@ public class BoardManager : MonoBehaviour
 
 		GameObject newHotSpot = Instantiate(hotspotPrefab);
 		newHotSpot.transform.position = floors[x, y].transform.position;
-		hotspots[x, y] = hotspotPrefab;
+		hotspots[x, y] = newHotSpot;
 		return newHotSpot; 
 	}
 	bool RemoveHotspot(int x, int y)
@@ -625,6 +637,7 @@ public class BoardManager : MonoBehaviour
 		}
 
 		Destroy(hotspots[x, y]);
+		Debug.Log("Destroyed hotspot at " + x + " " + y);
 		hotspots[x, y] = null;
 		return true; 
 	}
@@ -896,11 +909,6 @@ public class BoardManager : MonoBehaviour
 
 		GenerateHazmats(4);
 		GenerateHotspots(4);
-
-		for(int i = 0; i < 15; i++)
-		{
-			EndTurn();
-		} 
     }
 	// Use this for initialization
 	void Start()
@@ -911,6 +919,14 @@ public class BoardManager : MonoBehaviour
 
     }
 
+}
+
+public enum Difficulty
+{
+	Family = 0,
+	Recruit = 1,
+	Veteran = 2,
+	Heroic = 3
 }
 
 class InvalidPositionException : Exception

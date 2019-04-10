@@ -133,18 +133,20 @@ public class Space : MonoBehaviour {
 
 		foreach(GameObject space in adjSpaces)
 		{
+			Debug.Log("Checking if space " + space.name + " is adjacent to input " + s.name);
 			if(s == space && space != null)
 			{
+				Debug.Log("Space true.");
 				return true;
 			}
 		}
 
 		foreach(GameObject wall in adjWalls)
 		{
-			Debug.Log("This wall is adjacent: "+wall.name);
+			Debug.Log("Checking if wall "+wall.name+ "is adjacent to input "+s.name);
 			if(s == wall && wall != null)
 			{
-				Debug.Log("Returning true.");
+				Debug.Log("Wall true.");
 				return true; 
 			}
 		}
@@ -153,6 +155,8 @@ public class Space : MonoBehaviour {
 		Debug.Log("Returning false.");
 		return false;
 	}
+
+	
 
 	void Awake()
 	{
