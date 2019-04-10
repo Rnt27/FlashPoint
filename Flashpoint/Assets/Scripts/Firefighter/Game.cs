@@ -6,11 +6,13 @@ using UnityEngine;
  * 
  */
 
+    [System.Serializable]
 public class Game : MonoBehaviour
 {
 	public static Game Instance = null; 
     public FirefighterManager[] m_Firefighters;     // A collection of managers for enabling and disabling different aspects of the Firefighter
     public FirefighterManager m_Firefighter;
+    public int nTurn = 0; //count turn number
 
     private bool m_hasLevelStarted = false;
     private bool m_isGamePlaying = false;
@@ -31,6 +33,18 @@ public class Game : MonoBehaviour
     private bool touchButtonActive = false;
     private bool extinguishButtonActive = false;
     private bool endTurnButtonActive = false;
+
+    public bool GetMoveButtonState() { return moveButtonActive; }
+    public bool GetPunchButtonState() { return punchButtonActive; }
+    public bool GetTouchButtonState() { return touchButtonActive; }
+    public bool GetExtinguishButtonState() { return extinguishButtonActive; }
+    public bool GetEndTurnButtonState() { return endTurnButtonActive; }
+
+    public void SetMoveButtonState(bool b) { this.moveButtonActive = b; }
+    public void SetPunchButtonState(bool b) { this.punchButtonActive = b; }
+    public void SetTouchButtonState(bool b) { this.touchButtonActive = b; }
+    public void SetExtinguishButtonState(bool b) { this.extinguishButtonActive = b; }
+    public void SetEndTurnButtonState(bool b) { this.endTurnButtonActive = b; }
 
     public void setMoveButtonActive() { this.moveButtonActive = true; }
     public void setPunchButtonActive() { this.punchButtonActive = true; }
@@ -94,6 +108,8 @@ public class Game : MonoBehaviour
 
     private IEnumerator RoundPlaying()
     {
+        nTurn++;
+        Debug.Log(nTurn);
         m_isGamePlaying = true;
         while (!m_isGameOver)
         {

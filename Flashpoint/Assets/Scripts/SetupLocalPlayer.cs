@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
+
+[System.Serializable]
 public class SetupLocalPlayer : NetworkBehaviour
 {
     [SyncVar]
     public string pname = "firefigther";
 
+    
     [SyncVar]
     public Color playerColor = Color.white;
 
