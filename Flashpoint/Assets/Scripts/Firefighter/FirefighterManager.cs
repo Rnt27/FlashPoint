@@ -99,21 +99,19 @@ public class FirefighterManager : MonoBehaviour
         m_Extinguish = GetComponent<FirefighterExtinguish>();
         m_Animator = GetComponent<Animator>();
 
-		if(isCarryingVictim == false)
-		{
-			victim = null;
-		}
-
         isSpawned = false;
 
         setAP(4);
         savedAP = 0;
         myTurn = false;
+        isCarryingVictim = false;
 
         Move = false;
         Punch = false;
         TouchDoor = false;
         Extinguish = false;
+
+        victim = null;
 
         //m_Movement.m_PlayerNumber = m_PlayerNumber;
     }

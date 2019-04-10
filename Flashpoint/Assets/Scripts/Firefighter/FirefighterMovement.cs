@@ -52,7 +52,7 @@ public class FirefighterMovement : MonoBehaviour
         }
         m_Transform.position = Vector3.MoveTowards(m_Transform.position, m_Target, m_Speed * Time.deltaTime);
 
-		RevealPOIs(); 
+        RevealPOIs();
     }
 
 	//Check if the target space has any POI's and reveal them

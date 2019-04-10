@@ -12,6 +12,12 @@ public class Space : MonoBehaviour {
 	public int x;
 	public int y;
 
+    private Victim m_Victim;
+    public Victim getVictim() { return this.m_Victim; }
+    public bool has_POI;
+    public bool has_Victim;
+    
+
 
 	public Space(SpaceStatus status)
 	{
@@ -158,21 +164,86 @@ public class Space : MonoBehaviour {
 		return false;
 	}
 
+    public GameObject getPOI()
+    {
+        if (POIManager.Instance.GetFromSpace(transform.gameObject).Count == 0)
+        {
+            return null;
+        }
+
+        else return POIManager.Instance.GetFromSpace(transform.gameObject)[0];
+    }
 	
 
 	void Awake()
 	{
 		fireInstances = new GameObject[3];
+        if (getPOI() == null)
+        {
+            m_Victim = null;
+            has_POI = false;
+            has_Victim = false;
+        }
+        else if (getPOI().GetComponent<POI>().victim == false)
+        {
+            m_Victim = null;
+            has_POI = true;
+            has_Victim = false;
+        }
+        else
+        {
+            m_Victim = getPOI().GetComponent<Victim>();
+            has_POI = true;
+            has_Victim = true;
+        }
 		//SetStatus(SpaceStatus.Safe);
 	}
+
+    public void RevealPOI()
+    {
+        getPOI().GetComponent<POI>().Reveal();
+    }
+
+
 	// Use this for initialization
 	void Start () {
 	}
 
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    void RevealPOIs()
+    {
+        List<GameObject> pois = POIManager.Instance.GetFromSpace(this.gameObject);
+        foreach (GameObject poi in pois)
+        {
+            if (poi.GetComponent<POI>() != null)
+            {
+                poi.GetComponent<POI>().Reveal();
+            }
+        }
+    }
+
+    // Update is called once per frame
+    void Update () {
+        if (getPOI() == null)
+        {
+            m_Victim = null;
+            has_POI = false;
+            has_Victim = false;
+        }
+        else if (getPOI().GetComponent<POI>().victim == false)
+        {
+            Debug.Log("POI found");
+            m_Victim = null;
+            has_POI = true;
+            has_Victim = false;
+        }
+        else
+        {
+            Debug.Log("POI found");
+            m_Victim = getPOI().GetComponent<Victim>();
+            has_POI = true;
+            has_Victim = true;
+        }
+    }
 }
 
 public enum SpaceStatus

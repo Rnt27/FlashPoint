@@ -206,7 +206,7 @@ public class Game : MonoBehaviour
                     firefighter.EnableExtinguish();
                 }
             }
-            Debug.Log("Firefighter No." + firefighter.m_PlayerNumber + " AP: " + firefighter.getAP());
+            // Debug.Log("Firefighter No." + firefighter.m_PlayerNumber + " AP: " + firefighter.getAP());
             yield return null;
         }
     }
