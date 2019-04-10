@@ -78,6 +78,7 @@ public class Game : MonoBehaviour
     {
         yield return m_StartWait;
         m_Firefighters = FindObjectsOfType<FirefighterManager>();
+        Debug.Log("Firefighter number: " + m_Firefighters.Length);
         DisableFirefighterControl();
         while (!FirefighterAllSpawned())
         {

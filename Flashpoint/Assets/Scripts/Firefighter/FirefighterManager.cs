@@ -10,8 +10,8 @@ public class FirefighterManager : MonoBehaviour
     [HideInInspector] public GameObject m_Instance;           // A reference to the instance of the firefighter when it is created
     [HideInInspector] public bool isSpawned;
 
-    private Space m_CurrentSpace;
-    private Animator m_Animator;
+    protected Space m_CurrentSpace;
+    protected Animator m_Animator;
 
     protected int AP;                                           // The action points firefighter has    
     protected int savedAP;                                      // The action points firefighter saved
@@ -80,7 +80,7 @@ public class FirefighterManager : MonoBehaviour
     }
 
     // Awake
-    public void Awake()
+    public virtual void Awake()
     {
         m_Movement = GetComponent<FirefighterMovement>();
         m_PunchWall = GetComponent<FirefightePunchWall>();
@@ -112,7 +112,7 @@ public class FirefighterManager : MonoBehaviour
     }
 
     // Update
-    void Update()
+    protected virtual void Update()
     {
         if (myTurn)
         {
