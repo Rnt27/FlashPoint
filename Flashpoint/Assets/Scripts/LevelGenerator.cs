@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -26,6 +27,10 @@ public class LevelGenerator : MonoBehaviour
 	public GameObject wallPrefab;
 	public GameObject[] fire;
 	public GameObject blankPrefab;
+
+
+	//Keep track of # of objects for naming purposes
+	int numDoors = 0; 
 
 	//The parent gameobject of all the ones to be created
 
@@ -66,10 +71,68 @@ public class LevelGenerator : MonoBehaviour
 	}
 
 	//Add a random door on each side of the board
-	public void GenerateDoors()
+	public void GenerateEntrances()
 	{
-	
+		/**
+		 * Up: y = 1 up 
+		 * Down: y = 7 up
+		 * Left: x = 1 left
+		 * Right: x = 9 left 
+		 **/
+
+		string[] directions = { "up", "up", "left", "left" };
+		int[] up = new int[] { rand.Next(1, 9) ,1};
+		int[] down = new int[] { rand.Next(1, 9), 7 };
+		int[] left = new int[] { 1, rand.Next(1, 6) };
+		int[] right = new int[] { 9, rand.Next(1, 6) };
+		int[][] rolls = new int[][] { up, down, left, right };
+		
+		//Add a door to each side of the house
+		for(int i = 0; i < rolls.Length; i++)
+		{
+			int x = rolls[i][0];
+			int y = rolls[i][1];
+			NewDoor(x, y, directions[i], "DoorOutside");
+		}
+		
 	}
+
+	//Delete the wall at x, y and replace it with a door
+	public GameObject NewDoor(int x, int y, string direction, string tag)
+	{
+		//Work with a set of edges dependent on inputted direction
+		GameObject[,] edges;
+		if (direction.Equals("left")) edges = BoardManager.Instance.leftEdge;
+		else if (direction.Equals("up")) edges = BoardManager.Instance.upperEdge;
+		else throw new ArgumentException(); 
+
+		//Create the new door and position it 
+		GameObject newDoor = Instantiate(doorPrefab);
+		newDoor.transform.position = edges[x, y].transform.position;
+
+		//Add tag and name to GameObject
+		newDoor.tag = tag;
+		newDoor.name = tag + " (" + numDoors + ")";
+		
+		//Add Door, DoorController , BoxCollider scripts to the door
+		Door dScript = newDoor.AddComponent<Door>();
+		dScript.x = x;
+		dScript.y = y;
+		dScript.ToggleDoor();
+
+		DoorController dcScript = newDoor.AddComponent<DoorController>();
+		dcScript.myCanvas = GameObject.Find("Canvas").GetComponent<Canvas>();
+
+		BoxCollider bc = newDoor.AddComponent<BoxCollider>();
+
+		//Overwrite the old wall with the new door
+		Destroy(edges[x, y]);
+		edges[x, y] = newDoor; 
+
+		return newDoor;
+	}
+
+	
 
 
 	//Place a floor at coordinate x, y 

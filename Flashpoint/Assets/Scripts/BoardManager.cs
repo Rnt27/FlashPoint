@@ -39,15 +39,25 @@ public class BoardManager : MonoBehaviour
 
     public Vector3 houseCorner = new Vector3(-16f, 0f, 16f);
 
-    private GameObject[,] floors;
-    private GameObject[,] leftEdge;
-    private GameObject[,] upperEdge;
-    private GameObject[,] ambulances;
-    private GameObject[,] deckguns;
-    private GameObject[,] hotspots;
+    public GameObject[,] floors;
+    public GameObject[,] leftEdge;
+    public GameObject[,] upperEdge;
+    public GameObject[,] ambulances;
+    public GameObject[,] deckguns;
+    public GameObject[,] hotspots;
 	List<GameObject> hazmats;
 
+	
 	private static Random r = new Random();
+	// Get lobby-wide seed from the server
+	int GetSeed()
+	{
+		GameObject.Find("F@Spawn");
+	}
+	void SetSeed(int seed)
+	{
+		r = new Random(seed);
+	}
 	int[] Roll()    //Simulate a dice roll and randomly choose a space on the board
 	{
 		int[] roll = new int[2];
