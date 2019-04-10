@@ -17,6 +17,7 @@ public class FirefighterManager : MonoBehaviour
     protected int savedAP;                                      // The action points firefighter saved
     protected bool myTurn;                                      // This specifies if it is this firefighter's turn, controlled by FirefighterManager
     protected bool isCarryingVictim;                            // This specifies if the firefighter is carrying a victim
+	protected Victim victim;
 
     // Boolean variables to control access to actions
     protected bool Move;
@@ -97,6 +98,11 @@ public class FirefighterManager : MonoBehaviour
         m_TouchDoor = GetComponent<FirefighterTouchDoor>();
         m_Extinguish = GetComponent<FirefighterExtinguish>();
         m_Animator = GetComponent<Animator>();
+
+		if(isCarryingVictim == false)
+		{
+			victim = null;
+		}
 
         isSpawned = false;
 

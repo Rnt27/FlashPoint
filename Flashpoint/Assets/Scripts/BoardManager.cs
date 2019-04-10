@@ -612,27 +612,20 @@ public class BoardManager : MonoBehaviour
 	// (6) - Replenish POI's back to 3.
 	public void ReplenishPOI()
 	{
-		List<int[]> rolls = new List<int[]>();
 		int numRolls = POIManager.Instance.NumMissing();
 		for (int i = 0; i < numRolls; i++)
 		{
-			int[] r = Roll();
-			Debug.Log("POI Rolled: " + r[0] + " " + r[1]);
-			Space s = floors[r[0], r[1]].GetComponent<Space>();
+			int[] roll = Roll();
+			Debug.Log("POI Rolled: " + roll[0] + " " + roll[1]);
+			Space s = floors[roll[0], roll[1]].GetComponent<Space>();
 
 			while (s.status == SpaceStatus.Fire || s.status == SpaceStatus.Smoke ||
 			    Game.Instance.GetFFOnSpace(s.gameObject).Count != 0 || POIManager.Instance.GetFromSpace(s.gameObject).Count != 0) //Reroll the space until theres no firefighters, smoke or fire on that space
 			{
-				r = Roll();
-				s = floors[r[0], r[1]].GetComponent<Space>();
+				roll = Roll();
+				s = floors[roll[0], roll[1]].GetComponent<Space>();
 			}
-			
-			rolls.Add(r);
-		}
-		foreach(int[] roll in rolls)
-		{
-			Debug.Log("There are " + rolls.Count +" missing POI's. Generating POI at: " + roll[0] + " " + roll[1]);
-			//Pick a POI out of the bag and place it on the given rolled space
+			Debug.Log("Generating POI at: " + roll[0] + " " + roll[1]);
 			POIManager.Instance.GeneratePOI(roll[0], roll[1], POIManager.Instance.RollVictim(r));
 		}
 	}
