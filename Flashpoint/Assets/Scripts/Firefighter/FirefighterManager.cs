@@ -46,6 +46,13 @@ public class FirefighterManager : MonoBehaviour
     public void SetTargetDoor(DoorController TargetDoor) { m_TouchDoor.SetTarget(TargetDoor); }
     public void SetTargetFire(Space TargetSpace) { m_Extinguish.SetTarget(TargetSpace); }
 
+    // Indexer Methods
+    public Space CurrentSpace { get { return m_CurrentSpace; } set { m_CurrentSpace = value; } }
+    public int myAP { get { return AP; } set { AP = value; } }
+    public int mysavedAp { get { return savedAP; } set { savedAP = value; } }
+    public bool GetIsMyTurn { get { return myTurn; ; } set { myTurn = value; } }
+    public bool GetIsCarryingVictim { get { return isCarryingVictim; } set { isCarryingVictim = value; } }
+
     // Set Methods
     public void setCurrentSpace(Space TargetSpace) { this.m_CurrentSpace = TargetSpace; }
     public void setAP(int a)

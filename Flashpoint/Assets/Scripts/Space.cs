@@ -55,10 +55,14 @@ public class Space : MonoBehaviour {
 		this.x = x;
 		this.y = y;
 	}
-	
-	// Increases the fire level (SpaceStatus) of the space.
-	// Returns true if explosion should occur. 
-	public bool IncrementFire()
+
+    public Space()
+    {
+    }
+
+    // Increases the fire level (SpaceStatus) of the space.
+    // Returns true if explosion should occur. 
+    public bool IncrementFire()
 	{ 
 		bool explosion = false; 
 

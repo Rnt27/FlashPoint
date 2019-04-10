@@ -214,6 +214,7 @@ MonoBehaviour:
   loadOnStart: 0
   board: {fileID: 0}
   controlFirefighters: []
+  loaded: 0
   identifier: mySave
 --- !u!4 &584195823
 Transform:
@@ -326,7 +327,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 11475086, guid: c0978251ff7b10d4fb954a4b56acd9f0, type: 3}
       propertyPath: m_MaxPlayersPerConnection
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 11475086, guid: c0978251ff7b10d4fb954a4b56acd9f0, type: 3}
       propertyPath: m_ShowLobbyGUI

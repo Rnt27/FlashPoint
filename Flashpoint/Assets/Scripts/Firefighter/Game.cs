@@ -176,6 +176,8 @@ public class Game : MonoBehaviour
                         
                         firefighter.SetTargetSpace(hit.transform.gameObject.GetComponent<Space>());
                         firefighter.EnableMove();
+                        string msg = "Player No." + firefighter.m_PlayerNumber+1 + "'s Firefighter Moved to a new space " ;
+                        this.gameObject.GetComponent<gameMsg>().ShowMessage(msg);
                     }
 
                     else if (hit.transform.gameObject.tag == "Wall")
@@ -183,6 +185,8 @@ public class Game : MonoBehaviour
                         
                         firefighter.SetTargetWall(hit.transform.gameObject.GetComponent<WallController>());
                         firefighter.EnablePunch();
+                        string msg = "Player No." + firefighter.m_PlayerNumber+1 + "'s Firefighter Punched a wall ";
+                        this.gameObject.GetComponent<gameMsg>().ShowMessage(msg);
                     }
 
                     else if ((hit.transform.gameObject.tag == "DoorInside" || hit.transform.gameObject.tag == "DoorOutside"))
@@ -190,6 +194,8 @@ public class Game : MonoBehaviour
                         
                         firefighter.SetTargetDoor(hit.transform.gameObject.GetComponent<DoorController>());
                         firefighter.EnableTouchDoor();
+                        string msg = "Player No." + firefighter.m_PlayerNumber+1 + "'s Firefighter changed a door state ";
+                        this.gameObject.GetComponent<gameMsg>().ShowMessage(msg);
                     }
                 }
             }
@@ -205,7 +211,7 @@ public class Game : MonoBehaviour
                     firefighter.EnableExtinguish();
                 }
             }
-            Debug.Log("Firefighter No." + firefighter.m_PlayerNumber + " AP: " + firefighter.getAP());
+            //Debug.Log("Firefighter No." + firefighter.m_PlayerNumber + " AP: " + firefighter.getAP());
             yield return null;
         }
     }

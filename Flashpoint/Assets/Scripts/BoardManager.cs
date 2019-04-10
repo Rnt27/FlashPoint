@@ -559,7 +559,7 @@ public class BoardManager : MonoBehaviour
 	{
 		
 		if (HouseHP == 0 || RemainingPOI == 0){
-			SceneManager.LoadScene("EndGameLoss");
+			//SceneManager.LoadScene("Defeat");
 		}
 	}
 	
