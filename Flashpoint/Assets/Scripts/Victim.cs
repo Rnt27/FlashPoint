@@ -41,7 +41,7 @@ public class Victim : POI
 		this.x = x;
 		this.y = y;
 		MoveTo(x, y);
-		victim = true; 
+		victim = true;
 	}
 
 	//Disable inherited Reavel function

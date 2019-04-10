@@ -21,6 +21,7 @@ public class FirefightePunchWall : MonoBehaviour
 
     // Get Method
     public Animator get_m_Animator() { return this.m_Animator; }
+    public WallController get_m_TargetWall() { return this.m_TargetWall; }
 
     private void Awake()
     {

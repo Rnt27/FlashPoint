@@ -10,13 +10,14 @@ public class FirefighterManager : MonoBehaviour
     [HideInInspector] public GameObject m_Instance;           // A reference to the instance of the firefighter when it is created
     [HideInInspector] public bool isSpawned;
 
-    private Space m_CurrentSpace;
-    private Animator m_Animator;
+    protected Space m_CurrentSpace;
+    protected Animator m_Animator;
 
     protected int AP;                                           // The action points firefighter has    
     protected int savedAP;                                      // The action points firefighter saved
     protected bool myTurn;                                      // This specifies if it is this firefighter's turn, controlled by FirefighterManager
     protected bool isCarryingVictim;                            // This specifies if the firefighter is carrying a victim
+	protected Victim victim;
 
     // Boolean variables to control access to actions
     protected bool Move;
@@ -57,8 +58,9 @@ public class FirefighterManager : MonoBehaviour
     public void setCurrentSpace(Space TargetSpace) { this.m_CurrentSpace = TargetSpace; }
     public void setAP(int a)
 	{
-		APManager.Instance.setAP(AP);
 		this.AP = a;
+		APManager.Instance.setAP(AP);
+		Debug.Log("New AP: " + AP);
 	}
     public void ReduceAP(int reducedAP)
 	{
@@ -97,13 +99,18 @@ public class FirefighterManager : MonoBehaviour
     }
 
     // Awake
-    public void Awake()
+    public virtual void Awake()
     {
         m_Movement = GetComponent<FirefighterMovement>();
         m_PunchWall = GetComponent<FirefightePunchWall>();
         m_TouchDoor = GetComponent<FirefighterTouchDoor>();
         m_Extinguish = GetComponent<FirefighterExtinguish>();
         m_Animator = GetComponent<Animator>();
+
+		if(isCarryingVictim == false)
+		{
+			victim = null;
+		}
 
         isSpawned = false;
 
@@ -129,7 +136,7 @@ public class FirefighterManager : MonoBehaviour
     }
 
     // Update
-    void Update()
+    protected virtual void Update()
     {
         if (myTurn)
         {

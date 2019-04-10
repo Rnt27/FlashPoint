@@ -16,6 +16,10 @@ TagManager:
   - Clickable
   - GhostAnimation
   - contextMenu
+  - North
+  - West
+  - East
+  - South
   layers:
   - Default
   - TransparentFX

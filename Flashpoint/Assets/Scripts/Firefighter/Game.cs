@@ -92,6 +92,7 @@ public class Game : MonoBehaviour
     {
         yield return m_StartWait;
         m_Firefighters = FindObjectsOfType<FirefighterManager>();
+        Debug.Log("Firefighter number: " + m_Firefighters.Length);
         DisableFirefighterControl();
         while (!FirefighterAllSpawned())
         {
@@ -168,7 +169,7 @@ public class Game : MonoBehaviour
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
                
-                if (Physics.Raycast(ray, out hit)) //&& firefighter.getCurrentSpace().IsAdjacent(hit.transform.gameObject))
+                if (Physics.Raycast(ray, out hit) && firefighter.getCurrentSpace().IsAdjacent(hit.transform.gameObject))
                 {
                     Debug.Log("The space is adjacent:" + firefighter.getCurrentSpace().IsAdjacent(hit.transform.gameObject));
                     if ((hit.transform.gameObject.tag == "InsideTile" || hit.transform.gameObject.tag == "OutsideTile"))

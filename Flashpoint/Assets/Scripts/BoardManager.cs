@@ -39,15 +39,36 @@ public class BoardManager : MonoBehaviour
 
     public Vector3 houseCorner = new Vector3(-16f, 0f, 16f);
 
-    private GameObject[,] floors;
-    private GameObject[,] leftEdge;
-    private GameObject[,] upperEdge;
-    private GameObject[,] ambulances;
-    private GameObject[,] deckguns;
-    private GameObject[,] hotspots;
+    public GameObject[,] floors;
+    public GameObject[,] leftEdge;
+    public GameObject[,] upperEdge;
+    public GameObject[,] ambulances;
+    public GameObject[,] deckguns;
+    public GameObject[,] hotspots;
 	List<GameObject> hazmats;
 
+	
 	private static Random r = new Random();
+	// Get lobby-wide seed from the server
+	int GetSeed()
+	{
+		int seed = 0;
+		try
+		{
+			GameObject firefighter = GameObject.Find("F@Spawn");
+			//Get live seed from firefighetr class
+			return seed; 
+		}
+		catch
+		{
+			return 0;
+		}
+	}
+	// Set seed for BoardManager RNG
+	void SetSeed(int seed)
+	{
+		r = new Random(seed);
+	}
 	int[] Roll()    //Simulate a dice roll and randomly choose a space on the board
 	{
 		int[] roll = new int[2];
@@ -309,7 +330,6 @@ public class BoardManager : MonoBehaviour
 	//Entire end turn sequence
 	public void EndTurn()
 	{
-		CheckWin();
 		bool flareUp = false;
 
 		do //Advance fire at least once, and continue until no flare ups occur. 
@@ -345,7 +365,6 @@ public class BoardManager : MonoBehaviour
 		}
 
 		ResolveDeaths(); 
-		CheckLoss(); 
 		ExtinguishOutsideFires(); 
 		ReplenishPOI();
 	}
@@ -371,9 +390,11 @@ public class BoardManager : MonoBehaviour
 
 		Debug.Log("Rolled " + x + " " + y);
 
-		//Check for a fire on the rolled space 
-		Space target = GetSpace(x, y).GetComponent<Space>();
+		//Change colour of space for 5 seconds
+		StartCoroutine(Highlight(floors[x, y]));
 
+		//Check for a fire on the rolled space 
+		Space target = floors[x,y].GetComponent<Space>();
 		if (target.IncrementFire()) //Space returns true if an explosion should occur after incrementing
 		{
 			Explode(x, y);				
@@ -382,6 +403,21 @@ public class BoardManager : MonoBehaviour
 		//Resolve flashovers
 		Flashover();
 
+	}
+
+	// Indicate advancement with colour change on the space for 5 seconds
+	public IEnumerator Highlight(GameObject floor)
+	{
+		//Change floor to red. 
+		Material m = floor.GetComponent<MeshRenderer>().materials[0];
+		Color original = m.color;
+		m.color = Color.red; 
+
+		yield return new WaitForSeconds(5); // Wait 5 seconds
+
+		m.color = original; // Change back to original colour. 
+		
+		yield return null;
 	}
 
 	// Explosion logic
@@ -576,28 +612,21 @@ public class BoardManager : MonoBehaviour
 	// (6) - Replenish POI's back to 3.
 	public void ReplenishPOI()
 	{
-		List<int[]> rolls = new List<int[]>();
 		int numRolls = POIManager.Instance.NumMissing();
 		for (int i = 0; i < numRolls; i++)
 		{
-			int[] r = Roll();
-			Debug.Log("POI Rolled: " + r[0] + " " + r[1]);
-			Space s = floors[r[0], r[1]].GetComponent<Space>();
+			int[] roll = Roll();
+			Debug.Log("POI Rolled: " + roll[0] + " " + roll[1]);
+			Space s = floors[roll[0], roll[1]].GetComponent<Space>();
 
 			while (s.status == SpaceStatus.Fire || s.status == SpaceStatus.Smoke ||
 			    Game.Instance.GetFFOnSpace(s.gameObject).Count != 0 || POIManager.Instance.GetFromSpace(s.gameObject).Count != 0) //Reroll the space until theres no firefighters, smoke or fire on that space
 			{
-				r = Roll();
-				s = floors[r[0], r[1]].GetComponent<Space>();
+				roll = Roll();
+				s = floors[roll[0], roll[1]].GetComponent<Space>();
 			}
-			
-			rolls.Add(r);
-		}
-		foreach(int[] roll in rolls)
-		{
-			Debug.Log("There are " + rolls.Count +" missing POI's. Generating POI at: " + roll[0] + " " + roll[1]);
-			//Pick a POI out of the bag and place it on the given rolled space
-			POIManager.Instance.GeneratePOI(roll[0], roll[1], POIManager.Instance.RollVictim());
+			Debug.Log("Generating POI at: " + roll[0] + " " + roll[1]);
+			POIManager.Instance.GeneratePOI(roll[0], roll[1], POIManager.Instance.RollVictim(r));
 		}
 	}
 
@@ -880,6 +909,10 @@ public class BoardManager : MonoBehaviour
 		{
 			Instance = this;
 		}
+		
+		//Set seed for RNG
+		SetSeed(GetSeed());
+
 		// Instantiate grids and lists
 	    floors = new GameObject[columns, rows];
 	    leftEdge = new GameObject[columns, rows];
@@ -893,9 +926,6 @@ public class BoardManager : MonoBehaviour
 	    GenerateFiresFamily();
 		ReplenishPOI();
 		
-		//Adjacent debug
-		Debug.Log("Adjacent: "+floors[2, 7].GetComponent<Space>().IsAdjacent(upperEdge[2, 7]));
-
 		GenerateHazmats(4);
 		GenerateHotspots(4);
     }
@@ -908,6 +938,14 @@ public class BoardManager : MonoBehaviour
 
     }
 
+}
+
+public enum Difficulty
+{
+	Family = 0,
+	Recruit = 1,
+	Veteran = 2,
+	Heroic = 3
 }
 
 class InvalidPositionException : Exception

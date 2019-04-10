@@ -68,9 +68,11 @@ public class Space : MonoBehaviour {
 
 		switch (status){
 			case SpaceStatus.Safe:
+				BoardManager.Instance.Highlight(gameObject);
 				SetStatus(status+1);
 				break;
 			case SpaceStatus.Smoke:
+				BoardManager.Instance.Highlight(gameObject);
 				SetStatus(status+1);
 				break;
 			case SpaceStatus.Fire:
@@ -159,6 +161,8 @@ public class Space : MonoBehaviour {
 		Debug.Log("Returning false.");
 		return false;
 	}
+
+	
 
 	void Awake()
 	{
