@@ -24,13 +24,14 @@ public class Wall : MonoBehaviour, EdgeObstacle {
 				//Nothing happens
 				return;
 			default:
-				break;
+				return;
 		}
 		//Alter appearance of the wall
 		gameObject.GetComponent<WallController>().HitWall();
 		Debug.Log(gameObject.GetComponent<WallController>().name);
 
 		//Update HouseLife UI
+		HouseLife.Instance.diminishHealth(); 
 
 	}
 

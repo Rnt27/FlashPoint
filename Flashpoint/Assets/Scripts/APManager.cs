@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class APManager : MonoBehaviour
 {
+	public static APManager Instance = null;
+
     public GameObject AP1;
     public GameObject AP2;
     public GameObject AP3;
@@ -40,9 +42,18 @@ public class APManager : MonoBehaviour
 
     private int AP;
     public int maxAP = 4;
-    // Start is called before the first frame update
-    void Start()
+
+	private void Awake()
+	{
+		if (Instance == null)
+		{
+			Instance = this;
+		}
+	}
+	// Start is called before the first frame update
+	void Start()
     {
+		
         cachedY = savedTransform.position.y;
 
         maxX = savedTransform.position.x;

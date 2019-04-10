@@ -24,7 +24,7 @@ public class Door : MonoBehaviour, EdgeObstacle {
 		}
 		else
 		{
-			state = 1 - state;
+			state = (DoorState)(1 - (int)state);
             this.GetComponent<DoorController>().InteractDoor();
         }
 	}
@@ -32,7 +32,6 @@ public class Door : MonoBehaviour, EdgeObstacle {
 	// Destroy the door
 	public void Damage()
 	{
-		gameObject.GetComponent<DoorController>().damageDoor(); 
 		if(state == DoorState.Destroyed)
 		{
 			throw new InvalidDoorOperationException();
@@ -40,6 +39,8 @@ public class Door : MonoBehaviour, EdgeObstacle {
 		else
 		{
 			state = DoorState.Destroyed;
+			this.GetComponent<DoorController>().damageDoor();
+			HouseLife.Instance.diminishHealth(); 
 		}
 	}
 

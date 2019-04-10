@@ -59,7 +59,7 @@ public class FirefighterTouchDoor : MonoBehaviour
         {
             Turn(180f);
         }
-        m_TargetDoor.InteractDoor();
+		m_TargetDoor.gameObject.GetComponent<Door>().ToggleDoor(); 
         //StartCoroutine(TouchDoorRoutine()); ;
     }
 
