@@ -36,6 +36,7 @@ public class POI : MonoBehaviour
 		{
 			GameObject space = BoardManager.Instance.GetSpace(x, y);
 			gameObject.transform.position = space.transform.position;
+			gameObject.transform.position += new Vector3(0, 1, 0);
 		}
 		else
 		{
