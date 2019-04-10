@@ -7,6 +7,8 @@ using UnityEngine.Networking;
 public class FirefighterManager : NetworkBehaviour
 {
     private static FirefighterManager callLobbyPlayer;
+    public int seed;
+    public int random;
 
     void Start()
     {
@@ -14,7 +16,14 @@ public class FirefighterManager : NetworkBehaviour
         {
             callLobbyPlayer = this;
             SetupLocalPlayer localPlayer = callLobbyPlayer.GetComponentInParent<SetupLocalPlayer>();
-            Debug.Log("NETWORK SPEAKING HERE: "+localPlayer.pname);
+            //Debug.Log("NETWORK SPEAKING HERE: "+localPlayer.pname);
+        }
+
+        if (isServer) {
+            int randomSeed = (UnityEngine.Random.Range(0, 10));
+            RpcUpdateSeed(randomSeed);
+           // Debug.Log("Seed is " + randomSeed);
+
         }
     }
 
@@ -26,7 +35,7 @@ public class FirefighterManager : NetworkBehaviour
         //DoorController d = callLobbyPlayer.GetComponentInParent<DoorController>();
         if (d == null)
         {
-            Debug.Log("HOOOODOOOOOR");
+            //Debug.Log("HOOOODOOOOOR");
         }
         callLobbyPlayer.SetTargetDoor(d);
         callLobbyPlayer.InteractDoor();
@@ -45,22 +54,33 @@ public class FirefighterManager : NetworkBehaviour
         callLobbyPlayer.CmdUpdateDoor(doorName);
     }
 
-    //public void OnGUI()
-    //{
-    //    if (isClient)
-    //    {
+    [ClientRpc]
+    public void RpcUpdateSeed(int seed)
+    {
+        seed = 999;
+        Random.InitState(seed);
+    }
+    
+    
+    public void OnGUI()
+    {
+        if (isClient)
+        {
+            GUILayout.Space(400);
 
-    //        {s
-    //            GUILayout.Space(400);
+            
+            if (GUILayout.Button("GEN SEED"))
+            {
+                //generate a random number between 0 and 9
+                random = Random.Range(0, 10);
 
-    //        }
+                
+            };
+            GUILayout.TextArea(random.ToString());
 
-    //        if (GUILayout.Button("Send"))
-    //        {
-    //            callLobbyPlayer.CmdUpdateDoor("InsideDoor (1)");
-    //        };
-    //    }
-    //}
+        }
+
+    } 
 
     [HideInInspector] public int m_PlayerNumber;              // This specifies which player this firefighter belongs to
     [HideInInspector] public GameObject m_Instance;           // A reference to the instance of the firefighter when it is created

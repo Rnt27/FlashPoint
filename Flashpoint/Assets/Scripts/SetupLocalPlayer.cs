@@ -20,10 +20,5 @@ public class SetupLocalPlayer : NetworkBehaviour
             this.name = "local";
         }
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
 }
