@@ -56,7 +56,14 @@ public class Door : MonoBehaviour, EdgeObstacle {
 
 	void Start()
 	{
-		state = DoorState.Closed;
+		if (gameObject.tag.Equals("DoorOutside"))
+		{
+			state = DoorState.Open;
+		}
+		else
+		{
+			state = DoorState.Closed;
+		}
 	}
 
 	void Update()

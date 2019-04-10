@@ -89,7 +89,7 @@ public class DoorController : MonoBehaviour
 
         if (this.gameObject.CompareTag("DoorOutside"))
         {
-
+			
             openD();
 
         }
