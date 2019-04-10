@@ -309,7 +309,6 @@ public class BoardManager : MonoBehaviour
 	//Entire end turn sequence
 	public void EndTurn()
 	{
-		CheckWin();
 		bool flareUp = false;
 
 		do //Advance fire at least once, and continue until no flare ups occur. 
@@ -345,7 +344,6 @@ public class BoardManager : MonoBehaviour
 		}
 
 		ResolveDeaths(); 
-		CheckLoss(); 
 		ExtinguishOutsideFires(); 
 		ReplenishPOI();
 	}
@@ -908,6 +906,14 @@ public class BoardManager : MonoBehaviour
 
     }
 
+}
+
+public enum Difficulty
+{
+	Family = 0,
+	Recruit = 1,
+	Veteran = 2,
+	Heroic = 3
 }
 
 class InvalidPositionException : Exception
