@@ -93,7 +93,7 @@ public class APManager : MonoBehaviour
 
     }
 
-    private void setMaxSavedAP(int num)
+    public void setMaxSavedAP(int num)
     {
         if (num >= 0) ;
         maxSaved = num;
@@ -123,13 +123,23 @@ public class APManager : MonoBehaviour
 
     public void setAP(int thisAP)
     {
+		Debug.Log("UI setting AP to " + thisAP);
+		int saved = 0;
+		if(thisAP > maxAP)
+		{
+			saved = thisAP - maxAP;
+			AP = maxAP;
+		}
+		else
+		{
+			AP = thisAP; 
+		}
 
-        if(thisAP <= maxAP && thisAP >= 0)
-        {
+		Debug.Log("Real AP: " + AP);
+		Debug.Log("Extra AP: " + saved);
 
-            AP = thisAP;
-            changeAP();
-        }
+		changeAP();
+		setRAP(saved);
         
     }
 
@@ -169,7 +179,7 @@ public class APManager : MonoBehaviour
     private void HandleSavedAP()
     {
 
-        savedText.text = "SAVED AP:" + currentSaved + "/" + maxSaved;
+        savedText.text = "SAVED AP:" + currentSaved + "/" + maxSaved	;
 
         float currentX = MapValues(currentSaved, 0, maxSaved, minX, maxX);
 

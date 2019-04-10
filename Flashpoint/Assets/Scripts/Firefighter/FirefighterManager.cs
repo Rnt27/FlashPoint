@@ -51,8 +51,8 @@ public class FirefighterManager : MonoBehaviour
     public void setCurrentSpace(Space TargetSpace) { this.m_CurrentSpace = TargetSpace; }
     public void setAP(int a)
 	{
-		APManager.Instance.setAP(AP);
 		this.AP = a;
+		APManager.Instance.setAP(AP);
 	}
     public void ReduceAP(int reducedAP)
 	{
@@ -81,11 +81,13 @@ public class FirefighterManager : MonoBehaviour
     // Enable all action control at the beginning of player's turn, called in GamaManager
     public void EnableControl()
     {
+		StopAllCoroutines();
         m_Movement.enabled = true;
         m_PunchWall.enabled = true;
         m_TouchDoor.enabled = true;
         m_Extinguish.enabled = true;
 
+		APManager.Instance.setMaxSavedAP(savedAP);
         setAP(AP + savedAP);
         savedAP = 0;
     }
@@ -249,4 +251,6 @@ public class FirefighterManager : MonoBehaviour
         this.myTurn = false;
         setAP(4);
     }
+
+	
 }

@@ -928,6 +928,8 @@ public class BoardManager : MonoBehaviour
 		
 		GenerateHazmats(4);
 		GenerateHotspots(4);
+
+
     }
 	// Use this for initialization
 	void Start()

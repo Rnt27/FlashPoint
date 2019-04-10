@@ -19,9 +19,19 @@ public class Wall : MonoBehaviour, EdgeObstacle {
 				break; 
 			case WallState.Damaged: 
 				SetState(state+1);
+				if (direction.Equals("left"))
+				{
+					BoardManager.Instance.leftEdge[x, y] = null;
+				}
+				else
+				{
+					BoardManager.Instance.upperEdge[x, y] = null;
+				}
+				Destroy(gameObject);
 				break;
-			case WallState.Destroyed: 
+			case WallState.Destroyed:
 				//Nothing happens
+
 				return;
 			default:
 				return;
@@ -31,8 +41,9 @@ public class Wall : MonoBehaviour, EdgeObstacle {
 		Debug.Log(gameObject.GetComponent<WallController>().name);
 
 		//Update HouseLife UI
-		HouseLife.Instance.diminishHealth(); 
+		HouseLife.Instance.diminishHealth();
 
+	
 	}
 
 	public WallState GetState()
