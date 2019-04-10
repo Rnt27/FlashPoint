@@ -34,6 +34,11 @@ public class POIManager : MonoBehaviour
 	public bool RollVictim()
 	{
 		Random rand = new Random();
+		return RollVictim(rand);
+	}
+
+	public bool RollVictim(Random rand)
+	{
 		int roll = rand.Next(1, numVictims + numFalseAlarms);
 		if (roll >= 1 && roll <= numVictims) return true;
 		else return false;

@@ -52,11 +52,19 @@ public class BoardManager : MonoBehaviour
 	// Get lobby-wide seed from the server
 	int GetSeed()
 	{
-		int seed = 0; 
-		GameObject firefighter = GameObject.Find("F@Spawn");
-		firefighter.GetComponent<FirefighterManager>();
-		return seed; 
+		int seed = 0;
+		try
+		{
+			GameObject firefighter = GameObject.Find("F@Spawn");
+			//Get live seed from firefighetr class
+			return seed; 
+		}
+		catch
+		{
+			return 0;
+		}
 	}
+	// Set seed for BoardManager RNG
 	void SetSeed(int seed)
 	{
 		r = new Random(seed);
@@ -382,9 +390,11 @@ public class BoardManager : MonoBehaviour
 
 		Debug.Log("Rolled " + x + " " + y);
 
-		//Check for a fire on the rolled space 
-		Space target = GetSpace(x, y).GetComponent<Space>();
+		//Change colour of space for 5 seconds
+		StartCoroutine(Highlight(floors[x, y]));
 
+		//Check for a fire on the rolled space 
+		Space target = floors[x,y].GetComponent<Space>();
 		if (target.IncrementFire()) //Space returns true if an explosion should occur after incrementing
 		{
 			Explode(x, y);				
@@ -393,6 +403,21 @@ public class BoardManager : MonoBehaviour
 		//Resolve flashovers
 		Flashover();
 
+	}
+
+	// Indicate advancement with colour change on the space for 5 seconds
+	public IEnumerator Highlight(GameObject floor)
+	{
+		//Change floor to red. 
+		Material m = floor.GetComponent<MeshRenderer>().materials[0];
+		Color original = m.color;
+		m.color = Color.red; 
+
+		yield return new WaitForSeconds(5); // Wait 5 seconds
+
+		m.color = original; // Change back to original colour. 
+		
+		yield return null;
 	}
 
 	// Explosion logic
@@ -608,7 +633,7 @@ public class BoardManager : MonoBehaviour
 		{
 			Debug.Log("There are " + rolls.Count +" missing POI's. Generating POI at: " + roll[0] + " " + roll[1]);
 			//Pick a POI out of the bag and place it on the given rolled space
-			POIManager.Instance.GeneratePOI(roll[0], roll[1], POIManager.Instance.RollVictim());
+			POIManager.Instance.GeneratePOI(roll[0], roll[1], POIManager.Instance.RollVictim(r));
 		}
 	}
 
@@ -891,6 +916,10 @@ public class BoardManager : MonoBehaviour
 		{
 			Instance = this;
 		}
+		
+		//Set seed for RNG
+		SetSeed(GetSeed());
+
 		// Instantiate grids and lists
 	    floors = new GameObject[columns, rows];
 	    leftEdge = new GameObject[columns, rows];
@@ -904,9 +933,6 @@ public class BoardManager : MonoBehaviour
 	    GenerateFiresFamily();
 		ReplenishPOI();
 		
-		//Adjacent debug
-		Debug.Log("Adjacent: "+floors[2, 7].GetComponent<Space>().IsAdjacent(upperEdge[2, 7]));
-
 		GenerateHazmats(4);
 		GenerateHotspots(4);
     }
