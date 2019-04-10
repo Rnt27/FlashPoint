@@ -156,6 +156,8 @@ public class Space : MonoBehaviour {
 		return false;
 	}
 
+	
+
 	void Awake()
 	{
 		fireInstances = new GameObject[3];
