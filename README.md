@@ -15,9 +15,7 @@
 [] Experienced start game: 3 explosions, 3 hazmats, 3 POI (where 1 is False Alarm), 3 additional hotspots, pick ambulance/firetruck placement <br />
 [] Experience: Crew change <br />
 [] Experience: choosing classes including veteran and dog<br /> 
-
-
-
+[Priscilia] Game save Data<br /> 
 
 \* Tasks masked with asterix means the game logic (code) is there, but not fully implemented in game. 
 
