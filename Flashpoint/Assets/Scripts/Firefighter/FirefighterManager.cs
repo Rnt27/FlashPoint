@@ -10,7 +10,7 @@ public class FirefighterManager : NetworkBehaviour
     public int seed;
     public int random;
 
-    void Start()
+    protected void Start()
     {
         if (isLocalPlayer)
         {
@@ -55,14 +55,14 @@ public class FirefighterManager : NetworkBehaviour
     }
 
     [ClientRpc]
-    public void RpcUpdateSeed(int seed)
+    public void RpcUpdateSeed(int rpcseed)
     {
-        seed = 999;
-        Random.InitState(seed);
+        seed = rpcseed;
+        //Random.InitState(seed);
     }
     
     
-    public void OnGUI()
+    pumblic void OnGUI()
     {
         if (isClient)
         {
