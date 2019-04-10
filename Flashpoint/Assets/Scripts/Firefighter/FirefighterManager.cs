@@ -51,8 +51,9 @@ public class FirefighterManager : MonoBehaviour
     public void setCurrentSpace(Space TargetSpace) { this.m_CurrentSpace = TargetSpace; }
     public void setAP(int a)
 	{
-		APManager.Instance.setAP(AP);
 		this.AP = a;
+		APManager.Instance.setAP(AP);
+		Debug.Log("New AP: " + AP);
 	}
     public void ReduceAP(int reducedAP)
 	{

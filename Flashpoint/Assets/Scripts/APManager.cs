@@ -123,13 +123,19 @@ public class APManager : MonoBehaviour
 
     public void setAP(int thisAP)
     {
+		int saved = 0;
+		if(thisAP >= maxAP)
+		{
+			saved = thisAP - maxAP;
+			AP = maxAP;
+		}
+		else
+		{
+			AP = thisAP; 
+		}
 
-        if(thisAP <= maxAP && thisAP >= 0)
-        {
-
-            AP = thisAP;
-            changeAP();
-        }
+		changeAP();
+		setRAP(saved);
         
     }
 
