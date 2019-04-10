@@ -10,6 +10,8 @@ public class FirefighterManager : MonoBehaviour
     [HideInInspector] public GameObject m_Instance;           // A reference to the instance of the firefighter when it is created
     [HideInInspector] public bool isSpawned;
 
+    public bool mine;
+
     protected Space m_CurrentSpace;
     protected Animator m_Animator;
 

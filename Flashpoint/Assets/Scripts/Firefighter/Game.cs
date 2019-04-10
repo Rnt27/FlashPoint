@@ -99,7 +99,15 @@ public class Game : MonoBehaviour
             foreach (FirefighterManager firefighter in m_Firefighters)
             {
                 firefighter.EnableAction();
-                yield return StartCoroutine(SpawnFirefighter(firefighter));
+                if (firefighter.GetComponent<FirefighterManager>().mine)
+                {
+                    yield return StartCoroutine(SpawnFirefighter(firefighter)); //spawn my own ff
+                } else
+                {
+                    firefighter.isSpawned = true; //assume othe rplayer FF is spawned
+
+                }
+                
                 firefighter.DisableAction();
             }
             yield return null;
@@ -143,7 +151,7 @@ public class Game : MonoBehaviour
     {
         while (!firefighter.isSpawned)
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) )
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
@@ -247,6 +255,7 @@ public class Game : MonoBehaviour
         bool AllSpawned = true;
         foreach (FirefighterManager firefighter in m_Firefighters)
         {
+            Debug.Log("AllSpwaned?--> " + firefighter.gameObject.name + "spawned: " + firefighter.isSpawned);
             if (!firefighter.isSpawned) 
             {
                 AllSpawned = false;

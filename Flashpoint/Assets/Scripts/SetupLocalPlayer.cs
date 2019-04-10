@@ -21,6 +21,7 @@ public class SetupLocalPlayer : NetworkBehaviour
         if (isLocalPlayer)
         {  
             this.name = "local";
+            this.GetComponent<FirefighterManager>().mine = true;
         }
     }
 
