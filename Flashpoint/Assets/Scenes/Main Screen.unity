@@ -2143,6 +2143,12 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 104767326}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &160076624 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1427421480173525173, guid: 3e5255d3f8e7671448d4b276e36ab914,
+    type: 3}
+  m_PrefabInstance: {fileID: 104767326}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &160076625
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2717,6 +2723,12 @@ MonoBehaviour:
 --- !u!1 &245700933 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5084750839449285817, guid: 3e5255d3f8e7671448d4b276e36ab914,
+    type: 3}
+  m_PrefabInstance: {fileID: 104767326}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &245700934 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3215114945614415029, guid: 3e5255d3f8e7671448d4b276e36ab914,
     type: 3}
   m_PrefabInstance: {fileID: 104767326}
   m_PrefabAsset: {fileID: 0}
@@ -3804,6 +3816,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Firetruck
       objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 7486e86474fb8bf45aef052407a4edd7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 7486e86474fb8bf45aef052407a4edd7, type: 3}
       propertyPath: m_LocalPosition.x
       value: -11.090004
@@ -3865,6 +3881,12 @@ PrefabInstance:
 --- !u!1 &367674974 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5518925444238799516, guid: 3e5255d3f8e7671448d4b276e36ab914,
+    type: 3}
+  m_PrefabInstance: {fileID: 104767326}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &367674975 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7980114745969634579, guid: 3e5255d3f8e7671448d4b276e36ab914,
     type: 3}
   m_PrefabInstance: {fileID: 104767326}
   m_PrefabAsset: {fileID: 0}
@@ -3998,6 +4020,12 @@ MonoBehaviour:
 --- !u!1 &391988514 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5428678719431239177, guid: 3e5255d3f8e7671448d4b276e36ab914,
+    type: 3}
+  m_PrefabInstance: {fileID: 104767326}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &391988515 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4418989873636734135, guid: 3e5255d3f8e7671448d4b276e36ab914,
     type: 3}
   m_PrefabInstance: {fileID: 104767326}
   m_PrefabAsset: {fileID: 0}
@@ -10896,6 +10924,12 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 104767326}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1050820612 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2123291879139785629, guid: 3e5255d3f8e7671448d4b276e36ab914,
+    type: 3}
+  m_PrefabInstance: {fileID: 104767326}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1050820613
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11523,6 +11557,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Firetruck
       objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 7486e86474fb8bf45aef052407a4edd7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 7486e86474fb8bf45aef052407a4edd7, type: 3}
       propertyPath: m_LocalPosition.x
       value: -11.090004
@@ -11725,6 +11763,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: 02df6613ce36445449b174963f177e6a, type: 3}
       propertyPath: m_Name
       value: Ambulance
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 02df6613ce36445449b174963f177e6a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 02df6613ce36445449b174963f177e6a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -12365,6 +12407,12 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 104767326}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1279367044 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4093153185297258937, guid: 3e5255d3f8e7671448d4b276e36ab914,
+    type: 3}
+  m_PrefabInstance: {fileID: 104767326}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1279367045
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12388,6 +12436,12 @@ MonoBehaviour:
 --- !u!1 &1295718915 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6987768096046635276, guid: 3e5255d3f8e7671448d4b276e36ab914,
+    type: 3}
+  m_PrefabInstance: {fileID: 104767326}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1295718916 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 640074612186239141, guid: 3e5255d3f8e7671448d4b276e36ab914,
     type: 3}
   m_PrefabInstance: {fileID: 104767326}
   m_PrefabAsset: {fileID: 0}
@@ -12479,6 +12533,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1298931275}
+  - component: {fileID: 1298931276}
   m_Layer: 0
   m_Name: ParkingAmbulanceSouth
   m_TagString: South
@@ -12503,6 +12558,30 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1298931276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1298931274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ac5b96c005094e4e941f6542a109707, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  firetruckSouth: {fileID: 152561861}
+  firetruckWest: {fileID: 983226863}
+  firetruckNorth: {fileID: 1556228679}
+  firetruckEast: {fileID: 1168258929}
+  tileSouthA: {fileID: 1892290374}
+  tileSouthB: {fileID: 367674975}
+  tileWestA: {fileID: 1436119411}
+  tileWestB: {fileID: 1050820612}
+  tileNorthA: {fileID: 2064359937}
+  tileNorthB: {fileID: 1279367044}
+  tileEastA: {fileID: 1940579302}
+  tileEastB: {fileID: 1373198192}
 --- !u!1 &1301812803 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 537588958315848451, guid: 3e5255d3f8e7671448d4b276e36ab914,
@@ -13361,6 +13440,14 @@ MonoBehaviour:
   firetruckWest: {fileID: 857578210}
   firetruckNorth: {fileID: 600196605}
   firetruckEast: {fileID: 1661783616}
+  tileSouthA: {fileID: 1295718916}
+  tileSouthB: {fileID: 245700934}
+  tileWestA: {fileID: 160076624}
+  tileWestB: {fileID: 1607271670}
+  tileNorthA: {fileID: 2125043404}
+  tileNorthB: {fileID: 391988515}
+  tileEastA: {fileID: 1540428856}
+  tileEastB: {fileID: 1438963040}
 --- !u!4 &1355956456
 Transform:
   m_ObjectHideFlags: 0
@@ -13440,6 +13527,12 @@ PrefabInstance:
 --- !u!1 &1373198191 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6976444313455275284, guid: 3e5255d3f8e7671448d4b276e36ab914,
+    type: 3}
+  m_PrefabInstance: {fileID: 104767326}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1373198192 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8469052466401459182, guid: 3e5255d3f8e7671448d4b276e36ab914,
     type: 3}
   m_PrefabInstance: {fileID: 104767326}
   m_PrefabAsset: {fileID: 0}
@@ -13932,6 +14025,12 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 104767326}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1436119411 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 671434146221443488, guid: 3e5255d3f8e7671448d4b276e36ab914,
+    type: 3}
+  m_PrefabInstance: {fileID: 104767326}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1436119412
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13955,6 +14054,12 @@ MonoBehaviour:
 --- !u!1 &1438963039 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1591833625744936212, guid: 3e5255d3f8e7671448d4b276e36ab914,
+    type: 3}
+  m_PrefabInstance: {fileID: 104767326}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1438963040 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6664797307849484575, guid: 3e5255d3f8e7671448d4b276e36ab914,
     type: 3}
   m_PrefabInstance: {fileID: 104767326}
   m_PrefabAsset: {fileID: 0}
@@ -14107,6 +14212,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: 02df6613ce36445449b174963f177e6a, type: 3}
       propertyPath: m_Name
       value: Ambulance
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 02df6613ce36445449b174963f177e6a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 02df6613ce36445449b174963f177e6a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -14514,6 +14623,12 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 104767326}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1540428856 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3530915284401606428, guid: 3e5255d3f8e7671448d4b276e36ab914,
+    type: 3}
+  m_PrefabInstance: {fileID: 104767326}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1540428857
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14544,6 +14659,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: 02df6613ce36445449b174963f177e6a, type: 3}
       propertyPath: m_Name
       value: Ambulance
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 02df6613ce36445449b174963f177e6a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 02df6613ce36445449b174963f177e6a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -15082,6 +15201,12 @@ MonoBehaviour:
 --- !u!1 &1607271669 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6637949965764359298, guid: 3e5255d3f8e7671448d4b276e36ab914,
+    type: 3}
+  m_PrefabInstance: {fileID: 104767326}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1607271670 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2179602266609291676, guid: 3e5255d3f8e7671448d4b276e36ab914,
     type: 3}
   m_PrefabInstance: {fileID: 104767326}
   m_PrefabAsset: {fileID: 0}
@@ -17091,6 +17216,12 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 104767326}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1892290374 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5047503206751312579, guid: 3e5255d3f8e7671448d4b276e36ab914,
+    type: 3}
+  m_PrefabInstance: {fileID: 104767326}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1892290375
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17475,6 +17606,12 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 104767326}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1940579302 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3536851393362680738, guid: 3e5255d3f8e7671448d4b276e36ab914,
+    type: 3}
+  m_PrefabInstance: {fileID: 104767326}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1940579303
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17557,6 +17694,10 @@ PrefabInstance:
     - target: {fileID: 100002, guid: 7486e86474fb8bf45aef052407a4edd7, type: 3}
       propertyPath: m_Name
       value: Firetruck
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 7486e86474fb8bf45aef052407a4edd7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 7486e86474fb8bf45aef052407a4edd7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -18353,6 +18494,12 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 104767326}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &2064359937 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3103951786080270940, guid: 3e5255d3f8e7671448d4b276e36ab914,
+    type: 3}
+  m_PrefabInstance: {fileID: 104767326}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &2064359938
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18768,6 +18915,14 @@ MonoBehaviour:
   firetruckWest: {fileID: 0}
   firetruckNorth: {fileID: 0}
   firetruckEast: {fileID: 0}
+  tileSouthA: {fileID: 0}
+  tileSouthB: {fileID: 0}
+  tileWestA: {fileID: 0}
+  tileWestB: {fileID: 0}
+  tileNorthA: {fileID: 0}
+  tileNorthB: {fileID: 0}
+  tileEastA: {fileID: 0}
+  tileEastB: {fileID: 0}
 --- !u!1 &2100141943
 GameObject:
   m_ObjectHideFlags: 0
@@ -18899,6 +19054,12 @@ MonoBehaviour:
 --- !u!1 &2125043403 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7568483153048076011, guid: 3e5255d3f8e7671448d4b276e36ab914,
+    type: 3}
+  m_PrefabInstance: {fileID: 104767326}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2125043404 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2850940352413430128, guid: 3e5255d3f8e7671448d4b276e36ab914,
     type: 3}
   m_PrefabInstance: {fileID: 104767326}
   m_PrefabAsset: {fileID: 0}

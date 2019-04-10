@@ -10,15 +10,27 @@ public class DrivingFiretruck : MonoBehaviour
 
     bool right = true;
 
-    public bool south = true;
-    public bool west = false;
-    public bool north = false;
-    public bool east = false;
+    bool south = true;
+    bool west = false;
+    bool north = false;
+    bool east = false;
         
     public Transform firetruckSouth;
     public Transform firetruckWest;
     public Transform firetruckNorth;
     public Transform firetruckEast;
+
+    public Transform tileSouthA;
+    public Transform tileSouthB;
+
+    public Transform tileWestA;
+    public Transform tileWestB;
+
+    public Transform tileNorthA;
+    public Transform tileNorthB;
+
+    public Transform tileEastA;
+    public Transform tileEastB;
 
     // Start is called before the first frame update
     void Start()
@@ -34,7 +46,8 @@ public class DrivingFiretruck : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown("j"))
+        //to test movement
+        /*if (Input.GetKeyDown("j"))
         {
             moveLeft();
         }
@@ -42,9 +55,10 @@ public class DrivingFiretruck : MonoBehaviour
         if (Input.GetKeyDown("k"))
         {
             moveRight();
-        }
+        }*/
     }
 
+    //move vehicle left
     public void moveLeft()
     {
                         
@@ -86,6 +100,7 @@ public class DrivingFiretruck : MonoBehaviour
 
     }
 
+    //moves vehicle right
     public void moveRight()
     {
 
@@ -126,4 +141,49 @@ public class DrivingFiretruck : MonoBehaviour
         }
 
     }
+
+    //checks if tile is good to access the vehicle
+    public bool onTile(Space tile)
+    {
+
+        if (south)
+        {
+
+            if (tileSouthA == tile || tileSouthB == tile) return true;
+            else
+            {
+                return false;
+            }
+
+        }
+        else if (east)
+        {
+             if (tileEastA == tile || tileEastB == tile) return true;
+             else
+             {
+                return false;
+             }
+        }
+        else if (north)
+        {
+            if (tileNorthA == tile || tileNorthB == tile) return true;
+            else
+            {
+                return false;
+            }
+
+        }
+        else if (west)
+        {
+            if (tileWestA == tile || tileWestB == tile) return true;
+            else
+            {
+                return false;
+            }
+        }
+
+        return false;
+
+    }
+    
 }
