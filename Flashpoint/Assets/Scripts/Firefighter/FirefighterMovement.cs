@@ -50,7 +50,6 @@ public class FirefighterMovement : MonoBehaviour
         {
             Turn(180f);
         }
-
         m_Transform.position = Vector3.MoveTowards(m_Transform.position, m_Target, m_Speed * Time.deltaTime);
 
 		RevealPOIs(); 

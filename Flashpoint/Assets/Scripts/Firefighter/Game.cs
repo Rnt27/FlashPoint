@@ -169,7 +169,7 @@ public class Game : MonoBehaviour
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
                
-                if (Physics.Raycast(ray, out hit)) //&& firefighter.getCurrentSpace().IsAdjacent(hit.transform.gameObject))
+                if (Physics.Raycast(ray, out hit) && firefighter.getCurrentSpace().IsAdjacent(hit.transform.gameObject))
                 {
                     Debug.Log("The space is adjacent:" + firefighter.getCurrentSpace().IsAdjacent(hit.transform.gameObject));
                     if ((hit.transform.gameObject.tag == "InsideTile" || hit.transform.gameObject.tag == "OutsideTile"))
@@ -200,7 +200,7 @@ public class Game : MonoBehaviour
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
 
-                if (Physics.Raycast(ray, out hit) && hit.transform.gameObject.tag == "InsideTile" && hit.transform.gameObject.GetComponent<Space>().status != SpaceStatus.Safe)
+                if (Physics.Raycast(ray, out hit) && hit.transform.gameObject.tag == "InsideTile" && hit.transform.gameObject.GetComponent<Space>().status != SpaceStatus.Safe && firefighter.getCurrentSpace().IsAdjacent(hit.transform.gameObject))
                 {
                     firefighter.SetTargetFire(hit.transform.gameObject.GetComponent<Space>());
                     firefighter.EnableExtinguish();
