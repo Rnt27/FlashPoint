@@ -4,7 +4,7 @@
 
 ## Rules
 
-The rules for the game can be found [here](./Flash_Point_Rulebook.pdf). You can also check out these helpful videos to see how the [Family](https://www.youtube.com/watch?v=eRAuAt0XBoE) and [Experienced](https://www.youtube.com/watch?v=aPs8D47iitM) modes work.
+The rules for the game can be found [here](./Flash_Point_Rulebook.pdf). 
 
 ## Tasks:
 [Isabelle] Completely synchronize game <br />
