@@ -31,6 +31,27 @@ The rules for the game can be found [here](./Flash_Point_Rulebook.pdf).
 
 \* Tasks masked with asterix means the game logic (code) is there, but not fully implemented in game. 
 
+## Currently working:
+
+* Most UI, 
+* Character movement, by clicking
+* Character closing and opening doors
+* Character breaking walls
+* Synching players to join a match
+* In Game chat
+* Moving the camera with '1','2','3','4' on the keyboard
+
+
+## Need to work on, in future updates:
+
+* Winning and Losing conditions
+* Limiting the players to turns
+* End of turn
+* Vehicles
+* Hazmats
+* Specialized characters in Experienced mode
+* Experienced mode
+
 ## Setup
 ### Prerequisites
 * `Unity` version 2018.3.11f1 or higher
@@ -39,3 +60,4 @@ The rules for the game can be found [here](./Flash_Point_Rulebook.pdf).
 
 ### Installation
 * Clone the repo, navigate to the `FlashPoint` directory and run it with Unity, starting it using the StartGame scene
+
