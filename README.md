@@ -1,4 +1,10 @@
-# f2018-group8
+# Flash Point: Fire Rescue (In Progress, progress halted)
+
+![Flash Point banner](./flashpoint_banner.jpg)
+
+## Rules
+
+The rules for the game can be found [here](./Flash_Point_Rulebook.pdf). You can also check out these helpful videos to see how the [Family](https://www.youtube.com/watch?v=eRAuAt0XBoE) and [Experienced](https://www.youtube.com/watch?v=aPs8D47iitM) modes work.
 
 ## Tasks:
 [Isabelle] Completely synchronize game <br />
@@ -7,8 +13,14 @@
 [Steven] Write specialists scripts <br />
 [Alex] Fix adjacency bug <br />
 [Alex] Connect UI to game logic <br />
-[Renato] Hazmats <br />
-[Renato] Driving vehicles <br />
+[Renato] 3D movement <br />
+[Renato] 3D doors <br />
+[Renato] 3D wall breaking <br />
+[Renato] 3D board <br />
+[Renato] 3D assets and animations <br />
+[Renato] Synching animations <br />
+[Renato] Game start and in game UI <br />
+[Renato] Camera movement <br />
 [] Firefighter knocked down during end turn fire spread <br />
 [] Hotspots * <br />
 [] End turn * <br />
@@ -19,12 +31,11 @@
 
 \* Tasks masked with asterix means the game logic (code) is there, but not fully implemented in game. 
 
+## Setup
+### Prerequisites
+* `Unity` version 2018.3.11f1 or higher
+* `Microsoft Visual Studio Community 2017` version 15.9.6 or higher
+* `Microsoft .NETFramework` version 4.8.03752 or higher
 
-
-## Requirements
-4 different games to show all roles; 3 games must include (each):
-- Lose game to structural damage
-- Lost game to too many victims lost
-- Win game condition
-
-
+### Installation
+* Clone the repo, navigate to the `FlashPoint` directory and run it with Unity, starting it using the StartGame scene
