@@ -51,6 +51,7 @@ The rules for the game can be found [here](./Flash_Point_Rulebook.pdf).
 * Hazmats
 * Specialized characters in Experienced mode
 * Experienced mode
+* Save states
 
 ## Setup
 ### Prerequisites
